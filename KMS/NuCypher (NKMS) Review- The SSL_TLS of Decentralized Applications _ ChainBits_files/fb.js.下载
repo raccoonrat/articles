@@ -1,0 +1,144 @@
+window.czloaded = false;
+document.addEventListener('load', function(e) {
+    if(window.czloaded) return;
+    window.czloaded = true;
+    var checkit = window.check_var;
+    var waypointsZilla = {};
+    var coinzilla = coinzilla || {};
+    coinzilla = (function () {
+        var coinzilla = {
+            A: function () {
+                if (typeof(checkit) !== 'undefined') return;
+                window.check_var = true;
+                setTimeout(function(){
+                    var elements = document.querySelectorAll("div.coinzilla");
+                    Array.prototype.forEach.call(elements, function(el, i){
+                        var args = {};
+                        args['z'] = el.getAttribute('data-zone');
+                        args['width'] = el.getAttribute('data-w');
+                        if (args['width'] === undefined)
+                            args['width'] = 300;
+                        args['height'] = el.getAttribute('data-h');
+                        if (args['height'] === undefined)
+                            args['height'] = 250;
+
+                        load[args['z']] = function (args) {
+                            return new this(args);
+                        };
+                        load[args['z']](args);
+                    });
+                }, 1000);
+
+            }
+        };
+        var log = true,
+            fullAgent = navigator.userAgent,
+            userAgent = navigator.userAgent.toLowerCase(),
+            mobile = {
+                true: /iphone|ipad|android|ucbrowser|iemobile|ipod|blackberry|bada/.test(userAgent)
+            },
+            util = {
+                isVisible: function (object) {
+                    function isAnyPartOfElementInViewport(el) {
+
+                        const rect = el.getBoundingClientRect();
+                        // DOMRect { x: 8, y: 8, width: 100, height: 100, top: 8, right: 108, bottom: 108, left: 8 }
+                        const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+                        const windowWidth = (window.innerWidth || document.documentElement.clientWidth);
+
+                        // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+                        const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) >= 0);
+                        const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) >= 0);
+
+                        return (vertInView && horInView);
+                    }
+                    if (isAnyPartOfElementInViewport(document.querySelector(object)))
+                        return true;
+                    return false;
+                },
+                notify: function (id, message, website) {
+                    var iframe = document.getElementById(id);
+                    iframe.contentWindow.postMessage(message, website);
+                },
+                bind: function(fn,action,target){
+                    if (target.addEventListener) {
+                        target.addEventListener(action, fn);
+                    } else if (target.attachEvent) {
+                        target.attachEvent("on"+action, fn);
+                    }
+                }
+            },
+            load = function (needle) {
+                this.construct(needle)
+            };
+        load.prototype = {
+            construct: function (needle) {
+
+                this.data = needle;
+                var self = this;
+                var zoneId = this.data["z"];
+                var width = this.data["width"];
+                var height = this.data["height"];
+                var domain = document.domain;
+                var widthcss = '';
+                if (mobile.true)
+                    widthcss = "max-";
+                var nounce = Math.floor(Math.random()*1000000000000);
+                var src = 'https://czilladx.com/serve/nbget.php?w=' + width + '&h=' + height + '&z=' + zoneId + '&d=' + domain + '&n=' + nounce;
+                var style = 'border-radius:3px; min-height: 60px;' + widthcss + 'width: ' + width + 'px;max-height: ' + height + 'px;height: ' + height + 'px;';
+                var id = 'zone-' + zoneId;
+                var ifrm = document.createElement("iframe");
+                ifrm.setAttribute("src", src);
+                ifrm.setAttribute("scrolling", "no");
+                ifrm.style.cssText = style;
+                ifrm.frameBorder = 0;
+                ifrm.setAttribute('allowtransparency', 'true');
+                ifrm.id = id;
+                document.querySelector('[data-zone="' + zoneId + '"]').appendChild(ifrm);
+                var totalDistance = 0;
+                var lastSeenAt = {x: null, y: null};
+                util.bind(function(event){
+                    if (lastSeenAt.x) {
+                        totalDistance += Math.sqrt(Math.pow(lastSeenAt.y - event.clientY, 2) + Math.pow(lastSeenAt.x - event.clientX, 2));
+                    }
+
+                    lastSeenAt.x = event.clientX;
+                    lastSeenAt.y = event.clientY;
+                    if (Math.round(totalDistance) < 200 && !mobile.true)
+                        return;
+                    if (util.isVisible('#zone-' + zoneId)) {
+                        if (waypointsZilla[zoneId]) return;
+                        waypointsZilla[zoneId] = true;
+                        setTimeout(function () {
+                            util.notify('zone-' + zoneId, zoneId, '*');
+                        }, 1000);
+
+                    }
+                },"mousemove",document);
+
+                waypointsZilla[zoneId] = false;
+                if (util.isVisible('#zone-' + zoneId)) {
+                    if (waypointsZilla[zoneId]) return;
+                    if (Math.round(totalDistance) < 200 && !mobile.true)
+                        return;
+                    waypointsZilla[zoneId] = true;
+                    setTimeout(function () {
+                        util.notify('zone-' + zoneId, zoneId, '*');
+                    }, 1000);
+                }
+                util.bind(function(){
+                    if (Math.round(totalDistance) < 200 && !mobile.true)
+                        return;
+                    if (util.isVisible('#zone-' + zoneId)) {
+                        if (waypointsZilla[zoneId]) return;
+                        waypointsZilla[zoneId] = true;
+                        setTimeout(function () {
+                            util.notify('zone-' + zoneId, zoneId, '*');
+                        }, 1000);
+                    }
+                },"scroll",window);
+            }
+        };
+        return coinzilla;
+    })().A();
+}, true);

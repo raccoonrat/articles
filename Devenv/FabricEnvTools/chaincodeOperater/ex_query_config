@@ -1,0 +1,5 @@
+orgs name:org2-f-1
+chaincode directory name(if you are not installing, should be chaincode name):cc_ex01
+channel name:defaultchannel
+chaincode args:{"Args":["query","john"]}
+chaincode policy:

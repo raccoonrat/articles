@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <title>install</title>
+      <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(171, 178, 191); background-color: rgb(40, 44, 52); overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(124, 135, 156); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(82, 139, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(124, 135, 156); border-color: rgb(75, 83, 98); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(75, 83, 98); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(75, 83, 98); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(58, 63, 75); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(49, 54, 63); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(75, 83, 98) rgb(75, 83, 98) rgb(62, 68, 81); border-image: initial; background-color: rgb(58, 63, 75); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; word-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.04); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { word-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; word-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item-checkbox { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #282c34;
+  color: #abb2bf;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: rgba(153, 187, 255, 0.04);
+}
+pre.editor-colors .invisible {
+  color: #abb2bf;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #528bff;
+}
+pre.editor-colors .selection .region {
+  background-color: #3e4451;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #528bff;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(171, 178, 191, 0.15);
+}
+pre.editor-colors .find-result .region.region.region,
+pre.editor-colors .current-result .region.region.region {
+  border-radius: 2px;
+  background-color: rgba(82, 139, 255, 0.24);
+  transition: border-color 0.4s;
+}
+pre.editor-colors .find-result .region.region.region {
+  border: 2px solid transparent;
+}
+pre.editor-colors .current-result .region.region.region {
+  border: 2px solid #528bff;
+  transition-duration: .1s;
+}
+pre.editor-colors .gutter .line-number {
+  color: #636d83;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #abb2bf;
+  background-color: #3a3f4b;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #abb2bf;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(224, 82, 82, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #abb2bf;
+}
+.syntax--comment {
+  color: #5c6370;
+  font-style: italic;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #5c6370;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #98c379;
+}
+.syntax--keyword {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--control {
+  color: #c678dd;
+}
+.syntax--keyword.syntax--operator {
+  color: #abb2bf;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #61afef;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #d19a66;
+}
+.syntax--storage {
+  color: #c678dd;
+}
+.syntax--storage.syntax--type.syntax--annotation,
+.syntax--storage.syntax--type.syntax--primitive {
+  color: #c678dd;
+}
+.syntax--storage.syntax--modifier.syntax--package,
+.syntax--storage.syntax--modifier.syntax--import {
+  color: #abb2bf;
+}
+.syntax--constant {
+  color: #d19a66;
+}
+.syntax--constant.syntax--variable {
+  color: #d19a66;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--numeric {
+  color: #d19a66;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #56b6c2;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #56b6c2;
+}
+.syntax--variable {
+  color: #e06c75;
+}
+.syntax--variable.syntax--interpolation {
+  color: #be5046;
+}
+.syntax--variable.syntax--parameter {
+  color: #abb2bf;
+}
+.syntax--string {
+  color: #98c379;
+}
+.syntax--string.syntax--regexp {
+  color: #56b6c2;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #e5c07b;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #e06c75;
+}
+.syntax--punctuation.syntax--definition.syntax--comment {
+  color: #5c6370;
+}
+.syntax--punctuation.syntax--definition.syntax--method-parameters,
+.syntax--punctuation.syntax--definition.syntax--function-parameters,
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--separator,
+.syntax--punctuation.syntax--definition.syntax--seperator,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #abb2bf;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #61afef;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #be5046;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #abb2bf;
+}
+.syntax--support.syntax--class {
+  color: #e5c07b;
+}
+.syntax--support.syntax--type {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function {
+  color: #56b6c2;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #e5c07b;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #61afef;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #e06c75;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #d19a66;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #61afef;
+}
+.syntax--meta.syntax--class {
+  color: #e5c07b;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--definition.syntax--variable {
+  color: #e06c75;
+}
+.syntax--meta.syntax--link {
+  color: #d19a66;
+}
+.syntax--meta.syntax--require {
+  color: #61afef;
+}
+.syntax--meta.syntax--selector {
+  color: #c678dd;
+}
+.syntax--meta.syntax--separator {
+  color: #abb2bf;
+}
+.syntax--meta.syntax--tag {
+  color: #abb2bf;
+}
+.syntax--underline {
+  text-decoration: underline;
+}
+.syntax--none {
+  color: #abb2bf;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #523d14 !important;
+  background-color: #e0c285 !important;
+}
+.syntax--invalid.syntax--illegal {
+  color: white !important;
+  background-color: #e05252 !important;
+}
+.syntax--markup.syntax--bold {
+  color: #d19a66;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #c678dd;
+}
+.syntax--markup.syntax--deleted {
+  color: #e06c75;
+}
+.syntax--markup.syntax--italic {
+  color: #c678dd;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #e06c75;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #61afef;
+}
+.syntax--markup.syntax--link {
+  color: #56b6c2;
+}
+.syntax--markup.syntax--inserted {
+  color: #98c379;
+}
+.syntax--markup.syntax--quote {
+  color: #d19a66;
+}
+.syntax--markup.syntax--raw {
+  color: #98c379;
+}
+.syntax--source.syntax--c .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cpp .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #c678dd;
+}
+.syntax--source.syntax--css .syntax--property-name,
+.syntax--source.syntax--css .syntax--property-value {
+  color: #828997;
+}
+.syntax--source.syntax--css .syntax--property-name.syntax--support,
+.syntax--source.syntax--css .syntax--property-value.syntax--support {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--source.syntax--embedded.syntax--source {
+  color: #abb2bf;
+}
+.syntax--source.syntax--elixir .syntax--constant.syntax--language,
+.syntax--source.syntax--elixir .syntax--constant.syntax--numeric,
+.syntax--source.syntax--elixir .syntax--constant.syntax--definition {
+  color: #61afef;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--definition,
+.syntax--source.syntax--elixir .syntax--variable.syntax--anonymous {
+  color: #c678dd;
+}
+.syntax--source.syntax--elixir .syntax--parameter.syntax--variable.syntax--function {
+  color: #d19a66;
+  font-style: italic;
+}
+.syntax--source.syntax--elixir .syntax--quoted {
+  color: #98c379;
+}
+.syntax--source.syntax--elixir .syntax--keyword.syntax--special-method,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--section,
+.syntax--source.syntax--elixir .syntax--embedded.syntax--source.syntax--empty {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--readwrite.syntax--module .syntax--punctuation {
+  color: #e06c75;
+}
+.syntax--source.syntax--elixir .syntax--regexp.syntax--section,
+.syntax--source.syntax--elixir .syntax--regexp.syntax--string {
+  color: #be5046;
+}
+.syntax--source.syntax--elixir .syntax--separator,
+.syntax--source.syntax--elixir .syntax--keyword.syntax--operator {
+  color: #d19a66;
+}
+.syntax--source.syntax--elixir .syntax--variable.syntax--constant {
+  color: #e5c07b;
+}
+.syntax--source.syntax--elixir .syntax--array,
+.syntax--source.syntax--elixir .syntax--scope,
+.syntax--source.syntax--elixir .syntax--section {
+  color: #828997;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #61afef;
+}
+.syntax--source.syntax--go .syntax--storage.syntax--type.syntax--string {
+  color: #c678dd;
+}
+.syntax--source.syntax--ini .syntax--keyword.syntax--other.syntax--definition.syntax--ini {
+  color: #e06c75;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--modifier.syntax--import {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--storage.syntax--type {
+  color: #e5c07b;
+}
+.syntax--source.syntax--java .syntax--keyword.syntax--operator.syntax--instanceof {
+  color: #c678dd;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair {
+  color: #e06c75;
+}
+.syntax--source.syntax--java-properties .syntax--meta.syntax--key-pair > .syntax--punctuation {
+  color: #abb2bf;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator {
+  color: #56b6c2;
+}
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--delete,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--in,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--of,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--instanceof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--new,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--typeof,
+.syntax--source.syntax--js .syntax--keyword.syntax--operator.syntax--void {
+  color: #c678dd;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #e06c75;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #98c379;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #56b6c2;
+}
+.syntax--source.syntax--ruby .syntax--constant.syntax--other.syntax--symbol > .syntax--punctuation {
+  color: inherit;
+}
+.syntax--source.syntax--php .syntax--class.syntax--bracket {
+  color: #abb2bf;
+}
+.syntax--source.syntax--python .syntax--keyword.syntax--operator.syntax--logical.syntax--python {
+  color: #c678dd;
+}
+.syntax--source.syntax--python .syntax--variable.syntax--parameter {
+  color: #d19a66;
+}
+</style>
+  </head>
+  <body class='markdown-preview' data-use-github-style><h1 id="-hyperledger-sawtooth">安装Hyperledger Sawtooth</h1>
+<h2 id="1-">1.安装环境</h2>
+<p>硬件：根据选用的共识算法决定。Dev mode或Poet Simulator可以使用任何PC或虚拟机。Poet on SGX需要在基于Skylake的笔记本或NUC上运行。</p>
+<p>操作系统：Ubuntu 16.04 Server</p>
+<p>网络：假设所有机器都在同一个网段，假定配置为静态IP。</p>
+<h2 id="2-">2.软件包的安装</h2>
+<h3 id="2-1-sgx-sdk">2.1 安装SGX驱动和SDK</h3>
+<p>如果要选用Poet on SGX，还需要安装SGX驱动。其他共识机制可以跳过这个步骤。</p>
+<p>从<a href="https://registrationcenter.intel.com/en/forms/?productid=2859">ICLS client</a>下载iclsClient-1.45.449.12-1.x86_64.rpm，复制到目标机器上。</p>
+<p>其他需要的文件可以从<a href="https://download.01.org/intel-sgx/linux-2.1.2/ubuntu64-server/">01.org</a>和<a href="https://github.com/intel/dynamic-application-loader-host-interface">JHI repo</a>下载。</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;install&nbsp;git&nbsp;libssl-dev&nbsp;libcurl4-openssl-dev&nbsp;libprotobuf-dev&nbsp;build-essential&nbsp;python&nbsp;uuid-dev&nbsp;libxml2-dev&nbsp;cmake&nbsp;pkg-config&nbsp;alien</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;alien&nbsp;--scripts&nbsp;iclsClient-1.45.449.12-1.x86_64.rpm</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;dpkg&nbsp;-i&nbsp;iclsclient_1.45.449.12-2_amd64.deb</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;git&nbsp;clone&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--https syntax--hyperlink"><span>https://github.com/intel/dynamic-application-loader-host-interface</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cd&nbsp;dynamic-application-loader-host-interface</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cmake&nbsp;.;&nbsp;make;&nbsp;sudo&nbsp;make&nbsp;install;&nbsp;sudo&nbsp;systemctl&nbsp;enable&nbsp;jhi</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cd&nbsp;..</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;wget&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--https syntax--hyperlink"><span>https://download.01.org/intel-sgx/linux-2.1.2/ubuntu64-server/sgx_linux_x64_driver_1bf506e.bin</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;wget&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--https syntax--hyperlink"><span>https://download.01.org/intel-sgx/linux-2.1.2/ubuntu64-server/sgx_linux_x64_psw_2.1.102.43402.bin</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;wget&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--https syntax--hyperlink"><span>https://download.01.org/intel-sgx/linux-2.1.2/ubuntu64-server/sgx_linux_x64_sdk_2.1.102.43402.bin</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;chmod&nbsp;a+x&nbsp;sgx_*.bin</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;./sgx_linux_x64_driver_1bf506e.bin</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;./sgx_linux_x64_psw_2.1.102.43402.bin</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;./sgx_linux_x64_sdk_2.1.102.43402.bin</span></span></div></pre><h3 id="2-2-sawtooth">2.2 安装Sawtooth</h3>
+<p>每个节点都需要安装Sawtooth最新稳定版，目前为1.0.2。最简单的方法是用apt-get命令来安装，安装命令为：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-key&nbsp;adv&nbsp;--keyserver&nbsp;hkp://keyserver.ubuntu.com:80&nbsp;--recv-keys&nbsp;8AA7AF1F1091A5FD</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;add-apt-repository&nbsp;'deb&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://repo.sawtooth.me/ubuntu/1.0/stable</span></span><span>&nbsp;xenial&nbsp;universe'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;update</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;install&nbsp;-y&nbsp;sawtooth&nbsp;python3-sawtooth-poet-sgx</span></span></div></pre><blockquote>
+<p>如果在公司内网，需要先设置http_proxy和https_proxy环境变量</p>
+</blockquote>
+<p>安装完成后用dpkg命令查看，系统里应该有以下包：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;dpkg&nbsp;-l&nbsp;'*sawtooth*'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Desired=Unknown/Install/Remove/Purge/Hold</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>|&nbsp;Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>|/&nbsp;Err?=(none)/Reinst-required&nbsp;(Status,Err:&nbsp;uppercase=bad)</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>||/&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Architecture&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>+++-===============================-====================-====================-===================================================================</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-cli&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;CLI</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-intkey&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Intkey&nbsp;Python&nbsp;Example</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-cli&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;PoET&nbsp;CLI</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-common&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;PoET&nbsp;Common&nbsp;Modules</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-core&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Core&nbsp;Consensus&nbsp;Module</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-families&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Transaction&nbsp;Processor&nbsp;Families</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-sgx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;amd64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;PoET&nbsp;SGX&nbsp;Enclave</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-poet-simulator&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;PoET&nbsp;Simulator&nbsp;Enclave</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-rest-api&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;REST&nbsp;API</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-sdk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Python&nbsp;SDK</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-settings&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Settings&nbsp;Transaction&nbsp;Processor</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-signing&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Signing&nbsp;Library</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-validator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;Validator</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;python3-sawtooth-xo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2-1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sawtooth&nbsp;XO&nbsp;Example</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ii&nbsp;&nbsp;sawtooth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.0.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hyperledger&nbsp;Sawtooth&nbsp;Distributed&nbsp;Ledger</span></span></div></pre><h2 id="3-">3.节点初始化</h2>
+<p>每个节点上的validator都需要一个密钥，在运行validator之前，每个节点上都要运行以下命令：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;sawadm&nbsp;keygen</span></span></div></pre><p>产生的密钥在/etc/sawtooth/keys/下。</p>
+<p>另外，检查当前节点上没有残留旧的区块链数据：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;ls&nbsp;/var/lib/sawtooth/</span></span></div></pre><p>其中应该没有任何内容。</p>
+<h2 id="4-">4.产生创世块</h2>
+<p>每个区块链系统都必须有一个创世块。产生创世块的步骤只需在第一个启动的validator上执行即可，validator启动后，创世块会自动复制到其他连接上来的validator中去。</p>
+<p>根据使用的共识机制不同，使用以下三种步骤<font color="red"><b>之一</b></font>来产生创世块：</p>
+<h3 id="4-1-dev-mode">4.1.使用dev mode</h3>
+<p>Dev mode是Sawtooth里最简单的共识实现，用于应用程序开发过程。</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawtooth&nbsp;keygen</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawset&nbsp;genesis</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;sawadm&nbsp;genesis&nbsp;config-genesis.batch</span></span></div></pre><p>然后转到第5章继续启动validator。</p>
+<h3 id="4-2-poet-simulator">4.2.使用Poet Simulator</h3>
+<p>Poet simulator可以在不支持SGX的机器上模拟完整的Poet执行机制。为了创建Poet simulator的创世块，可以使用以下命令：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;-s</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cd&nbsp;/tmp</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawset&nbsp;genesis&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;-o&nbsp;config-genesis.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawset&nbsp;proposal&nbsp;create&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;sawtooth.consensus.algorithm=poet&nbsp;sawtooth.poet.report_public_key_pem="$(cat&nbsp;/etc/sawtooth/simulator_rk_pub.pem)"&nbsp;sawtooth.poet.valid_enclave_measurements=$(poet&nbsp;enclave&nbsp;measurement)&nbsp;sawtooth.poet.valid_enclave_basenames=$(poet&nbsp;enclave&nbsp;basename)&nbsp;-o&nbsp;config.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;poet&nbsp;registration&nbsp;create&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;-o&nbsp;poet.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawadm&nbsp;genesis&nbsp;config-genesis.batch&nbsp;config.batch&nbsp;poet.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;exit</span></span></div></pre><p>然后转到第5章继续启动validator。</p>
+<h3 id="4-3-poet-on-sgx">4.3.使用Poet on SGX</h3>
+<h4 id="4-3-1-spid">4.3.1 申请SPID</h4>
+<p>要使用Poet on SGX，必须先创建一个自签名证书，然后用该证书申请IAS权限。先创建一个名为client.cnf的文件，包含以下内容：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[&nbsp;ssl_client&nbsp;]</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>keyUsage&nbsp;=&nbsp;digitalSignature,&nbsp;keyEncipherment,&nbsp;keyCertSign</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>subjectKeyIdentifier=hash</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>authorityKeyIdentifier=keyid,issuer</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>extendedKeyUsage&nbsp;=&nbsp;clientAuth,&nbsp;serverAuth</span></span></div></pre><p>然后创建证书（标注***的内容按实际填写，其他地方直接按回车）：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;openssl</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;genrsa&nbsp;-out&nbsp;client.key&nbsp;2048</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Generating&nbsp;RSA&nbsp;private&nbsp;key,&nbsp;2048&nbsp;bit&nbsp;long&nbsp;modulus</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>.........................................................+++</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>................................................................+++</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>e&nbsp;is&nbsp;65537&nbsp;(0x10001)</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;req&nbsp;-key&nbsp;client.key&nbsp;-new&nbsp;-out&nbsp;client.req</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>You&nbsp;are&nbsp;about&nbsp;to&nbsp;be&nbsp;asked&nbsp;to&nbsp;enter&nbsp;information&nbsp;that&nbsp;will&nbsp;be&nbsp;incorporated</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>into&nbsp;your&nbsp;certificate&nbsp;request.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>What&nbsp;you&nbsp;are&nbsp;about&nbsp;to&nbsp;enter&nbsp;is&nbsp;what&nbsp;is&nbsp;called&nbsp;a&nbsp;Distinguished&nbsp;Name&nbsp;or&nbsp;a&nbsp;DN.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>There&nbsp;are&nbsp;quite&nbsp;a&nbsp;few&nbsp;fields&nbsp;but&nbsp;you&nbsp;can&nbsp;leave&nbsp;some&nbsp;blank</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>For&nbsp;some&nbsp;fields&nbsp;there&nbsp;will&nbsp;be&nbsp;a&nbsp;default&nbsp;value,</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>If&nbsp;you&nbsp;enter&nbsp;'.',&nbsp;the&nbsp;field&nbsp;will&nbsp;be&nbsp;left&nbsp;blank.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>-----</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Country&nbsp;Name&nbsp;(2&nbsp;letter&nbsp;code)&nbsp;[AU]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>State&nbsp;or&nbsp;Province&nbsp;Name&nbsp;(full&nbsp;name)&nbsp;[Some-State]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Locality&nbsp;Name&nbsp;(eg,&nbsp;city)&nbsp;[]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Organization&nbsp;Name&nbsp;(eg,&nbsp;company)&nbsp;[Internet&nbsp;Widgits&nbsp;Pty&nbsp;Ltd]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Organizational&nbsp;Unit&nbsp;Name&nbsp;(eg,&nbsp;section)&nbsp;[]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Common&nbsp;Name&nbsp;(e.g.&nbsp;server&nbsp;FQDN&nbsp;or&nbsp;YOUR&nbsp;name)&nbsp;[]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Email&nbsp;Address&nbsp;[]:***</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Please&nbsp;enter&nbsp;the&nbsp;following&nbsp;'extra'&nbsp;attributes</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>to&nbsp;be&nbsp;sent&nbsp;with&nbsp;your&nbsp;certificate&nbsp;request</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>A&nbsp;challenge&nbsp;password&nbsp;[]:</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>An&nbsp;optional&nbsp;company&nbsp;name&nbsp;[]:</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;x509&nbsp;-req&nbsp;-days&nbsp;365&nbsp;-in&nbsp;client.req&nbsp;-signkey&nbsp;client.key&nbsp;-out&nbsp;client.crt&nbsp;-extfile&nbsp;client.cnf&nbsp;-extensions&nbsp;ssl_client</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Signature&nbsp;ok</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>subject=...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Getting&nbsp;Private&nbsp;key</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;pkcs12&nbsp;-export&nbsp;-out&nbsp;client.pfx&nbsp;-inkey&nbsp;client.key&nbsp;-in&nbsp;client.crt</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Enter&nbsp;Export&nbsp;Password:</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Verifying&nbsp;-&nbsp;Enter&nbsp;Export&nbsp;Password:</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;verify&nbsp;-x509_strict&nbsp;-purpose&nbsp;sslclient&nbsp;-CAfile&nbsp;client.crt&nbsp;client.crt</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>client.crt:&nbsp;OK</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>OpenSSL&gt;&nbsp;exit</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cat&nbsp;client.crt&nbsp;client.key&nbsp;&gt;&nbsp;client.pem</span></span></div></pre><p>然后将公钥文件 client.<font color="red"><b>crt</b></font>上传到网盘（如OneDrive）并共享，再到<a href="https://software.intel.com/formfill/sgx-onboarding">Development Services Access Request</a>上申请权限。“Linkable Quote”选“Linkable”，“Comments”填写“Pre-Prod Environment. Request for testing Sawtooth.”。经过三到五个工作日，会收到一封标题中包含“Your SPID”的邮件，记录下其中的SPID（一个十六进制字符串）。后续步骤需要这个SPID和上面产生的client.<font color="red"><b>pem</b></font>文件。</p>
+<h4 id="4-3-2-">4.3.2 配置文件</h4>
+<p>创建一个POET配置文件：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;vi&nbsp;poet_enclave_sgx.toml</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chmod&nbsp;640&nbsp;poet_enclave_sgx.toml</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chown&nbsp;root:sawtooth&nbsp;poet_enclave_sgx.toml</span></span></div></pre><p>内容为：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>#&nbsp;Service&nbsp;Provider&nbsp;ID.&nbsp;It&nbsp;is&nbsp;linked&nbsp;to&nbsp;the&nbsp;key&nbsp;pair&nbsp;used&nbsp;to&nbsp;authenticate&nbsp;with</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>#&nbsp;the&nbsp;attestation&nbsp;service.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>spid&nbsp;=&nbsp;'上一步收到的SPID'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>#&nbsp;ias_url&nbsp;is&nbsp;the&nbsp;URL&nbsp;of&nbsp;the&nbsp;Intel&nbsp;Attestation&nbsp;Service&nbsp;(IAS)&nbsp;server.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>ias_url&nbsp;=&nbsp;'</span><span class="syntax--markup syntax--underline syntax--link syntax--https syntax--hyperlink"><span>https://test-as.sgx.trustedservices.intel.com:443</span></span><span>'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>#&nbsp;spid_cert_file&nbsp;is&nbsp;the&nbsp;full&nbsp;path&nbsp;to&nbsp;the&nbsp;PEM-encoded&nbsp;certificate&nbsp;file&nbsp;that&nbsp;was</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>#&nbsp;submitted&nbsp;to&nbsp;Intel&nbsp;in&nbsp;order&nbsp;to&nbsp;obtain&nbsp;a&nbsp;SPID</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>spid_cert_file&nbsp;=&nbsp;'/etc/sawtooth/sgx-certificate.pem'</span></span></div></pre><p>另外将上一步生成的client.pem文件复制过去：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;cp&nbsp;client.pem&nbsp;/etc/sawtooth/sgx-certificate.pem</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chmod&nbsp;640&nbsp;sgx-certificate.pem</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chown&nbsp;root:sawtooth&nbsp;sgx-certificate.pem</span></span></div></pre><h4 id="4-3-3-">4.3.3 创建创世块</h4>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;-s</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;#&nbsp;export&nbsp;http_proxy&nbsp;and&nbsp;https_proxy</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;cd&nbsp;/tmp</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawset&nbsp;genesis&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;-o&nbsp;config-genesis.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawset&nbsp;proposal&nbsp;create&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;sawtooth.consensus.algorithm=poet&nbsp;sawtooth.poet.report_public_key_pem="$(cat&nbsp;/etc/sawtooth/ias_rk_pub.pem)"&nbsp;sawtooth.poet.valid_enclave_measurements=$(poet&nbsp;enclave&nbsp;--enclave-module&nbsp;sgx&nbsp;measurement)&nbsp;sawtooth.poet.valid_enclave_basenames=$(poet&nbsp;enclave&nbsp;--enclave-module&nbsp;sgx&nbsp;basename)&nbsp;sawtooth.poet.enclave_module_name=sawtooth_poet_sgx.poet_enclave_sgx.poet_enclave&nbsp;-o&nbsp;config.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[12:03:58&nbsp;</span><span class="syntax--storage syntax--type syntax--class syntax--warning"><span>WARNING</span></span><span>&nbsp;poet_enclave]&nbsp;SGX&nbsp;PoET&nbsp;enclave&nbsp;initialized.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[12:03:59&nbsp;</span><span class="syntax--storage syntax--type syntax--class syntax--warning"><span>WARNING</span></span><span>&nbsp;poet_enclave]&nbsp;SGX&nbsp;PoET&nbsp;enclave&nbsp;initialized.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;poet&nbsp;registration&nbsp;create&nbsp;-k&nbsp;/etc/sawtooth/keys/validator.priv&nbsp;--enclave-module&nbsp;sgx&nbsp;-o&nbsp;poet_genesis.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[12:04:01&nbsp;</span><span class="syntax--storage syntax--type syntax--class syntax--warning"><span>WARNING</span></span><span>&nbsp;poet_enclave]&nbsp;SGX&nbsp;PoET&nbsp;enclave&nbsp;initialized.</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sawadm&nbsp;genesis&nbsp;config-genesis.batch&nbsp;config.batch&nbsp;poet_genesis.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Processing&nbsp;config-genesis.batch...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Processing&nbsp;config.batch...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Processing&nbsp;poet_genesis.batch...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>Generating&nbsp;/var/lib/sawtooth/genesis.batch</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;exit</span></span></div></pre><h2 id="5-validator-transaction-processor">5.启动第一个validator和transaction processor</h2>
+<p>打开一个新的控制台，用以下命令启动validator：</p>
+<blockquote>
+<p>如果在公司内网且选择Poet on SGX方式运行，下面这条命令需要为sudo以后的环境设置代理。</p>
+</blockquote>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;sawtooth-validator&nbsp;-vv</span></span></div></pre><p>另外，打开几个新的控制台执行以下命令。所有这些进程都需要保持运行状态才能让sawtooth正常运行：</p>
+<p>REST API：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;sawtooth-rest-api&nbsp;-v</span></span></div></pre><p>Transaction Processor：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;settings-tp&nbsp;-v</span></span></div></pre><pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;intkey-tp-python&nbsp;-v</span></span></div></pre><blockquote>
+<p>如果在公司内网且选择Poet on SGX方式运行，下面这条命令需要为sudo以后的环境设置代理。</p>
+</blockquote>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;-u&nbsp;sawtooth&nbsp;poet-validator-registry-tp&nbsp;-v</span></span></div></pre><p>启动完毕后，在validator的控制台上可以看到如下日志输出：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[...&nbsp;INFO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;processor_handlers]&nbsp;registered&nbsp;transaction&nbsp;processor:&nbsp;connection_id=...,&nbsp;family=sawtooth_settings,&nbsp;version=1.0,&nbsp;namespaces=['000000']</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[...&nbsp;INFO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;processor_handlers]&nbsp;registered&nbsp;transaction&nbsp;processor:&nbsp;connection_id=...,&nbsp;family=intkey,&nbsp;version=1.0,&nbsp;namespaces=['1cf126']</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>[...&nbsp;INFO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;processor_handlers]&nbsp;registered&nbsp;transaction&nbsp;processor:&nbsp;connection_id=...,&nbsp;family=sawtooth_validator_registry,&nbsp;version=1.0,&nbsp;namespaces=['6a4372']</span></span></div></pre><p>表明transaction processor都已成功连到validator上。</p>
+<h3 id="5-1-validator">5.1.测试validator</h3>
+<p>运行以下命令创建一个intkey交易，用于测试：（此处会自动用到之前用sawtooth keygen创建的私钥）</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;intkey&nbsp;set&nbsp;--wait&nbsp;30&nbsp;testkey&nbsp;123</span></span></div></pre><p>这将在区块链上创建一个交易，把testkey的值设为123，参数--wait 30表示在发送交易后等待他的状态变为committed，最多等待30秒。然后我们可以查看testkey的值：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;intkey&nbsp;list</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>testkey:&nbsp;123</span></span></div></pre><h3 id="5-2-rest-api">5.2.测试REST API</h3>
+<p>可以用curl命令测试REST API，默认的地址为127.0.0.1:8008。</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;curl&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://127.0.0.1:8008/peers</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>{</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;"data":&nbsp;[],</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;"link":&nbsp;"</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://127.0.0.1:8008/peers</span></span><span>"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>}</span></span></div></pre><p>REST API的定义参见<a href="https://sawtooth.hyperledger.org/docs/core/releases/latest/rest_api/endpoint_specs.html">这里</a>。</p>
+<h2 id="6-sawtooth-">6.将sawtooth设置成服务</h2>
+<p>Sawtooth软件包安装时会自动创建相应的服务，但默认状态下都设定为禁用。由于每次打开多个控制台分别手工运行sawtooth的各个组件太过麻烦，我们可以让这些服务在开机时自动启动。</p>
+<p>输入以下命令将服务打开：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;systemctl&nbsp;enable&nbsp;sawtooth-intkey-tp-python.service&nbsp;sawtooth-poet-validator-registry-tp.service&nbsp;sawtooth-rest-api.service&nbsp;sawtooth-settings-tp.service&nbsp;sawtooth-validator.service</span></span></div></pre><blockquote>
+<p>如果在公司内网且选择Poet on SGX方式运行，还需要设置代理。编辑以下两个文件：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;vi&nbsp;/etc/default/sawtooth-validator</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;vi&nbsp;/etc/default/sawtooth-poet-validator-registry-tp</span></span></div></pre><p>在两个文件中都添加下面这两行：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>http_proxy=</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://ip:port</span></span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>https_proxy=</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://ip:oprt</span></span></span></div></pre></blockquote>
+<p>然后重启机器，会发现所有的组件都自动运行了。服务输出的日志可以用journalctl命令查看。</p>
+<h2 id="7-">7.创建包含多个节点的网络</h2>
+<p>到目前为止，我们配置的sawtooth区块链还只有一个节点。这种配置只适用于开发应用时的本地测试，在实际应用环境中，我们通常需要部署多个节点，每个节点都运行相同的validator和transaction processor。</p>
+<p>假设我们在前面章节配置的机器ip为192.168.0.11，另外有四台机器192.168.0.12~15也需要加入区块链网络。Sawtooth支持两种配置方式：静态组网和动态组网。静态组网适合节点数较少，或者需要某种特定的网络拓扑结构的情况。动态组网则会由每个节点自动发现并连接其他节点。以下我们配置所有节点以动态组网的形式加入网络。</p>
+<p>首先我们需要在其他四台机器上安装和配置好sawtooth软件包，以下命令是从上面的章节复制下来的：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-key&nbsp;adv&nbsp;--keyserver&nbsp;hkp://keyserver.ubuntu.com:80&nbsp;--recv-keys&nbsp;8AA7AF1F1091A5FD</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;add-apt-repository&nbsp;'deb&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://repo.sawtooth.me/ubuntu/1.0/stable</span></span><span>&nbsp;xenial&nbsp;universe'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;update</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;install&nbsp;-y&nbsp;sawtooth&nbsp;python3-sawtooth-poet-sgx</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;sawadm&nbsp;keygen</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;systemctl&nbsp;enable&nbsp;sawtooth-intkey-tp-python.service&nbsp;sawtooth-poet-validator-registry-tp.service&nbsp;sawtooth-rest-api.service&nbsp;sawtooth-settings-tp.service&nbsp;sawtooth-validator.service</span></span></div></pre><p>如果为Poet on SGX还需按2.1说明另外安装SGX驱动，并按4.3.2创建SGX配置文件。</p>
+<p>然后，我们需要修改validator的配置文件，让它们能够互相发现。Validator的配置文件的位置是/etc/sawtooth/validator.toml。第一台机器上的配置文件内容为：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>bind&nbsp;=&nbsp;[</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;"network:tcp://192.168.0.11:8800",</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;"component:tcp://127.0.0.1:4004"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>]</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>peering&nbsp;=&nbsp;"dynamic"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>endpoint&nbsp;=&nbsp;"tcp://192.168.0.11:8800"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>seeds&nbsp;=&nbsp;["tcp://192.168.0.12:8800",&nbsp;"tcp://192.168.0.13:8800",&nbsp;"tcp://192.168.0.14:8800",&nbsp;"tcp://192.168.0.15:8800"]</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>scheduler&nbsp;=&nbsp;'parallel'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>network_public_key&nbsp;=&nbsp;'wFMwoOt&gt;yFqI/ek.G[tfMMILHWw#vXB[Sv}&gt;l&gt;i)'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>network_private_key&nbsp;=&nbsp;'r&amp;oJ5aQDj4+V]p2:Lz70Eu0x#m%IwzBdP(}&amp;hWM*'</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>minimum_peer_connectivity&nbsp;=&nbsp;2</span></span></div></pre><p>其中，seeds这行里包括了其他几台机器的IP，因此当前机器启动时，会自动尝试向列表中的这些IP询问其他节点的存在情况。当网络中的节点非常多，或者采用动态IP地址时，可以只在列表中包括少量长期在线的IP地址或域名，而无需列举所有IP。</p>
+<p>对于其他几台机器，配置文件里相应的改动为：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;"network:tcp://本机对外的IP:8800",</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>&nbsp;&nbsp;...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>endpoint&nbsp;=&nbsp;"tcp://本机对外的IP:8800"</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>seeds&nbsp;=&nbsp;[其他机器的IP列表]</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>...</span></span></div></pre><p>现在我们依次在所有机器上创建对应的配置文件：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;vi&nbsp;/etc/sawtooth/validator.toml</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chmod&nbsp;640&nbsp;/etc/sawtooth/validator.toml</span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;sudo&nbsp;chown&nbsp;root:sawtooth&nbsp;/etc/sawtooth/validator.toml</span></span></div></pre><p>重启所有的机器，等待启动过程完毕后，用以下命令在每台机器上查看当前机器的对端节点列表：</p>
+<pre class="editor-colors lang-"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span>$&nbsp;curl&nbsp;</span><span class="syntax--markup syntax--underline syntax--link syntax--http syntax--hyperlink"><span>http://127.0.0.1:8008/peers</span></span></span></div></pre><h2 id="-">参考文档</h2>
+<p><a href="https://sawtooth.hyperledger.org/docs/core/releases/latest/app_developers_guide/ubuntu.html">Using Sawtooth on Ubuntu 16.04</a></p>
+<p><a href="https://sawtooth.hyperledger.org/docs/core/releases/latest/sysadmin_guide/configure_sgx.html">Using Sawtooth with the SGX Implementation of PoET</a></p>
+<p><a href="https://sawtooth.hyperledger.org/docs/core/releases/latest/rest_api/endpoint_specs.html">REST API Endpoint Specifications</a></p>
+<p><a href="https://software.intel.com/en-us/articles/how-to-create-self-signed-certificates-for-use-with-intel-sgx-remote-attestation-using">How to create Self-Signed Certificates for use with Intel® SGX Remote Attestation using OpenSSL</a></p></body>
+</html>

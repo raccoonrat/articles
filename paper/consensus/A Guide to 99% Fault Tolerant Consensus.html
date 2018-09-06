@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://vitalik.ca/general/2018/08/07/99_fault_tolerant.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>A Guide to 99% Fault Tolerant Consensus</title>
+  <meta name="description" content="Special thanks to Emin Gun Sirer for review">
+
+  <link rel="stylesheet" href="./A Guide to 99% Fault Tolerant Consensus_files/main.css">
+  <link rel="canonical" href="https://vitalik.ca/general/2018/08/07/99_fault_tolerant.html">
+  <link rel="alternate" type="application/rss+xml" title="Vitalik Buterin&#39;s website" href="https://vitalik.ca/feed.xml">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="https://vitalik.ca/">Vitalik Buterin's website</a>
+
+    <nav class="site-nav">
+      <a href="https://vitalik.ca/general/2018/08/07/99_fault_tolerant.html#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+        </svg>
+      </a>
+
+      <div class="trigger">
+        
+          
+          <a class="page-link" href="https://vitalik.ca/2017-09-15-prehistory.html">A Prehistory of the Ethereum Protocol</a>
+          
+        
+          
+          <a class="page-link" href="https://vitalik.ca/about/">About</a>
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">A Guide to 99% Fault Tolerant Consensus</h1>
+    <p class="post-meta"><time datetime="2018-08-07T18:03:10-07:00" itemprop="datePublished">Aug 7, 2018</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><em>Special thanks to Emin Gun Sirer for review</em></p>
+
+<p>We’ve heard for a long time that it’s possible to achieve consensus with 50% fault tolerance in a synchronous network where messages broadcasted by any honest node are guaranteed to be received by all other honest nodes within some known time period (if an attacker has <em>more</em> than 50%, they can perform a “51% attack”, and there’s an analogue of this for any algorithm of this type). We’ve also heard for a long time that if you want to relax the synchrony assumption, and have an algorithm that’s “safe under asynchrony”, the maximum achievable fault tolerance drops to 33% (<a href="http://pmg.csail.mit.edu/papers/osdi99.pdf">PBFT</a>, <a href="https://arxiv.org/abs/1710.09437">Casper FFG</a>, etc all fall into this category). But did you know that if you add <em>even more</em> assumptions (specifically, you require <em>observers</em> to also be actively watching the consensus, and not just downloading its output after the fact), you can increase fault tolerance all the way to 99%?</p>
+
+<p>This has in fact been known for a long time; Leslie Lamport’s famous 1982 paper “The Byzantine Generals Problem” (link <a href="https://people.eecs.berkeley.edu/~luca/cs174/byzantine.pdf">here</a>) contains a description of the algorithm. The following will be my attempt to describe and reformulate the algorithm in a simplified form.</p>
+
+<p>Suppose that there are <code class="highlighter-rouge">N</code> nodes, which we label <code class="highlighter-rouge">0....N-1</code>, and there is a known bound <code class="highlighter-rouge">D</code> on network latency plus clock disparity (eg. <code class="highlighter-rouge">D</code> = 8 seconds). Each node has the ability to publish a value at time <code class="highlighter-rouge">T</code> (a malicious node can of course propose values earlier or later than <code class="highlighter-rouge">T</code>). All nodes wait <code class="highlighter-rouge">(N-1) * D</code> seconds, running the following process. Define <code class="highlighter-rouge">x : i</code> as “the value <code class="highlighter-rouge">x</code> signed by node <code class="highlighter-rouge">i</code>”, <code class="highlighter-rouge">x : i : j</code> as “the value <code class="highlighter-rouge">x</code> signed by <code class="highlighter-rouge">i</code>, and that value and signature together signed by <code class="highlighter-rouge">j</code>”, etc. The proposals published in the first stage will be of the form <code class="highlighter-rouge">v: i</code> for some <code class="highlighter-rouge">v</code> and <code class="highlighter-rouge">i</code>, containing the signature of the node that proposed it.</p>
+
+<p>If a validator <code class="highlighter-rouge">i</code> receives some message <code class="highlighter-rouge">v : i[1] : ... : i[k]</code>, where <code class="highlighter-rouge">i[1] ... i[k]</code> is a list of indices that have (sequentially) signed the message already (just <code class="highlighter-rouge">v</code> by itself would count as k=0, and <code class="highlighter-rouge">v:i</code> as k=1), then the validator checks that (i) the time is less than <code class="highlighter-rouge">T + k * D</code>, and (ii) they have not yet seen a valid message containing <code class="highlighter-rouge">v</code>; if both checks pass, they publish <code class="highlighter-rouge">v : i[1] : ... : i[k] : i</code>.</p>
+
+<p>At time <code class="highlighter-rouge">T + (N-1) * D</code>, nodes stop listening, and they use some “choice” function to pick a value out of all the values they have seen valid messages for (eg. they take the highest one). They then decide this value.</p>
+
+<center>
+<img src="./A Guide to 99% Fault Tolerant Consensus_files/Lamport.png"><br>
+<i><small>Node 1 (red) is malicious, and nodes 0 and 2 (grey) are honest. At the start, the two honest nodes make their proposals <code>y</code> and <code>x</code>, and the attacker proposes both <code>w</code> and <code>z</code> late. <code>w</code> reaches node 0 on time but not node 2, and <code>z</code> reaches neither node on time. At time <code>T + D</code>, nodes 0 and 2 rebroadcast all values they've seen that they have not yet broadcasted, but add their signatures on (<code>x</code> and <code>w</code> for node 0, <code>y</code> for node 2). Both honest nodes saw <code>{x, y, w}</code>; they can then use some standard choice function (eg. alphabetically highest: <code>y</code>).</small></i>
+</center>
+<p><br></p>
+
+<p>Now, let’s explore why this works. What we need to prove is that if one honest node has seen a particular value (validly), then every other honest node has also seen that value (and if we prove this, then we know that all honest nodes are running the same choice function, so they will output the same value). Suppose that any honest node receives a message <code class="highlighter-rouge">v : i[1] : ... : i[k]</code> that they perceive to be valid (ie. it arrives before time <code class="highlighter-rouge">T + k * D</code>). Suppose <code class="highlighter-rouge">x</code> is the index of a single other honest node. Either <code class="highlighter-rouge">x</code> is part of <code class="highlighter-rouge">{i[1] ... i[k]}</code> or it is not.</p>
+
+<ul>
+  <li>In the first case (say <code class="highlighter-rouge">x = i[j]</code> for this message), we know that the honest node <code class="highlighter-rouge">x</code> had already broadcasted that message, and they did so in response to a message with <code class="highlighter-rouge">j-1</code> signatures that they received before time <code class="highlighter-rouge">T + (j-1) * D</code>, so they broadcast their message at that time, and so the message must have been received by all honest nodes before time <code class="highlighter-rouge">T + j * D</code>.</li>
+  <li>In the second case, since the honest node sees the message before time <code class="highlighter-rouge">T + k * D</code>, then they will broadcast the message with their signature and guarantee that everyone, including <code class="highlighter-rouge">x</code>, will see it before time <code class="highlighter-rouge">T + (k+1) * D</code>.</li>
+</ul>
+
+<p>Notice that the algorithm uses the act of adding one’s own signature as a kind of “bump” on the timeout of a message, and it’s this ability that guarantees that if one honest node saw a message on time, they can ensure that everyone else sees the message on time as well, as the definition of “on time” increments by more than network latency with every added signature.</p>
+
+<p>In the case where one node is honest, can we guarantee that passive <em>observers</em> can also see the outcome, even if we require them to be watching the process the whole time? With the scheme as written, there’s a problem. Suppose that a commander and some subset of <code class="highlighter-rouge">k</code> (malicious) validators produce a message <code class="highlighter-rouge">v : i[1] : .... : i[k]</code>, and broadcast it directly to some “victims” just before time <code class="highlighter-rouge">T + k * D</code>. The victims see the message as being “on time”, but when they rebroadcast it, it only reaches all honest consensus-participating nodes after <code class="highlighter-rouge">T + k * D</code>, and so all honest consensus-participating nodes reject it.</p>
+
+<center>
+<img src="./A Guide to 99% Fault Tolerant Consensus_files/Lamport2.png">
+</center>
+<p><br></p>
+
+<p>But we can plug this hole. We require <code class="highlighter-rouge">D</code> to be a bound on <em>two times</em> network latency plus clock disparity. We then put a different timeout on observers: an observer accepts <code class="highlighter-rouge">v : i[1] : .... : i[k]</code> before time <code class="highlighter-rouge">T + (k - 0.5) * D</code>. Now, suppose an observer sees a message an accepts it. They will be able to broadcast it to an honest node before time <code class="highlighter-rouge">T + k * D</code>, and the honest node will issue the message with their signature attached, which will reach all other observers before time <code class="highlighter-rouge">T + (k + 0.5) * D</code>, the timeout for messages with <code class="highlighter-rouge">k+1</code> signatures.</p>
+
+<center>
+<img src="./A Guide to 99% Fault Tolerant Consensus_files/Lamport3.png">
+</center>
+<p><br></p>
+
+<h3 id="retrofitting-onto-other-consensus-algorithms">Retrofitting onto other consensus algorithms</h3>
+
+<p>Suppose that we have some other consensus algorithm (eg. PBFT, Casper FFG, chain-based PoS) whose output <em>can</em> be seen by occasionally-online observers (we’ll call this the <em>threshold-dependent</em> consensus algorithm, as opposed to the algorithm above, which we’ll call the <em>latency-dependent</em> consensus algorithm). Suppose that the threshold-dependent consensus algorithm runs continuously, in a mode where it is constantly “finalizing” new blocks onto a chain (ie. each finalized value points to some previous finalized value as a “parent”; if there’s a sequence of pointers <code class="highlighter-rouge">A -&gt; ... -&gt; B</code>, we’ll call A a <em>descendant</em> of B). We can retrofit the latency-dependent algorithm onto this structure, giving always-online observers access to a kind of “strong finality” on checkpoints, with fault tolerance ~95% (you can push this arbitrarily close to 100% by adding more validators and requiring the process to take longer).</p>
+
+<p>Every time the time reaches some multiple of 4096 seconds, we run the latency-dependent algorithm, choosing 512 random nodes to participate in the algorithm. A valid proposal is any valid chain of values that were finalized by the threshold-dependent algorithm. If a node sees some finalized value before time <code class="highlighter-rouge">T + k * D</code> (D = 8 seconds) with <code class="highlighter-rouge">k</code> signatures, it accepts the chain into its set of known chains and rebroadcasts it with its own signature added; observers use a threshold of <code class="highlighter-rouge">T + (k - 0.5) * D</code> as before.</p>
+
+<p>The “choice” function used at the end is simple:</p>
+
+<ul>
+  <li>Finalized values that are not descendants of what was already agreed to be a finalized value in the previous round are ignored</li>
+  <li>Finalized values that are invalid are ignored</li>
+  <li>To choose between two valid finalized values, pick the one with the lower hash</li>
+</ul>
+
+<p>If 5% of validators are honest, there is only a roughly 1 in 1 trillion chance that none of the 512 randomly selected nodes will be honest, and so as long as the network latency plus clock disparity is less than <code class="highlighter-rouge">D/2</code> the above algorithm will work, correctly coordinating nodes on some single finalized value, even if multiple conflicting finalized values are presented because the fault tolerance of the threshold-dependent algorithm is broken.</p>
+
+<p>If the fault tolerance of the threshold-dependent consensus algorithm is met (usually 50% or 67% honest), then the threshold-dependent consensus algorithm will either not finalize any new checkpoints, or it will finalize new checkpoints that are compatible with each other (eg. a series of checkpoints where each points to the previous as a parent), so even if network latency exceeds <code class="highlighter-rouge">D/2</code> (or even <code class="highlighter-rouge">D</code>), and as a result nodes participating in the latency-dependent algorithm disagree on which value they accept, the values they accept are still guaranteed to be part of the same chain and so there is no actual disagreement. Once latency recovers back to normal in some future round, the latency-dependent consensus will get back “in sync”.</p>
+
+<p>If the assumptions of both the threshold-dependent and latency-dependent consensus algorithms are broken <em>at the same time</em> (or in consecutive rounds), then the algorithm can break down. For example, suppose in one round, the threshold-dependent consensus finalizes <code class="highlighter-rouge">Z -&gt; Y -&gt; X</code> and the latency-dependent consensus disagrees between <code class="highlighter-rouge">Y</code> and <code class="highlighter-rouge">X</code>, and in the next round the threshold-dependent consensus finalizes a descendant <code class="highlighter-rouge">W</code> of <code class="highlighter-rouge">X</code> which is <em>not</em> a descendant of <code class="highlighter-rouge">Y</code>; in the latency-dependent consensus, the nodes who agreed <code class="highlighter-rouge">Y</code> will not accept <code class="highlighter-rouge">W</code>, but the nodes that agreed <code class="highlighter-rouge">X</code> will. However, this is unavoidable; the impossibility of safe-under-asynchrony consensus with more than 1/3 fault tolerance is a <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf">well known result</a> in Byzantine fault tolerance theory, as is the impossibility of more than 1/2 fault tolerance even allowing synchrony assumptions but assuming offline observers.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Vitalik Buterin's website</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>Vitalik Buterin's website</li>
+          <li><a href="mailto:noreply@buterin.com">noreply@buterin.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/vbuterin"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
+</span><span class="username">vbuterin</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/VitalikButerin"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"></path></svg>
+</span><span class="username">VitalikButerin</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>My stuff goes here.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  
+
+
+</body></html>

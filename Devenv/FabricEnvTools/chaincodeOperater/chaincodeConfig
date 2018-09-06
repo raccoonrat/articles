@@ -1,0 +1,5 @@
+orgs name:org1-f-1,org2-f-1
+chaincode directory name(if you are not installing, should be chaincode name):cc_ex01
+channel name:defaultchannel
+chaincode args:{"Args":["init","john","100","peter","200"]}
+chaincode policy:OR ('Org1MSP.member','Org2MSP.member')

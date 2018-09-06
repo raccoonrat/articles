@@ -1,0 +1,68 @@
+---
+Profiles:
+
+    OrdererGenesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *{{ordererOrg.name}}
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    {% for peerOrg in peerOrgs %}
+                    - *{{peerOrg.name}}
+                    {% endfor %}
+    DefaultChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                    {% for peerOrg in peerOrgs %}
+                    - *{{peerOrg.name}}
+                    {% endfor %}
+
+################################################################################
+#   Section: Organizations
+################################################################################
+Organizations:
+    - &{{ordererOrg.name}}
+        Name: OrdererMSP
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/{{ordererOrg.domain}}/msp
+
+    {% for peerOrg in peerOrgs %}
+    - &{{peerOrg.name}}
+        Name: {{peerOrg.name}}MSP
+        ID: {{peerOrg.name}}MSP
+        MSPDir: crypto-config/peerOrganizations/{{peerOrg.domain}}/msp
+        AnchorPeers:
+            - Host: peer0.{{peerOrg.name}}
+              Port: 7051
+    {% endfor %}
+
+################################################################################
+#   SECTION: Orderer
+################################################################################
+Orderer: &OrdererDefaults
+    OrdererType: {{ordererOrg.type}}
+    Addresses:
+    {% for i in range(ordererOrg.count) %}
+        - orderer{{i}}.{{ordererOrg.domain}}:7050
+    {% endfor %}
+    Kafka:
+        Brokers:
+            {% for broker in KafkaBrokers %}
+            - {{broker.ipWithPort}}
+            {% endfor %}
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 98 MB
+        PreferredMaxBytes: 512 KB
+    Organizations:
+
+################################################################################
+#   SECTION: Application
+################################################################################
+Application: &ApplicationDefaults
+    Organizations:

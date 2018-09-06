@@ -1,0 +1,15 @@
+OrdererOrgs:
+  - Name: {{ordererOrg.name}}
+    Domain: {{ordererOrg.domain}}
+    Template:
+      Count: {{ordererOrg.count}}
+
+PeerOrgs:
+  {% for peerOrg in peerOrgs %}
+  - Name: {{peerOrg.name}}
+    Domain: {{peerOrg.domain}}
+    Template:
+      Count: {{peerOrg.count}}
+    Users:
+      Count: 1
+  {% endfor %}
