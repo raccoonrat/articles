@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://datatracker.ietf.org/doc/rfc6507/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+  
+    RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)
+  
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/stylesheet.css" rel="stylesheet" type="text/css">
+    <link href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/stylesheet(1).css" rel="stylesheet" type="text/css">
+    <link href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/stylesheet(2).css" rel="stylesheet" type="text/css">
+    
+
+    <link rel="stylesheet" href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/ietf.css">
+    
+    <style>
+     
+.inline	{ display: inline; }
+
+    </style>
+
+    <!--[if lt IE 9]>
+        <script src="https://www.ietf.org/lib/dt/6.86.0/html5shiv/html5shiv.min.js"></script>
+        <script src="https://www.ietf.org/lib/dt/6.86.0/respond/dest/respond.min.js"></script>
+    <![endif]-->
+    
+  <link rel="alternate" type="application/atom+xml" title="" href="https://datatracker.ietf.org/feed/document-changes/rfc6507/" data-original-title="Document changes">
+  <meta name="description" content="Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI) (RFC 6507, February 2012)">
+  <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/d3.min.js.下载"></script>
+  <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/jquery.min.js.下载"></script>
+  <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/document_timeline.js.下载"></script>
+
+
+    
+    <link rel="shortcut icon" href="https://www.ietf.org/lib/dt/6.86.0/ietf/images/ietf-icon-blue3.png">
+    
+    <link rel="apple-touch-icon" href="https://www.ietf.org/lib/dt/6.86.0/ietf/images/apple-touch-icon.png">
+  </head>
+
+  <body data-group-menu-data-url="/group/groupmenu.json">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="https://datatracker.ietf.org/">
+	       <img alt="IETF Logo" src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/ietflogo-small-transparent.png">
+	       
+		  
+		  Datatracker
+		  
+	       
+	    </a>
+	  </div>
+
+	  <noscript>
+	    <p class="navbar-text"><small>Enable Javascript for full functionality.</small></p>
+	  </noscript>
+
+	  <div class="collapse navbar-collapse" id="navbar-collapse">
+	    <ul class="nav navbar-nav">
+              <!-- template: /a/www/ietf-datatracker/web/ietf/templates/base/menu.html -->
+
+
+
+
+<li class="dropdown">
+  <a href="https://datatracker.ietf.org/doc/rfc6507/#" class="dropdown-toggle" data-toggle="dropdown">
+  
+  Groups
+  
+    </a>
+    <ul class="dropdown-menu" role="menu">
+  
+
+  <li><a href="https://datatracker.ietf.org/wg/">Active WGs</a></li>
+  <li><a href="https://datatracker.ietf.org/rg/">Active RGs</a></li>
+  <li class="dropdown-submenu group-menu"><a href="https://datatracker.ietf.org/group/">Other</a><!-- template: /a/www/ietf-datatracker/web/ietf/templates/base/menu_active_groups.html -->
+<ul class="dropdown-menu" role="menu">
+
+  <li>
+    <a href="https://datatracker.ietf.org/ag/">Active AGs</a>
+  </li>
+
+  <li>
+    <a href="https://datatracker.ietf.org/area/">Active Areas</a>
+  </li>
+
+  <li>
+    <a href="https://datatracker.ietf.org/dir/">Active Directorates</a>
+  </li>
+
+  <li>
+    <a href="https://datatracker.ietf.org/program/">Active Programs</a>
+  </li>
+
+  <li>
+    <a href="https://datatracker.ietf.org/team/">Active Teams</a>
+  </li>
+
+</ul>
+ </li>
+
+  <li class="divider hidden-xs"></li>
+  <li class="dropdown-header visible-lg-block">By area/parent</li>
+        <!-- template: /a/www/ietf-datatracker/web/ietf/templates/base/menu_wg.html -->
+
+  <li class="dropdown-submenu group-menu group-parent-2010">
+    <a href="https://datatracker.ietf.org/wg/#art">Applications and Real-Time</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/avtcore/">avtcore — Audio/Video Transport Core Maintenance</a></li><li><a href="https://datatracker.ietf.org/wg/bfcpbis/">bfcpbis — Binary Floor Control Protocol Bis</a></li><li><a href="https://datatracker.ietf.org/wg/calext/">calext — Calendaring Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/capport/">capport — Captive Portal Interaction</a></li><li><a href="https://datatracker.ietf.org/wg/cbor/">cbor — Concise Binary Object Representation Maintenance and Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/cdni/">cdni — Content Delivery Networks Interconnection</a></li><li><a href="https://datatracker.ietf.org/wg/cellar/">cellar — Codec Encoding for LossLess Archiving and Realtime transmission</a></li><li><a href="https://datatracker.ietf.org/wg/clue/">clue — ControLling mUltiple streams for tElepresence</a></li><li><a href="https://datatracker.ietf.org/wg/core/">core — Constrained RESTful Environments</a></li><li><a href="https://datatracker.ietf.org/wg/dispatch/">dispatch — Dispatch</a></li><li><a href="https://datatracker.ietf.org/wg/dmarc/">dmarc — Domain-based Message Authentication, Reporting &amp; Conformance</a></li><li><a href="https://datatracker.ietf.org/wg/doh/">doh — DNS Over HTTPS</a></li><li><a href="https://datatracker.ietf.org/wg/ecrit/">ecrit — Emergency Context Resolution with Internet Technologies</a></li><li><a href="https://datatracker.ietf.org/wg/extra/">extra — Email mailstore and eXtensions To Revise or Amend</a></li><li><a href="https://datatracker.ietf.org/wg/httpbis/">httpbis — Hypertext Transfer Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/ice/">ice — Interactive Connectivity Establishment</a></li><li><a href="https://datatracker.ietf.org/wg/jmap/">jmap — JSON Mail Access Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/mmusic/">mmusic — Multiparty Multimedia Session Control</a></li><li><a href="https://datatracker.ietf.org/wg/modern/">modern — Managing, Ordering, Distributing, Exposing, &amp; Registering telephone Numbers</a></li><li><a href="https://datatracker.ietf.org/wg/netvc/">netvc — Internet Video Codec</a></li><li><a href="https://datatracker.ietf.org/wg/payload/">payload — Audio/Video Transport Payloads</a></li><li><a href="https://datatracker.ietf.org/wg/perc/">perc — Privacy Enhanced RTP Conferencing </a></li><li><a href="https://datatracker.ietf.org/wg/regext/">regext — Registration Protocols Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/rtcweb/">rtcweb — Real-Time Communication in WEB-browsers</a></li><li><a href="https://datatracker.ietf.org/wg/sipbrandy/">sipbrandy — SIP Best-practice Recommendations Against Network Dangers to privacY</a></li><li><a href="https://datatracker.ietf.org/wg/sipcore/">sipcore — Session Initiation Protocol Core</a></li><li><a href="https://datatracker.ietf.org/wg/slim/">slim — Selection of Language for Internet Media</a></li><li><a href="https://datatracker.ietf.org/wg/stir/">stir — Secure Telephone Identity Revisited</a></li><li><a href="https://datatracker.ietf.org/wg/uta/">uta — Using TLS in Applications</a></li><li><a href="https://datatracker.ietf.org/wg/xrblock/">xrblock — Metric Blocks for use with RTCP's Extended Report Framework</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1008">
+    <a href="https://datatracker.ietf.org/wg/#gen">General</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/iasa2/">iasa2 — IETF Administrative Support Activity 2</a></li><li><a href="https://datatracker.ietf.org/wg/mtgvenue/">mtgvenue — Meeting Venue</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1052">
+    <a href="https://datatracker.ietf.org/wg/#int">Internet</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/6lo/">6lo — IPv6 over Networks of Resource-constrained Nodes</a></li><li><a href="https://datatracker.ietf.org/wg/6man/">6man — IPv6 Maintenance</a></li><li><a href="https://datatracker.ietf.org/wg/6tisch/">6tisch — IPv6 over the TSCH mode of IEEE 802.15.4e</a></li><li><a href="https://datatracker.ietf.org/wg/dhc/">dhc — Dynamic Host Configuration</a></li><li><a href="https://datatracker.ietf.org/wg/dmm/">dmm — Distributed Mobility Management</a></li><li><a href="https://datatracker.ietf.org/wg/dnssd/">dnssd — Extensions for Scalable DNS Service Discovery </a></li><li><a href="https://datatracker.ietf.org/wg/dprive/">dprive — DNS PRIVate Exchange</a></li><li><a href="https://datatracker.ietf.org/wg/hip/">hip — Host Identity Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/homenet/">homenet — Home Networking</a></li><li><a href="https://datatracker.ietf.org/wg/intarea/">intarea — Internet Area Working Group</a></li><li><a href="https://datatracker.ietf.org/wg/ipwave/">ipwave — IP Wireless Access in Vehicular Environments</a></li><li><a href="https://datatracker.ietf.org/wg/lpwan/">lpwan — IPv6 over Low Power Wide-Area Networks</a></li><li><a href="https://datatracker.ietf.org/wg/lwig/">lwig — Light-Weight Implementation Guidance</a></li><li><a href="https://datatracker.ietf.org/wg/ntp/">ntp — Network Time Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/savi/">savi — Source Address Validation Improvements</a></li><li><a href="https://datatracker.ietf.org/wg/softwire/">softwire — Softwires</a></li><li><a href="https://datatracker.ietf.org/wg/tictoc/">tictoc — Timing over IP Connection and Transfer of Clock</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1193">
+    <a href="https://datatracker.ietf.org/wg/#ops">Ops &amp; Mgmt</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/anima/">anima — Autonomic Networking Integrated Model and Approach</a></li><li><a href="https://datatracker.ietf.org/wg/bmwg/">bmwg — Benchmarking Methodology</a></li><li><a href="https://datatracker.ietf.org/wg/dime/">dime — Diameter Maintenance and Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/dnsop/">dnsop — Domain Name System Operations</a></li><li><a href="https://datatracker.ietf.org/wg/grow/">grow — Global Routing Operations</a></li><li><a href="https://datatracker.ietf.org/wg/l2sm/">l2sm — L2VPN Service Model</a></li><li><a href="https://datatracker.ietf.org/wg/mboned/">mboned — MBONE Deployment</a></li><li><a href="https://datatracker.ietf.org/wg/netconf/">netconf — Network Configuration</a></li><li><a href="https://datatracker.ietf.org/wg/netmod/">netmod — Network Modeling</a></li><li><a href="https://datatracker.ietf.org/wg/opsawg/">opsawg — Operations and Management Area Working Group</a></li><li><a href="https://datatracker.ietf.org/wg/opsec/">opsec — Operational Security Capabilities for IP Network Infrastructure</a></li><li><a href="https://datatracker.ietf.org/wg/radext/">radext — RADIUS EXTensions</a></li><li><a href="https://datatracker.ietf.org/wg/sidrops/">sidrops — SIDR Operations</a></li><li><a href="https://datatracker.ietf.org/wg/v6ops/">v6ops — IPv6 Operations</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1249">
+    <a href="https://datatracker.ietf.org/wg/#rtg">Routing</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/babel/">babel — Babel routing protocol</a></li><li><a href="https://datatracker.ietf.org/wg/bess/">bess — BGP Enabled ServiceS</a></li><li><a href="https://datatracker.ietf.org/wg/bfd/">bfd — Bidirectional Forwarding Detection</a></li><li><a href="https://datatracker.ietf.org/wg/bier/">bier — Bit Indexed Explicit Replication</a></li><li><a href="https://datatracker.ietf.org/wg/ccamp/">ccamp — Common Control and Measurement Plane</a></li><li><a href="https://datatracker.ietf.org/wg/detnet/">detnet — Deterministic Networking</a></li><li><a href="https://datatracker.ietf.org/wg/i2rs/">i2rs — Interface to the Routing System</a></li><li><a href="https://datatracker.ietf.org/wg/idr/">idr — Inter-Domain Routing</a></li><li><a href="https://datatracker.ietf.org/wg/lisp/">lisp — Locator/ID Separation Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/lsr/">lsr — Link State Routing</a></li><li><a href="https://datatracker.ietf.org/wg/lsvr/">lsvr — Link State Vector Routing</a></li><li><a href="https://datatracker.ietf.org/wg/manet/">manet — Mobile Ad-hoc Networks</a></li><li><a href="https://datatracker.ietf.org/wg/mpls/">mpls — Multiprotocol Label Switching</a></li><li><a href="https://datatracker.ietf.org/wg/nvo3/">nvo3 — Network Virtualization Overlays</a></li><li><a href="https://datatracker.ietf.org/wg/pals/">pals — Pseudowire And LDP-enabled Services</a></li><li><a href="https://datatracker.ietf.org/wg/pce/">pce — Path Computation Element</a></li><li><a href="https://datatracker.ietf.org/wg/pim/">pim — Protocols for IP Multicast</a></li><li><a href="https://datatracker.ietf.org/wg/rift/">rift — Routing In Fat Trees</a></li><li><a href="https://datatracker.ietf.org/wg/roll/">roll — Routing Over Low power and Lossy networks</a></li><li><a href="https://datatracker.ietf.org/wg/rtgwg/">rtgwg — Routing Area Working Group</a></li><li><a href="https://datatracker.ietf.org/wg/sfc/">sfc — Service Function Chaining</a></li><li><a href="https://datatracker.ietf.org/wg/spring/">spring — Source Packet Routing in Networking</a></li><li><a href="https://datatracker.ietf.org/wg/teas/">teas — Traffic Engineering Architecture and Signaling</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1260">
+    <a href="https://datatracker.ietf.org/wg/#sec">Security</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/ace/">ace — Authentication and Authorization for Constrained Environments</a></li><li><a href="https://datatracker.ietf.org/wg/acme/">acme — Automated Certificate Management Environment</a></li><li><a href="https://datatracker.ietf.org/wg/curdle/">curdle — CURves, Deprecating and a Little more Encryption</a></li><li><a href="https://datatracker.ietf.org/wg/dots/">dots — DDoS Open Threat Signaling</a></li><li><a href="https://datatracker.ietf.org/wg/emu/">emu — EAP Method Update</a></li><li><a href="https://datatracker.ietf.org/wg/i2nsf/">i2nsf — Interface to Network Security Functions</a></li><li><a href="https://datatracker.ietf.org/wg/ipsecme/">ipsecme — IP Security Maintenance and Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/kitten/">kitten — Common Authentication Technology Next Generation</a></li><li><a href="https://datatracker.ietf.org/wg/lamps/">lamps — Limited Additional Mechanisms for PKIX and SMIME</a></li><li><a href="https://datatracker.ietf.org/wg/mile/">mile — Managed Incident Lightweight Exchange</a></li><li><a href="https://datatracker.ietf.org/wg/mls/">mls — Messaging Layer Security</a></li><li><a href="https://datatracker.ietf.org/wg/oauth/">oauth — Web Authorization Protocol</a></li><li><a href="https://datatracker.ietf.org/wg/sacm/">sacm — Security Automation and Continuous Monitoring</a></li><li><a href="https://datatracker.ietf.org/wg/secdispatch/">secdispatch — Security Dispatch</a></li><li><a href="https://datatracker.ietf.org/wg/secevent/">secevent — Security Events</a></li><li><a href="https://datatracker.ietf.org/wg/suit/">suit — Software Updates for Internet of Things</a></li><li><a href="https://datatracker.ietf.org/wg/teep/">teep — Trusted Execution Environment Provisioning</a></li><li><a href="https://datatracker.ietf.org/wg/tls/">tls — Transport Layer Security</a></li><li><a href="https://datatracker.ietf.org/wg/tokbind/">tokbind — Token Binding</a></li><li><a href="https://datatracker.ietf.org/wg/trans/">trans — Public Notary Transparency</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-1324">
+    <a href="https://datatracker.ietf.org/wg/#tsv">Transport</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/wg/alto/">alto — Application-Layer Traffic Optimization</a></li><li><a href="https://datatracker.ietf.org/wg/dtn/">dtn — Delay/Disruption Tolerant Networking</a></li><li><a href="https://datatracker.ietf.org/wg/ippm/">ippm — IP Performance Measurement</a></li><li><a href="https://datatracker.ietf.org/wg/mptcp/">mptcp — Multipath TCP</a></li><li><a href="https://datatracker.ietf.org/wg/nfsv4/">nfsv4 — Network File System Version 4</a></li><li><a href="https://datatracker.ietf.org/wg/quic/">quic — QUIC</a></li><li><a href="https://datatracker.ietf.org/wg/rmcat/">rmcat — RTP Media Congestion Avoidance Techniques</a></li><li><a href="https://datatracker.ietf.org/wg/taps/">taps — Transport Services</a></li><li><a href="https://datatracker.ietf.org/wg/tcpinc/">tcpinc — TCP Increased Security</a></li><li><a href="https://datatracker.ietf.org/wg/tcpm/">tcpm — TCP Maintenance and Minor Extensions</a></li><li><a href="https://datatracker.ietf.org/wg/tram/">tram — TURN Revised and Modernized</a></li><li><a href="https://datatracker.ietf.org/wg/tsvwg/">tsvwg — Transport Area Working Group</a></li></ul></li>
+
+  <li class="dropdown-submenu group-menu group-parent-3">
+    <a href="https://datatracker.ietf.org/rg/">IRTF</a>
+  <ul class="dropdown-menu" role="menu"><li><a href="https://datatracker.ietf.org/rg/cfrg/">cfrg — Crypto Forum</a></li><li><a href="https://datatracker.ietf.org/rg/dinrg/">dinrg — Decentralized Internet Infrastructure Proposed RG</a></li><li><a href="https://datatracker.ietf.org/rg/gaia/">gaia — Global Access to the Internet for All</a></li><li><a href="https://datatracker.ietf.org/rg/hrpc/">hrpc — Human Rights Protocol Considerations</a></li><li><a href="https://datatracker.ietf.org/rg/iccrg/">iccrg — Internet Congestion Control</a></li><li><a href="https://datatracker.ietf.org/rg/icnrg/">icnrg — Information-Centric Networking</a></li><li><a href="https://datatracker.ietf.org/rg/maprg/">maprg — Measurement and Analysis for Protocols</a></li><li><a href="https://datatracker.ietf.org/rg/nfvrg/">nfvrg — Network Function Virtualization</a></li><li><a href="https://datatracker.ietf.org/rg/nmrg/">nmrg — Network Management</a></li><li><a href="https://datatracker.ietf.org/rg/nwcrg/">nwcrg — Coding for efficient NetWork Communications Research Group</a></li><li><a href="https://datatracker.ietf.org/rg/panrg/">panrg — Path Aware Networking RG</a></li><li><a href="https://datatracker.ietf.org/rg/t2trg/">t2trg — Thing-to-Thing</a></li></ul></li>
+
+
+        
+
+  <li class="divider hidden-xs"></li>
+  <li class="dropdown-header hidden-xs">New work</li>
+  <li><a href="https://datatracker.ietf.org/group/chartering/">Chartering groups</a></li>
+  <li><a href="https://datatracker.ietf.org/wg/bofs/">BOFs</a></li>
+
+  <li class="divider hidden-xs"></li>
+  <li class="dropdown-header hidden-xs">Other groups</li>
+  <li><a href="https://datatracker.ietf.org/group/concluded/">Concluded groups</a></li>
+  <li><a href="https://datatracker.ietf.org/list/nonwg">Non-WG lists</a></li>
+
+</ul>
+
+</li><li class="dropdown">
+  <a href="https://datatracker.ietf.org/doc/rfc6507/#" class="dropdown-toggle" data-toggle="dropdown">
+  
+  Documents
+  
+    </a>
+    <ul class="dropdown-menu" role="menu">
+  
+  <li><a href="https://datatracker.ietf.org/doc/search">Search</a></li>
+  <li><a href="https://datatracker.ietf.org/doc/recent">Recent drafts</a></li>
+  <li><a href="https://datatracker.ietf.org/submit/">Draft submission</a></li>
+
+  
+    <li><a rel="nofollow" href="https://datatracker.ietf.org/accounts/login/?next=/doc/rfc6507/">Sign in to track docs</a></li>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  <li class="divider hidden-xs"></li>
+  <li class="dropdown-header hidden-xs">RFC streams</li>
+        <li><a href="https://datatracker.ietf.org/stream/iab/">IAB</a></li>
+        <li><a href="https://datatracker.ietf.org/stream/irtf/">IRTF</a></li>
+        <li><a href="https://datatracker.ietf.org/stream/ise/">ISE</a></li>
+
+</ul>
+
+</li><li class="dropdown">
+  <a href="https://datatracker.ietf.org/doc/rfc6507/#" class="dropdown-toggle" data-toggle="dropdown">
+  
+  Meetings
+  
+    </a>
+    <ul class="dropdown-menu" role="menu">
+  
+
+  <li><a href="https://datatracker.ietf.org/meeting/agenda/">Agenda</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/materials/">Materials</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/floor-plan/">Floor plan</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/important-dates/">Important dates</a></li>
+  <li><a href="https://www.ietf.org/meeting/proceedings.html">Past proceedings</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/upcoming">Upcoming</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/past">Past</a></li>
+  <li><a href="https://datatracker.ietf.org/secr/sreq/">Request a session</a></li>
+  <li><a href="https://datatracker.ietf.org/meeting/requests">Session requests</a></li>
+</ul>
+
+</li><li class="dropdown">
+  <a href="https://datatracker.ietf.org/doc/rfc6507/#" class="dropdown-toggle" data-toggle="dropdown">
+  
+  Other
+  
+    </a>
+    <ul class="dropdown-menu" role="menu">
+  
+
+  <li><a href="https://datatracker.ietf.org/ipr/">IPR disclosures</a></li>
+  <li><a href="https://datatracker.ietf.org/liaison/">Liaison statements</a></li>
+  <li><a href="https://datatracker.ietf.org/iesg/agenda/">IESG agenda</a></li>
+  <li><a href="https://datatracker.ietf.org/nomcom/">NomComs</a></li>
+  <li><a href="https://datatracker.ietf.org/doc/downref/">Downref registry</a></li>
+  <li class="dropdown-submenu">
+    <a href="https://datatracker.ietf.org/stats/">Statistics</a>
+    <ul class="dropdown-menu">
+      <li><a href="https://datatracker.ietf.org/stats/document/">Drafts/RFCs</a></li>
+      <li><a href="https://datatracker.ietf.org/stats/meeting/">Meetings</a></li>
+      
+    </ul>
+  </li>
+  <li><a href="https://datatracker.ietf.org/group/edu/materials/">Tutorials</a></li>
+  <li><a href="https://datatracker.ietf.org/api/">API Help</a></li>  
+  <li><a href="https://datatracker.ietf.org/release/">Release notes</a></li>
+  <li class="divider hidden-xs"></li>
+  <li><a href="https://tools.ietf.org/tools/ietfdb/newticket"><span class="fa fa-bug"></span> Report a bug</a></li>
+</ul>
+
+
+  <!-- template: /a/www/ietf-datatracker/web/ietf/templates/base/menu_user.html -->
+
+
+</li><li class="dropdown">
+  
+  <a href="https://datatracker.ietf.org/doc/rfc6507/#" class="dropdown-toggle" data-toggle="dropdown">
+     User 
+  </a>
+  <ul class="dropdown-menu" role="menu">
+  
+
+  
+    
+      <li><a rel="nofollow" href="https://datatracker.ietf.org/accounts/login/?next=/doc/rfc6507/">Sign in</a></li>
+      <li><a rel="nofollow" href="https://datatracker.ietf.org/accounts/reset/">Password reset</a></li>
+      <li><a href="https://datatracker.ietf.org/accounts/settings/" rel="nofollow">Preferences</a></li>
+    
+    <li><a href="https://datatracker.ietf.org/help/personal-information">Handling of personal information</a></li>  
+  
+
+  
+    <li><a href="https://datatracker.ietf.org/accounts/create/">New account</a></li>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</ul>
+
+
+
+            </li></ul>
+
+	    <form class="navbar-form navbar-right hidden-xs" action="https://datatracker.ietf.org/doc/search/">
+	      <div class="form-group">
+	        <input class="form-control input-sm" type="text" name="name" placeholder="Document search" required="">
+	        <input type="hidden" name="activedrafts" value="on">
+	        <input type="hidden" name="rfcs" value="on">
+	      </div>
+	    </form>
+	  </div>
+        </div>
+      </nav>
+      <div class="container-fluid">
+        
+        
+        
+	  <div class="col-md-12 col-sm-12" id="content">
+        
+        
+  <!-- template: /a/www/ietf-datatracker/web/ietf/templates/doc/document_draft.html -->
+  <!-- template: /a/www/ietf-datatracker/web/ietf/templates/doc/document_top.html -->
+
+<h2>Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)<br><small>RFC 6507</small></h2>
+
+<ul class="nav nav-tabs" role="tablist">
+  
+    <li class="active ">
+      <a href="https://datatracker.ietf.org/doc/rfc6507/">Status</a>
+    </li>
+  
+    <li class="">
+      <a href="https://datatracker.ietf.org/doc/rfc6507/ballot/">IESG evaluation record</a>
+    </li>
+  
+    <li class="">
+      <a href="https://datatracker.ietf.org/doc/rfc6507/writeup/">IESG writeups</a>
+    </li>
+  
+    <li class="">
+      <a href="https://datatracker.ietf.org/doc/rfc6507/email/">Email expansions</a>
+    </li>
+  
+    <li class="">
+      <a href="https://datatracker.ietf.org/doc/rfc6507/history/">History</a>
+    </li>
+  
+</ul>
+
+
+  <!-- template: /a/www/ietf-datatracker/web/ietf/templates/doc/revisions_list.html -->
+<ul class="pagination revlist">
+  <li class="disabled"><a><b>Versions</b></a></li>
+  
+    <li class="active">
+      <a href="https://datatracker.ietf.org/doc/draft-groves-eccsi/">01</a>
+    </li>
+  
+</ul>
+
+  <div id="timeline"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1837" height="102.24989638061524"><defs><lineargradient id="maskGradient"><stop offset="0.9" stop-color="white" stop-opacity="1"></stop><stop offset="1" stop-color="white" stop-opacity="0"></stop></lineargradient><mask id="fade" maskContentUnits="objectBoundingBox"><rect height="1" width="1" fill="url(#maskGradient)"></rect></mask></defs><g class="bar" transform="translate(127, 0)"><a href="/doc/draft-groves-eccsi/00/"><rect height="21.4286" width="412.06545596654087" mask="url(#fade)"></rect></a><text x="3" y="10.7143">00</text></g><g class="bar" transform="translate(671.0410449615872, 0)"><a href="/doc/draft-groves-eccsi/01/"><rect height="21.4286" width="412.06545596654087" mask="url(#fade)"></rect></a><text x="3" y="10.7143">01</text></g><g class="bar" transform="translate(1424.9345440334594, 21.4286)"><a href="/doc/draft-groves-eccsi/"><rect height="21.4286" width="5452.388162566539"></rect></a><text x="3" y="10.7143">rfc6507</text></g><g class="x axis" transform="translate(0, 42.8572)"><g class="tick" transform="translate(127,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" transform="translate(-14, 2) rotate(-60)" style="text-anchor: end;">Jun 2010</text></g><g class="tick" transform="translate(671.0410449615872,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" transform="translate(-14, 2) rotate(-60)" style="text-anchor: end;">Feb 2011</text></g><g class="tick" transform="translate(1424.9345440334594,0)" style="opacity: 1;"><line y2="6" x2="0"></line><text dy=".71em" y="9" x="0" transform="translate(-14, 2) rotate(-60)" style="text-anchor: end;">Feb 2012</text></g><path class="domain" d="M127,6V0H1837V6"></path></g><g class="y axis" transform="translate(10, 10.7143)"><g class="tick" transform="translate(0,0)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: start;">draft-groves-eccsi</text></g><g class="tick" transform="translate(0,21.4286)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: start;">rfc6507</text></g><g class="tick" transform="translate(0,42.8572)" style="opacity: 1;"><line x2="-6" y2="0"></line><text dy=".32em" x="-9" y="0" style="text-anchor: start;"></text></g><path class="domain" d="M-6,0H0V42.8572H-6"></path></g></svg></div>
+
+  <table class="table table-condensed">
+    <thead id="message-row">
+       <tr>
+	  
+	  <th colspan="4"></th>
+	  
+       </tr>
+    </thead>
+
+    <tbody class="meta">
+      <tr>
+	<th>Document</th>
+	<th>Type</th>
+	<td class="edit"></td>
+	<td>
+	  
+	    RFC - Informational
+	    (February 2012; No errata)
+
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    <div>Was <a href="https://datatracker.ietf.org/doc/draft-groves-eccsi/">draft-groves-eccsi</a> (individual in sec area)</div>
+	  
+	</td>
+      </tr>
+
+      <tr>
+      	<th></th>
+	<th>Last updated</th>
+	<td class="edit"></td>
+	<td>
+	  2015-10-14
+	  
+	</td>
+      </tr>
+
+      
+
+      
+
+      
+
+      <tr>
+        <th></th>
+	<th>Stream</th>
+	<td class="edit">
+          
+	</td>
+	<td>
+	  IETF
+	</td>
+      </tr>
+
+      
+
+      <tr>
+        <th></th>
+	<th>Formats</th>
+	<td class="edit"></td>
+	<td>
+	  
+	  
+	    
+	      <a class="btn btn-default btn-xs" href="https://www.rfc-editor.org/rfc/rfc6507.txt">
+		<span class="fa fa-file-text-o"></span>
+		plain text</a>
+	    
+	      <a class="btn btn-default btn-xs" href="https://www.rfc-editor.org/rfc/pdfrfc/rfc6507.txt.pdf">
+		<span class="fa fa-file-pdf-o"></span>
+		pdf</a>
+	    
+	      <a class="btn btn-default btn-xs" href="https://tools.ietf.org/html/rfc6507">
+		<span class="fa fa-file-code-o"></span>
+		html</a>
+	    
+	      <a class="btn btn-default btn-xs" href="https://datatracker.ietf.org/doc/rfc6507/bibtex">
+		<span class="fa fa-file-o"></span>
+		bibtex</a>
+	    
+	  
+	</td>
+      </tr>
+
+      
+	
+      
+
+      
+      <tr>
+        <th></th>
+        <th>Reviews</th>
+	<td class="edit"></td>
+        <td>
+          
+            <div class="review-request-summary">
+  
+    <a href="https://datatracker.ietf.org/doc/review-groves-eccsi-secdir-lc-hutzelman-2011-01-25/">
+      SECDIR Last Call Review 
+    </a>
+  
+</div>
+
+          
+
+          
+
+          
+        </td>
+      </tr>
+      
+
+      
+      
+
+      
+        
+      
+
+
+    </tbody>
+    <tbody class="meta">
+      <tr>
+	<th>Stream</th>
+	
+	  <th>
+	     
+	     <a href="https://datatracker.ietf.org/help/state/draft/ietf">
+		 WG  state
+	     </a>
+	     
+	  </th>
+	  <td class="edit">
+            
+	  </td>
+	  <td>
+	    (None)
+
+	    
+
+	    
+	  </td>
+	
+      </tr>
+
+      
+
+      
+
+      
+	<tr>
+	  <th></th>
+	  <th>Document shepherd</th>
+	  <td class="edit">
+
+	    
+	  </td>
+	  <td>
+	    No shepherd assigned
+	  </td>
+	</tr>
+
+        
+      
+
+      
+
+    </tbody>
+
+    
+      <tbody class="meta">
+	<tr>
+	  <th>IESG</th>
+	  <th><a href="https://datatracker.ietf.org/help/state/draft/iesg">IESG state</a></th>
+	  <td class="edit">
+	    
+	  </td>
+	  <td>
+	    RFC 6507 (Informational)
+	  </td>
+	</tr>
+
+        
+	  <tr>
+	    <th></th>
+	    <th>Consensus Boilerplate</th>
+	    <td class="edit">
+	      
+	    </td>
+	    <td>
+	      <span title="" data-original-title="Whether the document is the result of a community consensus process as defined in RFC 5741">Unknown</span>
+	    </td>
+	  </tr>
+        
+
+	<tr>
+	  <th></th>
+	  <th>Telechat date</th>
+	  <td class="edit">
+	    
+	  </td>
+	  <td>
+	    
+	      
+	    
+
+	    
+	  </td>
+	</tr>
+
+	<tr>
+	  <th></th>
+	  <th>Responsible AD</th>
+	  <td class="edit">
+	    
+	  </td>
+	  <td>
+	    Sean Turner
+	  </td>
+	</tr>
+
+        
+	  
+	    <tr>
+	      <th></th>
+	      <th>IESG note</th>
+	      <td class="edit">
+	        
+	    </td>
+	    <td>
+	        Tim Polk (tim.polk@nist.gov) is the shepherd.
+	    </td>
+	  </tr>
+	  
+	
+
+	<tr>
+	  <th></th>
+	  <th>Send notices to</th>
+	  <td class="edit">
+	    
+	  </td>
+	  <td>
+	    tim.polk@nist.gov
+	  </td>
+	</tr>
+
+      </tbody>
+    
+
+    
+
+    <tbody class="meta">
+      
+
+    </tbody>
+  </table>
+
+  <div class="buttonlist">
+    <a class="btn btn-default btn-xs" href="mailto:draft-groves-eccsi@ietf.org?subject=Mail%20regarding%20draft-groves-eccsi"><span class="fa fa-envelope-o"></span> Email authors</a>
+    
+    <a class="btn btn-default btn-xs" href="https://datatracker.ietf.org/ipr/search/?submit=draft&amp;id=draft-groves-eccsi" rel="nofollow"><span class="fa fa-bolt"></span> IPR  <span class="badge">1</span></a>
+    <a class="btn btn-default btn-xs" href="https://datatracker.ietf.org/doc/rfc6507/references/" rel="nofollow"><span class="fa fa-long-arrow-left"></span> References</a>
+    <a class="btn btn-default btn-xs" href="https://datatracker.ietf.org/doc/rfc6507/referencedby/" rel="nofollow"><span class="fa fa-long-arrow-right"></span> Referenced by</a>
+    <a class="btn btn-default btn-xs" href="https://www.ietf.org/tools/idnits?url=https://www.ietf.org/archive/id/draft-groves-eccsi-01.txt" rel="nofollow" target="_blank"><span class="fa fa-exclamation"></span> Nits</a>
+    <div class="dropdown inline">
+      <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="ddSearchMenu" data-toggle="dropdown" aria-expanded="true">
+          <span class="fa fa-search"></span> Search lists <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li role="presentation"><a role="menuitem" href="https://mailarchive.ietf.org/arch/search?q=draft-groves-eccsi" rel="nofollow" target="_blank">IETF Mail Archive</a></li>
+        <li role="presentation"><a role="menuitem" href="https://www.google.com/search?as_q=draft-groves-eccsi&amp;as_sitesearch=www.ietf.org%2Fmail-archive%2Fweb%2F" rel="nofollow" target="_blank">Google</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+  </div>
+
+  
+    <pre>Internet Engineering Task Force (IETF)                         M. Groves
+Request for Comments: 6507                                          CESG
+Category: Informational                                    February 2012
+ISSN: 2070-1721
+
+            Elliptic Curve-Based Certificateless Signatures
+                 for Identity-Based Encryption (ECCSI)
+
+<span class="m_h">Abstract</span>
+
+   Many signature schemes currently in use rely on certificates for
+   authentication of identity.  In Identity-based cryptography, this
+   adds unnecessary overhead and administration.  The Elliptic Curve-
+   based Certificateless Signatures for Identity-based Encryption
+   (ECCSI) signature scheme described in this document is
+   certificateless.  This scheme has the additional advantages of low
+   bandwidth and low computational requirements.
+
+<span class="m_h">Status of This Memo</span>
+
+   This document is not an Internet Standards Track specification; it is
+   published for informational purposes.
+
+   This document is a product of the Internet Engineering Task Force
+   (IETF).  It has been approved for publication by the Internet
+   Engineering Steering Group (IESG).  Not all documents approved by the
+   IESG are a candidate for any level of Internet Standard; see Section
+   2 of RFC 5741.
+
+   Information about the current status of this document, any errata,
+   and how to provide feedback on it may be obtained at
+   http://www.rfc-editor.org/info/rfc6507.
+
+<span class="m_h">Copyright Notice</span>
+
+   Copyright (c) 2012 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+<span class="m_ftr">Groves                        Informational                     [Page 1]</span>
+<span class="m_hdr">RFC 6507           ECCSI for Identity-Based Encryption     February 2012</span>
+
+<span class="m_h">Table of Contents</span>
+
+   1. Introduction ....................................................2
+      1.1. Requirements Terminology ...................................3
+   2. Architecture ....................................................3
+   3. Notation ........................................................5
+      3.1. Arithmetic .................................................5
+      3.2. Representations ............................................6
+      3.3. Format of Material .........................................6
+   4. Parameters ......................................................7
+      4.1. Static Parameters ..........................................7
+      4.2. Community Parameters .......................................8
+   5. Algorithms ......................................................8
+      5.1. User Key Material ..........................................8
+           5.1.1. Algorithm for Constructing (SSK,PVT) Pair ...........8
+           5.1.2. Algorithm for Validating a Received SSK .............9
+      5.2. Signatures .................................................9
+           5.2.1. Algorithm for Signing ...............................9
+           5.2.2. Algorithm for Verifying ............................10
+   6. Security Considerations ........................................11
+   7. References .....................................................13
+      7.1. Normative References ......................................13
+      7.2. Informative References ....................................13
+   Appendix A. Test Data..............................................14
+
+<span class="m_h">1.  Introduction</span>
+
+   Digital signatures provide authentication services across a wide
+   range of applications.  A chain of trust for such signatures is
+   usually provided by certificates.  However, in low-bandwidth or other
+   resource-constrained environments, the use of certificates might be
+   undesirable.  This document describes an efficient scheme, ECCSI, for
+   elliptic curve-based certificateless signatures, primarily intended
+   for use with Identity-Based Encryption (IBE) schemes such as
+   described in [RFC6508].  As certificates are not needed, the need to
+   transmit or store them to authenticate each communication is
+   obviated.  The algorithm has been developed by drawing on ideas set
+   out by Arazi [BA] and is originally based upon the Elliptic Curve
+   Digital Signature Algorithm [ECDSA], one of the most commonly used
+   signature algorithms.
+
+   The algorithm is for use in the following context:
+
+      *  where there are two parties, a Signer and a Verifier;
+
+      *  where short unambiguous Identifier strings are naturally
+         associated to each of these parties;
+</pre>
+
+
+    
+      <a class="btn btn-default btn-block" href="https://datatracker.ietf.org/doc/rfc6507/?include_text=1"><span class="fa fa-caret-down"></span> Show full document text</a>
+    
+
+  
+
+        
+        
+	  </div>
+        
+
+	
+	<hr>
+	  <div class="col-md-12 col-sm-12">
+	    <div class="text-center padded">
+	        <a href="https://www.internetsociety.org/" class="padded">ISOC</a>
+	        <a href="https://trustee.ietf.org/" class="padded">IETF&nbsp;Trust</a>
+	        <a href="https://www.rfc-editor.org/" class="padded">RFC&nbsp;Editor</a>
+	        <a href="https://www.irtf.org/" class="padded">IRTF</a>
+	        <a href="https://www.ietf.org/iesg/" class="padded">IESG</a>
+	        <a href="https://www.ietf.org/" class="padded">IETF</a>
+	        <a href="https://www.iab.org/" class="padded">IAB</a>
+	        <a href="https://iaoc.ietf.org/" class="padded">IASA&nbsp;&amp;&nbsp;IAOC</a>
+	        <a href="https://tools.ietf.org/" class="padded">IETF&nbsp;Tools</a>
+	        <a href="https://www.iana.org/" class="padded">IANA</a>
+	    </div>
+	  </div>
+
+
+        <footer class="row col-md-12 col-sm-12">
+	  <div class="col-md-12">
+	    <div class="text-center">
+	      <p class="small text-muted">
+	        
+		  <a href="https://datatracker.ietf.org/release/about">About</a> |
+	          IETF Datatracker |
+	          <a href="https://datatracker.ietf.org/release/6.86.0.p1/">Version 6.86.0.p1</a> |
+	          2018-10-08 |
+	        
+		Report a bug:
+	        <a href="https://tools.ietf.org/tools/ietfdb/newticket">Tracker:<span class="fa fa-bug"></span></a>
+	        <a href="mailto:datatracker-project@ietf.org">Email:<span class="fa fa-envelope"></span></a>
+		<br>
+		  Python 2.7.13 |
+		  Django 1.11.16
+	      </p>
+	    </div>
+	  </div>
+        </footer>
+	
+
+      </div>
+
+      
+<!-- template: /a/www/ietf-datatracker/web/ietf/templates/debug.html -->
+
+
+
+      <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/jquery.min.js.下载"></script>
+      
+      <script>$(".visible-nojs").removeClass("visible-nojs");</script>
+      <script>$(".hidden-nojs").removeClass("hidden-nojs");</script>
+      <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/jquery.cookie.js.下载"></script>
+      <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/bootstrap.min.js.下载"></script>
+      <script src="./RFC 6507 - Elliptic Curve-Based Certificateless Signatures for Identity-Based Encryption (ECCSI)_files/ietf.js.下载"></script>
+      
+      
+  
+
+
+</body></html>

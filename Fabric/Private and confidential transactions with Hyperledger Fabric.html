@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<!-- saved from url=(0147)https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html -->
+<html lang="en" style="" class="applicationcache geolocation history postmessage svg websockets localstorage sessionstorage websqldatabase webworkers hashchange pointerevents canvas audio canvastext video webgl cssgradients multiplebgs opacity rgba inlinesvg hsla supports svgclippaths smil no-touchevents fontface generatedcontent textshadow cssanimations backgroundsize borderimage borderradius boxshadow csscolumns csscolumns-width csscolumns-span csscolumns-fill csscolumns-gap csscolumns-rule csscolumns-rulecolor csscolumns-rulestyle csscolumns-rulewidth csscolumns-breakbefore csscolumns-breakafter csscolumns-breakinside flexbox flexboxlegacy cssreflections csstransforms csstransforms3d csstransitions indexeddb indexeddb-deletedatabase js ibm-v18 ibm-cxtype-4g hires win chrome chrome6 webkit webkit5 ibm-grid-xlarge"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta name="viewport" content="width=device-width, initial-scale=1">      
+<link rel="icon" href="https://www.ibm.com/favicon.ico">
+<link rel="canonical" href="http://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html">
+<meta name="geo.country" content="ZZ">
+<meta name="dcterms.rights" content="© Copyright IBM Corporation 2018">
+<meta name="dcterms.date" content="2018-05-11">
+<meta name="description" content="Discover the mechanisms provided by Hyperledger Fabric to accommodate different levels of privacy and confidentiality for different network needs.">	
+<meta name="keywords" content="hyperledger fabric, blockchain, private, privacy, confidential, confidentiality, transactions, ZKP, zero-knowledge proof, user data, tttblkca">
+<meta name="robots" content="index,follow">
+<title>Private and confidential transactions with Hyperledger Fabric</title>
+    
+<script type="text/javascript" async="" charset="utf-8" id="utag_53" src="./Private and confidential transactions with Hyperledger Fabric_files/js"></script><script type="text/javascript" async="" charset="utf-8" id="utag_19" src="./Private and confidential transactions with Hyperledger Fabric_files/hotjar-42920.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="demandbase_js_lib" src="https://scripts.demandbase.com/ab057a07.min.js"></script><script type="text/javascript" async="" charset="utf-8" id="tealium_cormetrics2" src="./Private and confidential transactions with Hyperledger Fabric_files/eluminate.js.下载"></script><script id="loadedViaBxAnalytics-HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby" src="https://cdn.segment.com/analytics.js/v1/HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby/analytics.min.js" type="text/javascript" async=""></script><script type="text/javascript" id="www-widgetapi-script" src="./Private and confidential transactions with Hyperledger Fabric_files/www-widgetapi.js.下载" async=""></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/analytics-marketing.js.下载" type="text/javascript" async=""></script><script type="text/javascript" async="" charset="utf-8" id="dle_api_f9ccc086a06768964a42f397f37d0ad9992a271d8d9ddee72930370afe499f57" src="./Private and confidential transactions with Hyperledger Fabric_files/p_f9ccc086a06768964a42f397f37d0ad9992a271d8d9ddee72930370afe499f57.js.下载"></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/p_devwrks.js.下载" type="application/javascript" async=""></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/bluemix-analytics.min.js.下载" type="application/javascript" async=""></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/callback=_dl.fn.lotameApi.callback" type="application/javascript" async=""></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/iframe_api"></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/utag.js.下载" type="application/javascript" async=""></script><script src="https://cookie-sync.mybluemix.net/cookie/notice-prefs?callback=_dl.fn.cookieSync.callback" type="application/javascript" async=""></script><script src="./Private and confidential transactions with Hyperledger Fabric_files/saved_resource" type="application/javascript" async=""></script><script> 
+    digitalData = {
+        "page":{
+            "category":{
+                "primaryCategory":"SOFDCBLKZZ"
+            },
+            "pageInfo":{
+                "effectiveDate":"2018-05-11",
+                "language":"en",
+                "publishDate":"2018-05-11",
+                "publisher":"IBM Corporation",
+                "version":"v18",
+                "ibm":{ 
+                    "contentDelivery":"IBM developerWorks template",
+                    "contentProducer":"IBM developerWorks",
+                    "country":"ZZ",
+                    "owner":"developerWorks Content/Raleigh/IBM",
+                    "siteID":"DEVWRKS",
+                    "subject":"ZZ000",
+                    "type":"CT316",
+                    "topic":"blockchain network,transaction,Blockchain",
+                    "topicId":"1351,1346,1324",
+                    "contentArea":"blockchain,cloud",
+                    "contentAreaId":"70,47",
+                    "contentType":"article",
+                    "contentId":"1060896",
+                },
+                "keywords":"hyperledger fabric, blockchain, private, privacy, confidential, confidentiality, transactions, ZKP, zero-knowledge proof, user data, tttblkca",
+                "description":"Discover the mechanisms provided by Hyperledger Fabric to accommodate different levels of privacy and confidentiality for different network needs."
+            }
+        }
+    };
+    window._analytics = {
+        "coremetrics": false,
+        "optimizely": false,
+        "googleAddServices": false,
+        "addRoll": false,
+        "intercom": false,
+        "fullStory": false,
+        "hotjar": false,
+        "tealeaf": false,
+        "nps": false,
+        "segment_key": 'HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby'
+    };
+</script>
+	
+    <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@developerworks">
+<meta property="og:title" content="Private and confidential transactions with Hyperledger Fabric">
+<meta property="og:description" content="Learn all the ways this open source blockchain framework ensures custom levels of privacy and confidentiality">
+<meta property="og:image" content="https://www.ibm.com/developerworks/i/twitterdw-34781-openblockchain.png">
+<!-- Segment meta tag -->
+<meta name="segment" property="developerWorks (developerWorks)" producttitle="developerWorks" value="Blockchain English (developerWorks)">      
+<!-- SITE MON : START (DO NOT DELETE) -->
+<!-- developerWorks monitoring token -->
+<!-- SITE MON : END (DO NOT DELETE) -->
+
+<!-- HEADER_SCRIPTS_AND_CSS_INCLUDE -->
+<!-- <script src="//cdn.optimizely.com/js/5399420604.js"></script> -->
+<!-- BEGIN: Use this section to set page specific variables for the Page Tag -->
+<script language="JavaScript">var NTPT_PGEXTRA="ibmSkillLevel=3&ibmCmaId=1060896&ibmContentAreas=blockchain,cloud";</script>
+<!--END -->
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/ida_stats.js.下载"></script>
+<link href="./Private and confidential transactions with Hyperledger Fabric_files/www.css" rel="stylesheet">
+<link href="./Private and confidential transactions with Hyperledger Fabric_files/syntaxhighlighter.css" rel="stylesheet">
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/www.js.下载"></script><style></style>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/syntaxhighlighter.js.下载"></script>    
+<link href="./Private and confidential transactions with Hyperledger Fabric_files/tables.css" rel="stylesheet">
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/tables.js.下载"></script>   
+<!--  Masthead/footer  -->
+<link href="./Private and confidential transactions with Hyperledger Fabric_files/dw-mf-v18.css" rel="stylesheet">
+<!-- <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/alt-signedin-ux.css" rel="stylesheet" /> -->   
+<!--[if lt IE 9]>
+    <link href="//dw1.s81c.com/developerworks/css/dw-mf/v18/dw-mf-ie8fix.css?v=022216" rel="stylesheet" />
+<![endif]-->
+<link href="./Private and confidential transactions with Hyperledger Fabric_files/dw-article.css" rel="stylesheet">
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-auth-properties.js.下载"></script>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-auth.js.下载"></script>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-mf.js.下载"></script>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-include.js.下载"></script>     
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-article.js.下载"></script>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/dw-auto-links.js.下载"></script>     
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/tactic.js.下载"></script>
+<script src="./Private and confidential transactions with Hyperledger Fabric_files/tacticbindlinks.js.下载"></script>
+
+<!-- 
+<PageMap>
+    <DataObject type="document">
+        <Attribute name="topic">blockchain network,transaction,Blockchain</Attribute>
+        <Attribute name="topicId">1351,1346,1324</Attribute>
+        <Attribute name="contentArea">blockchain,cloud</Attribute>
+        <Attribute name="contentAreaId">70,47</Attribute>
+        <Attribute name="abstract">Discover the mechanisms provided by Hyperledger Fabric to accommodate
+            different levels of privacy and confidentiality for different network
+            needs.</Attribute>
+        <Attribute name="pub.date">2018-05-11</Attribute>
+        <Attribute name="contentType">article</Attribute>
+    </DataObject>
+</PageMap>
+-->        
+
+<style></style><style id="ibm-masthead-hidelinks">@media screen and (max-width: 457px) { .ibm-masthead-categories,#ibm-megamenu-sections{display:none} }@media screen and (max-width: 457px) { .ibm-mh-marketplace-link{display:none} }</style><style id="ibm-sitenav-menu-hidelinks">@media screen and (max-width: 593.6499938964844px) {.ibm-sitenav-menu-container .ibm-sitenav-menu-list > ul > li {display:none}}@media screen and (min-width: 594.6499938964844px) {.ibm-mobilemenu-sitenavmenu > ul > li {display:none}}</style><script type="text/javascript" async="" charset="utf-8" id="tiqapp" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.v.js.下载"></script><style type="text/css" class="jquery-comments-css">.jquery-comments ul.navigation li.active:after {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments ul.navigation ul.dropdown li.active {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-background {background: #2793e6 !important;</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-font {color: #2793e6 !important;}</style><style type="text/css" class="jquery-comments-css">.jquery-comments .highlight-font-bold {color: #2793e6 !important;font-weight: bold;}</style><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_28" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.28.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_19" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.19.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_53" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.53.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="LOTCC_10026" src="https://tags.crwdcntrl.net/c/10026/cc.js?ns=_cc10026&amp;pre=cn"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_45" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.45.js.下载"></script><script type="text/javascript" async="" charset="utf-8" id="utag_ibm.web_94" src="./Private and confidential transactions with Hyperledger Fabric_files/utag.94.js.下载"></script><style type="text/css">@media only screen and (max-width:480px){.truste_box_overlay{width: 100%!important;margin: 0px!important;max-width: 100%!important;box-shadow: rgb(0,0,0,0.2) 0px 0px 16px 2px!important;}}@media only screen and (min-width:481px){.truste_box_overlay{width: 80%!important;margin: 20px auto!important;max-width: 800px!important;box-shadow: rgb(0,0,0,0.2) 0px 0px 16px 2px!important;}}</style><style type="text/css">@font-face {font-family: "ibm-plex-sans"; src: url("https://1.www.s81c.com/common/fonts/plex/v1/ibmplexsans-regular.woff2") format("woff2");font-family: "ibm-plex-sans"; src: url("https://1.www.s81c.com/common/fonts/plex/v1/ibmplexsans-regular.woff") format("woff");}</style><script type="text/javascript" async="" charset="utf-8" id="tealium_visitor_service_45main" src="./Private and confidential transactions with Hyperledger Fabric_files/0165c434958a005c8d6517bc370c03073009306b00978"></script><script language="javascript" type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/50200000.js.下载"></script></head>
+<body id="ibm-com" class="ibm-type ibm-sitenav-menu ibm-sitenav-menu-sticky ibm-masthead-sticky ibm-masthead-sticky-showing">
+	
+<div id="ibm-top" class="ibm-landing-page">
+
+<!-- MASTHEAD_BEGIN -->
+<div id="ibm-masthead" role="banner" aria-label="IBM" class="ibm-mhtype-minimal hastransition">
+    <div id="ibm-mast-options">
+        <ul role="toolbar" aria-labelledby="ibm-masthead">
+            <li id="ibm-geo" role="presentation"><a href="http://www.ibm.com/planetwide/select/selector.html" role="button" aria-label="United States selected - Choose a country">United States</a></li>
+        </ul>
+    </div>
+    <div id="ibm-universal-nav" class="">    
+  
+        <nav role="navigation" aria-label="IBM">
+            <div id="ibm-home"><a href="http://www.ibm.com/us/en/?lnk=m">IBM®</a></div>
+            <ul id="ibm-menu-links" role="toolbar" aria-label="Site map" class="ibm-hide">
+                <li><a href="http://www.ibm.com/sitemap/us/en/">Site map</a></li>
+            </ul><div class="ibm-masthead-rightside"><div id="ibm-search-module" role="search" aria-labelledby="ibm-masthead" class="ibm-has-scope">
+            <div class="ibm-masthead-search-close"><p class="ibm-ind-link ibm-icononly ibm-padding-bottom-0"><a href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#" class="ibm-close-link ibm-nospacing">Close</a></p></div><form id="ibm-search-form" action="https://www.ibm.com/developerworks/search/" method="get" aria-labelledby="ibm-masthead">
+                <p>
+                    <label for="q">IBM</label>
+                    <input type="text" maxlength="100" value="" placeholder="Search" name="q" id="q" aria-label="Search IBM Developer" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="ibm-search-typeahead-container"><input name="lnk" type="hidden" value="mhsrch">
+                    <input type="hidden" value="utf" name="en">
+                    <input type="hidden" value="en" name="lang">
+                    <input type="hidden" value="20" name="nr">
+                    <span class="ibm-search-scope ibm-fadeout" aria-expanded="true"><input class="ibm-styled-checkbox" data-init="false" type="checkbox" name="sn" value="" id="ibm-mh-scopeoption"> <label for="ibm-mh-scopeoption">In Marketplace</label></span><button role="button" type="submit" id="ibm-search" class="ibm-search-link" value="Submit"><span class="ibm-access">Submit</span></button>
+                </p>
+            </form><form class="ibm-hide" id="ibm-default-scope-form" action="https://www.ibm.com/marketplace/search/us/en-us" method="get"><input name="terms" type="text"><input name="lnk" type="hidden" value="mhmpsrch"></form>
+        </div><div id="ibm-search-typeahead-container" aria-expanded="true" class="ibm-search-typeahead-container ibm-fadeout"></div><ul aria-label="Tools" role="menubar" class="ibm-masthead-iconsonly"><li role="presentation" class="ibm-masthead-item-signin"><button role="button" aria-haspopup="true" aria-owns="ibm-signin-minimenu-container" class="ibm-profile-link">My IBM</button><ul id="ibm-signin-minimenu-container" role="menu" aria-label="Profile" class="ibm-dropdown-menu">    <li class="ibm-dropdown-menu-primary" role="presentation" data-linktype="notifications">       <a class="" href="https://myibm.ibm.com/dashboard/?lnk=mmi" tabindex="0">My IBM</a>     </li>    <li class="ibm-dropdown-menu-primary menu-heading" role="presentation">       <span tabindex="0">IBM Developer</span>     </li>   <li class="ibm-dropdown-menu-primary ibm-signin-alt" role="presentation">     <a href="https://www.ibm.com/developerworks/dwwi/jsp/ssologin.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html&amp;lang=en&amp;a=dwmav" role="menuitem">Sign in</a>   </li>   <li class="ibm-dropdown-menu-primary dw-register-alt" role="presentation">     <a href="https://www.ibm.com/developerworks/dwwi/jsp/ssoregister.jsp?d=https%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html&amp;lang=en&amp;a=dwmav" role="menuitem">Register</a>   </li></ul></li><li role="presentation" class="ibm-masthead-item-menu"><button role="button" aria-haspopup="true" aria-owns="ibm-burger-menu-container" class="ibm-menu-link">Site navigation</button></li></ul></div> 
+        </nav>
+  
+        
+       
+    </div>
+</div><div class="ibm-mobilemenu ibm-hide" id="ibm-burger-menu-container" aria-labelledby="ibm-burgermenu-a11y" role="dialog" tabindex="0"><p class="ibm-hide" id="ibm-burgermenu-a11y">Site navigation</p><div class="ibm-mobilemenu-close"><p class="ibm-icononly ibm-fright ibm-ind-link ibm-nospacing"><a class="ibm-close-link" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html?lnk=hm#">Close</a></p></div><div class="ibm-mobilemenu-section ibm-mobilemenu-sitenavmenu"><ul role="menubar"><li class="ibm-mobile-section-heading ibm-mobile-sitename">
+        <a href="https://developer.ibm.com/?lnk=hm">IBM Developer</a>
+    </li>
+            <li role="presentation">
+                <a role="menuitem" href="https://developer.ibm.com/technologies?lnk=hm" tabindex="0">Topics</a>
+            </li>
+            <li role="presentation">       
+                <a role="menuitem" href="https://developer.ibm.com/community?lnk=hm" tabindex="-1">Community</a>
+            </li>
+            <li role="presentation">       
+                <a role="menuitem" href="https://developer.ibm.com/open?lnk=hm" tabindex="-1">More open source at IBM</a>
+            </li>       
+        </ul></div><div class="ibm-mobilemenu-section"><ul class="ibm-mobilemenu-mhlinks" aria-label="Discover IBM"><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">Marketplace</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="http://www.ibm.com/products/?lnk=hmhpmpr"><span>Marketplace</span></a></li><li><a href="http://www.ibm.com/analytics/us/en/?lnk=hmhpmpr_bua&amp;lnk2=learn"><span>Analytics</span></a></li><li><a href="https://www.ibm.com/automation?lnk=hmhpmpr_buau&amp;lnk2=learn"><span>Automation</span></a></li><li><a href="https://www.ibm.com/blockchain/?lnk=hmhpmpr_bubk&amp;lnk2=learn"><span>Blockchain</span></a></li><li><a href="http://www.ibm.com/cloud-computing/?lnk=hmhpmpr_bucl"><span>Cloud</span></a></li><li><a href="https://www.ibm.com/collaboration?lnk=hmhpmpr_buso"><span>Collaboration Solutions</span></a></li><li><a href="http://www.ibm.com/internet-of-things/?lnk=hmhpmpr_iot&amp;lnk2=learn"><span>Internet of Things</span></a></li><li><a href="http://www.ibm.com/it-infrastructure/us-en/?lnk=hmhpmpr_buit&amp;lnk2=learn"><span>IT Infrastructure</span></a></li><li><a href="http://www.ibm.com/mobile/?lnk=hmhpmpr_bumf&amp;lnk2=learn"><span>Mobile</span></a></li><li><a href="http://www.ibm.com/security/?lnk=hmhpmpr_buse&amp;lnk2=learn"><span>Security</span></a></li><li><a href="https://www.ibm.com/talent-management?lnk=hmhpmpr_buta&amp;lnk2=learn"><span>Talent Management</span></a></li><li><a href="https://www.ibm.com/watson/?lnk=hmhpmpr_buwa&amp;lnk2=learn"><span>Watson</span></a></li><li><a href="http://www.ibm.com/commerce/us-en/?lnk=hmhpmpr_bucom&amp;lnk2=learn"><span>Watson Customer Engagement</span></a></li><li><a href="http://www.ibm.com/watson/health/?lnk=hmhpmpr_buwh"><span>Watson Health</span></a></li></ul></div></div></li><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">Services</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="https://www-935.ibm.com/services/index.html?lnk=hmhpmse_ts"><span>Services</span></a></li><li><a href="http://www.ibm.com/financing?lnk=hmhpmse_fin&amp;lnk2=learn"><span>Financing</span></a></li><li><a href="http://www.ibm.com/industries/?lnk=hmhpmse_ie&amp;lnk2=learn"><span>Industry expertise</span></a></li><li><a href="http://www.ibm.com/training/?lnk=hmhpmse_tr&amp;lnk2=learn"><span>Training and skills</span></a></li></ul></div></div></li><li><a href="http://www.ibm.com/industries?lnk=hmmin">Industries</a></li><li><div data-widget="showhide" data-type="panel" class="ibm-show-hide ibm-widget-processed"><h2><a href="javascript:void();">Developers</a></h2><div class="ibm-container-body" style="display: none;"><ul><li><a href="https://www.ibm.com/developerworks/?lnk=hmhpmdev_dw&amp;lnk2=learn"><span>developerWorks</span></a></li><li><a href="https://developer.ibm.com/api/list?lnk=hmhpmdev_api&amp;lnk2=learn"><span>API</span></a></li><li><a href="https://www.ibm.com/developerworks/learn/cloud/?lnk=hmhpmdev_cl&amp;lnk2=learn"><span>Cloud</span></a></li><li><a href="https://developer.ibm.com/code/open/?hpmdev_os=&amp;lnk2=learn&amp;lnk=hm"><span>Open source</span></a></li><li><a href="https://www.ibm.com/developerworks/learn/cognitive/?lnk=hmhpmdev_dw&amp;lnk2=learn"><span>Watson</span></a></li></ul></div></div></li><li><a href="https://www.ibm.com/support/home/?lnk=hmmsu_usen">Support</a></li></ul></div></div><div class="ibm-mhplaceholder"></div><!-- MASTHEAD_END -->
+	    
+<!-- LAYOUT -->
+<div id="ibm-content-wrapper">
+    <!-- LEADSPACE_BEGIN -->
+    <header role="banner" aria-labelledby="ibm-pagetitle-h1">
+        
+        <!-- MASTHEAD_SITENAV_BEGIN -->
+        <div class="ibm-sitenav-menu-container" data-widgetprocessed="true">
+    <div class="ibm-sitenav-menu-name">
+        <a href="https://developer.ibm.com/">IBM Developer</a>
+    </div>
+    <div class="ibm-sitenav-menu-list">
+        <ul role="menubar">
+            <li role="presentation">
+                <a role="menuitem" href="https://developer.ibm.com/technologies" tabindex="0">Topics</a>
+            </li>
+            <li role="presentation">       
+                <a role="menuitem" href="https://developer.ibm.com/community" tabindex="-1">Community</a>
+            </li>
+            <li role="presentation">       
+                <a role="menuitem" href="https://developer.ibm.com/open" tabindex="-1">More open source at IBM</a>
+            </li>       
+        </ul>
+    </div>
+</div>
+<!-- BEGIN IBM DEVELOPER BANNER -->
+<style>
+    #dw-mast-banner {
+        background-color: #000;
+        /* min-height: 75px; */
+    }  
+    #dw-mast-banner.ibm-band { padding: 0; }
+    #dw-mast-banner .ibm-columns { padding: 0; min-height: 100px; }
+    #dw-mast-banner .dw-mast-banner-txt { padding: 10px 0 0; margin-left: 2rem; color: #4ca7a5; display: inline; } 
+    #dw-mast-banner .dw-mast-banner-cta { padding: 14px 0 0 20px; margin-right: 2rem; color: #4ca7a5; display: inline; }
+    #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.125rem; }
+    #dw-mast-banner .dw-mast-banner-txt span { white-space: nowrap; }
+    #dw-mast-banner .ibm-btn-pri {
+        background-color: #000;
+        border: 1px solid #4ca7a5;
+        color: #4ca7a5;
+    }
+    #dw-mast-banner .ibm-btn-pri:hover {
+        background-color: #4ca7a5;
+        color: #fff;
+    }
+    @media only screen and (max-width:1100px) {
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 20px; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { font-size: 1.0rem; }
+    }
+    @media only screen and (max-width:999px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 0.5rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0.5rem; }
+    }
+    @media only screen and (max-width:959px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 2rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 2rem; }
+        #dw-mast-banner .ibm-btn-pri { white-space: nowrap; font-size: .875rem; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 {
+            font-size: .9375rem;
+            text-align: center;
+            font-weight: 400;
+        }
+    }
+    @media only screen and (max-width:600px) {
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 1rem; }
+    }
+    @media only screen and (max-width:579px) {
+        #dw-mast-banner .dw-mast-banner-txt, #dw-mast-banner .dw-mast-banner-cta { display: block; }
+        #dw-mast-banner .dw-mast-banner-txt { margin-left: 1rem; margin-right: 1rem; } 
+        #dw-mast-banner .dw-mast-banner-cta { margin-right: 0; text-align: center; }
+        #dw-mast-banner .dw-mast-banner-txt p.ibm-h4 { padding: 0; }
+        #dw-mast-banner .dw-mast-banner-cta { padding: 10px 0 0 0; }
+    } 
+</style>
+<div id="dw-mast-banner" class="ibm-band">
+    <div class="ibm-vertical-center">
+        <div class="ibm-center-block ibm-vertical-center">
+            <div class="dw-mast-banner-txt ibm-plex-sans-regular">                
+                <p class="ibm-h4">We’ve done a little recoding. Introducing <span>IBM Developer</span>. The next level of coding, content, and community.</p>                
+            </div>
+            <div class="dw-mast-banner-cta">
+                <p class="ibm-button-link"><a href="https://developer.ibm.com/blogs/2018/08/30/welcome-ibm-developer/" class="ibm-btn-pri">Learn more</a></p>
+            </div>
+        </div>
+    </div>
+</div>        <!-- MASTHEAD_SITENAV_END -->
+        
+        <!-- NAVIGATION_TRAIL_BEGIN -->
+        <div id="ibm-leadspace-head" class="ibm-alternate">
+            <div id="ibm-leadspace-body">
+                <nav aria-label="Breadcrumb" role="navigation">                     
+                            <ul id="dw-navigation-trail" itemscope="" itemtype="http://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://www.ibm.com/developerworks/learn/"><span itemprop="name">Learn</span></a><meta itemprop="position" content="1"></li><li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item" href="https://developer.ibm.com/blockchain/"><span itemprop="name">Blockchain</span></a><meta itemprop="position" content="2"></li></ul>
+                </nav>
+            </div>
+        </div>
+        <!-- NAVIGATION_TRAIL_END -->
+        
+    </header>
+    <!-- LEADSPACE_END -->
+    
+    <!-- MAIN_CONTENT_BEGIN -->
+    <main role="main" aria-label=""> 
+        <div id="ibm-pcon">
+            <!-- BEGIN_IBM-CONTENT -->
+            <div id="ibm-content">
+                <!-- BEGIN_IBM-CONTENT-BODY -->
+                <div id="ibm-content-body">
+                    <!-- BEGIN_IBM-CONTENT-MAIN -->
+                    <div id="ibm-content-main" class="dw-article">                        
+                        <!-- BEGIN_INTERIOR-COLUMNS -->
+                                <div class="ibm-columns dw-article-toc">
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_BEGIN -->  
+                                    <div id="dw-article-toc-container" class="ibm-col-6-2">
+                                        <div id="dw-article-toc-body" style="width: 460px; height: 352px;" data-widget="scrollable" data-height="352" class="ibm-widget-processed"><div class="nano-content" tabindex="-1" style="right: -17px;">
+                                            <h2>Contents</h2><div class="ibm-alternate-rule"><hr></div><ul role="directory" aria-label="Table of contents" class="ibm-plain-list"><li class=""><a onclick="tocLink(&#39;#ibm-pagetitle-h1&#39;)" role="link" tabindex="0">Introduction</a></li><li class=""><a onclick="tocLink(&#39;#N100A4&#39;)" role="link" tabindex="0">Privacy in public vs. private blockchain systems</a></li><li class=""><a onclick="tocLink(&#39;#N100BA&#39;)" role="link" tabindex="0">3 privacy mechanisms in Hyperledger Fabric</a></li><li class=""><a onclick="tocLink(&#39;#N100C3&#39;)" role="link" tabindex="0">1. Channels</a></li><li class=""><a onclick="tocLink(&#39;#pt&#39;)" role="link" tabindex="0">2. Private transactions</a></li><li class="dw-highlight"><a onclick="tocLink(&#39;#zkp&#39;)" role="link" tabindex="0">3. Zero-knowledge proof (ZKP) technologies</a></li><li class=""><a onclick="tocLink(&#39;#N10153&#39;)" role="link" tabindex="0">Differences from other blockchain technologies</a></li><li><a onclick="tocLink(&#39;#N10166&#39;)" role="link" tabindex="0">Conclusion</a></li><li><a onclick="tocLink(&#39;#N1017E&#39;)" role="link" tabindex="0">Next steps</a></li><li><a onclick="tocLink(&#39;#artdownload&#39;)" role="link" tabindex="0">Downloadable resources</a></li><li><a onclick="tocLink(&#39;#icomments&#39;)" role="link" tabindex="0">Comments</a></li></ul>
+                                        </div><div class="nano-pane" style="opacity: 1; visibility: visible;"><div class="nano-slider" style="height: 243px; transform: translate(0px, 0px);"></div></div></div>
+                                    </div>
+                                    <!-- LEFT_6_2_CONTENT_COLUMN_END -->
+                                    
+                                    <!-- CENTER_6_4_CONTENT_COLUMN_BEGIN -->
+                                    <div class="ibm-col-6-4">
+                                        <h1 id="ibm-pagetitle-h1" class="ibm-h1">Private and confidential transactions with Hyperledger Fabric</h1><p class="dw-article-subhead">How this open source blockchain framework ensures custom levels of
+            privacy and confidentiality</p>
+                                        <!-- Article Top Bar -->
+                                                <div class="ibm-columns dw-article-topbar">
+                                                    <!-- Author and article info. -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 dw-article-metadata">
+                                                        <div class="dw-article-authordate"><span class="dw-article-author"><a href="https://www.linkedin.com/in/elli-androulaki-3a32a54/">Elli Androulaki<span><img width="42" height="42" src="./Private and confidential transactions with Hyperledger Fabric_files/p-eandroulaki60.jpg" alt="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/p-eandroulaki.jpg"></span></a></span>, <span class="dw-article-author"><a href="https://www.linkedin.com/in/sharon-weed-cocco-a4a19b69/">Sharon Weed Cocco<span><img width="42" height="42" src="./Private and confidential transactions with Hyperledger Fabric_files/p-scocco60.jpg" alt="Author photo - Sharon Cocco"></span></a></span>, and <span class="dw-article-author"><a href="https://developer.ibm.com/code/author/chrisfer/">Chris Ferris<span><img width="42" height="42" src="./Private and confidential transactions with Hyperledger Fabric_files/p-cferris60.jpg" alt="Author photo - Chris Ferris"></span></a></span><br><span class="dw-article-pubdate">Published on May 11,  2018</span></div>
+                                                    </div>
+                                                    <!-- Social -->
+                                                    <div class="ibm-col-6-2 ibm-col-medium-6-4 ibm-col-small-6-2 dw-article-social">
+                                                        <!-- Sharing links -->
+                                                        <div id="dw-article-share-inline">
+                                                            <div class="dw-article-sharelink-inline">
+                                                                <div class="ibm-sharethispage"><h4 class="ibm-bold">Share this page</h4><p class="ibm-icononly"><a class="ibm-facebook-encircled-link" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html&amp;t=Private%20and%20confidential%20transactions%20with%20Hyperledger%20Fabric" data-id="facebook" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Facebook</a><a class="ibm-twitter-encircled-link" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fibm.co%2F2wxBCPI&amp;text=Private%20and%20confidential%20transactions%20with%20Hyperledger%20Fabric&amp;via=developerWorks" data-id="twitter" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Twitter</a><a class="ibm-linkedin-encircled-link" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html&amp;title=Private%20and%20confidential%20transactions%20with%20Hyperledger%20Fabric" data-id="linkedin" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Linked In</a><a class="ibm-googleplus-encircled-link" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html&amp;t=Private%20and%20confidential%20transactions%20with%20Hyperledger%20Fabric" data-id="googleplus" onclick="return IBMCore.common.module.sharethispage.gotoUrl(window.open(), this);">Google+</a><a class="ibm-email-encircled-link" href="mailto:?subject=Private%20and%20confidential%20transactions%20with%20Hyperledger%20Fabric&amp;body=http%3A%2F%2Fwww.ibm.com%2Fdeveloperworks%2Fcloud%2Flibrary%2Fcl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof%2Findex.html" data-id="email" onclick="">E-mail this page</a></p></div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Number of comments and link to comments -->
+                                                        <div id="dw-article-cmts">
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink(&#39;#icomments&#39;)" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#icomments" role="link" tabindex="0" aria-label="Comments">
+                                                                    <img src="./Private and confidential transactions with Hyperledger Fabric_files/dw-article-cmt-icon.png" width="29" height="29" alt="Comments">
+                                                                </a>
+                                                            </div>
+                                                            <div class="dw-article-cmtslink">
+                                                                <a onclick="tocLink(&#39;#icomments&#39;)" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#icomments" role="link" tabindex="0">
+                                                                    <div id="nCmts">0</div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <!-- Article Body -->
+                                        
+                                        <p>In industries of every stripe, news of significant data breaches seems to
+                surface on a weekly basis. This vulnerability has elevated awareness of
+                how critical it is to preserve the privacy of user data. <em>Privacy</em>
+                is defined as the right of each individual or legal entity to control the
+                degree to which they will share their personal or business information
+                with their environment.</p><div class="ibm-pull-quote ibm-h3"><blockquote><p><em class="dw-pullquote"><span class="dw-pullquote-open">“</span>In transaction systems, such as blockchain networks,
+                    privacy is frequently achieved by mechanisms that enforce the
+                    confidentiality of data and the anonymity of transaction
+                    participants.<span class="dw-pullquote-close">”</span></em></p></blockquote></div><p><em>Data confidentiality</em> mechanisms ensure that individuals or
+                organizations are prevented from accessing data that they are not
+                authorized to access, such as classified information of other
+                organizations’ transactions. <em>Anonymity</em> requires that participants
+                of transactions are concealed.</p><p>Blockchain technology has inspired novel techniques to help address privacy
+                concerns in a decentralized setting. However, as different blockchain
+                systems come with different privacy features and models, each use case
+                will dictate the best approach or blockchain technology required.</p><h2 id="N100A4" class="ibm-h2">Privacy in public vs. private blockchain systems</h2><p>Public (in other words, permissionless) blockchain systems like Bitcoin
+                were the first to face privacy challenges. Participation in these systems
+                is open to anyone and, as such, user behavior is shielded behind virtual
+                pseudonyms (or "addresses") that users generate to represent themselves in
+                their transactions. On the other hand, transaction details are in the
+                clear, and available on the public ledger of the system.</p><p>In certain enterprise use cases, government regulations require
+                understanding who is involved in the transactions, thus preventing the use
+                of public blockchain systems (such as Bitcoin) where identities are
+                pseudonymous. Further, the public availability of the content of
+                transactions in such systems can be problematic for numerous business use
+                cases. Why?&nbsp;Imagine a business obtaining computer parts from a vendor.&nbsp;
+                Given the large volume of computer parts purchased, the supplier provides
+                a discount to the business when trading the asset for currency. For the
+                supplier, the actual discount is sensitive business information, as the
+                supplier may not want to provide the same discount to businesses who
+                purchase lower volumes.</p><p>As a response to these challenges, a couple of blockchain systems have been
+                introduced, built on top of Bitcoin.
+                Blockstream’s
+                Confidential Transactions and Assets
+                 is a prominent example. It
+                allows pseudonymous transfer of coins and assets without leaking the
+                actual value of the coins or type of assets that are being exchanged. ZeroCash
+                is another example. It's an open network that offers stronger privacy
+                where — in addition to concealing the value of the assets exchanged
+                — it conceals the owner of the coins as well as the actual
+                transaction graph. However, as all these systems target open networks,
+                they offer unconditional privacy.</p><p>Permissioned blockchains have emerged as an alternative to public ones to
+                address enterprise needs for having known and identifiable participants.
+                They've achieved the scale, confidentiality, and privacy necessary to
+                enable enterprise applications.</p><h2 id="N100BA" class="ibm-h2">3 privacy mechanisms in Hyperledger Fabric</h2><p><a href="https://www.hyperledger.org/projects/fabric" target="new">Hyperledger Fabric</a> is a permissioned blockchain, which means it
+                is equipped with a membership infrastructure that enables participants of
+                the network to both strongly authenticate themselves in transactions, and
+                prove authorization to perform a variety of system operations, such as
+                reconfiguration. Starting from its permissioned nature, Hyperledger Fabric
+                offers mechanisms to accommodate multiple flavors of privacy, depending on
+                the use case.</p><div class="dw-article-head-container"><div class="dw-article-step"><div class="dw-article-stepnum">1</div></div><div class="dw-article-h2"><h2 id="N100C3" class="ibm-h2">Channels in Hyperledger
+                Fabric</h2></div></div><p>Hyperledger Fabric's channel architecture can offer privacy in certain
+                cases.</p><div class="ibm-pull-quote ibm-h3"><blockquote><p><em class="dw-pullquote"><span class="dw-pullquote-open">“</span>A channel is like a virtual blockchain network that sits
+                    on top of a physical blockchain network with its own access rules.
+                    Channels employ their own transaction ordering mechanism and thus
+                    provide scalability, ultimately allowing for effective ordering and
+                    partition of huge amounts of data.<span class="dw-pullquote-close">”</span></em></p></blockquote></div><p>Channels in Hyperledger Fabric are configured with access policies that
+                govern access to the channel’s resources (chaincodes, transactions, and
+                ledger state), thus preserving the privacy and confidentiality of
+                information exclusively within the nodes that are in the channel. Channels
+                achieve better quality of robustness when a node is down given alternate
+                paths to get to the destination, while also providing scalability allowing
+                for effective sharing of huge amounts of data.</p><p>From a privacy perspective, channels are&nbsp;useful in cases where a subgroup
+                of the blockchain network’s participants have a lot of transactions in
+                common (enough to justify the creation of a new broadcast order channel),
+                and these transactions can be processed with no dependency on state
+                controlled by entities outside this group.</p><div class="dw-article-sidebar ibm-background-cool-white-20"><h5>How CLSNet is using channels</h5><p><a href="https://www.cls-group.com/products/processing/clsnet/">CLSNet</a> 
+                    is a revolutionary FX product that addresses the
+                    wider post-trade processing needs of FX market participants. Built on
+                    a distributed ledger technology platform, CLSNet covers trades
+                    settling outside core CLS Settlement while introducing standardization
+                    and automation for the entire FX market.</p><p>CLSNet utilizes key privacy
+                    and confidential capabilities in Hyperledger Fabric to achieve their
+                    business objective. <a href="https://www.youtube.com/watch?v=uiHh7fKS6aU" target="new">Learn more in this video</a>.
+                </p></div><p>Bilateral business relationships with a heavy volume of transactions can
+                meet their privacy requirements via channels. Take the example of the
+                computer parts supplier. The supplier could establish a different channel
+                with each business partner to serve their bilateral business relationship.
+                Of course, the rate of transactions should be high enough and the number
+                of business partners (and resulting channels) should be low enough for
+                this use case to also preserve the scalability advantages of the network’s
+                channel architecture. The channel access configurability allows for
+                preserving both the privacy of the supplier and each of its partners
+                through shielding the entire transactions of theirs from parties outside
+                this channel.</p><p>Channels can be further used in combination with <a href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#pt">private
+                    transactions</a> and <a href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#zkp">zero-knowledge proof
+                    technologies</a> as described below to strengthen privacy and
+                confidentiality.</p><div class="dw-article-head-container"><div class="dw-article-step"><div class="dw-article-stepnum">2</div></div><div class="dw-article-h2"><h2 id="pt" class="ibm-h2">Private transactions in Hyperledger Fabric</h2></div></div><p>Private transactions offer transaction privacy at a more fine-grained level
+                than channels.</p><div class="ibm-pull-quote ibm-h3"><blockquote><p><em class="dw-pullquote"><span class="dw-pullquote-open">“</span>Verified.Me by SecureKey Technologies relies on strong
+                    privacy and confidentiality requirements. The solution depends on
+                    minimizing data disclosure and retention to appropriate parties, while
+                    still retaining the evidence of actions taken in the network. This
+                    balance is fundamental, and the foundation is provided in Hyperledger
+                    Fabric with the combination of Channels and Private Transactions.
+                    Watch the video to understand the real business value at work
+                    utilizing Hyperledger Fabric technology.<span class="dw-pullquote-close">”</span></em></p><p class="dw-pullquote-source">Greg Wolfond, CEO, SecureKey
+                    Technologies</p></blockquote></div><div itemscope="video" itemtype="http://schema.org/VideoObject"><meta itemprop="thumbnailURL" content="thumbnail4.gif"><meta itemprop="description" content="For more in-depth information about the subject, watch this video: ."><meta itemprop="name" content="Building trusted, digital identity with blockchain"><meta itemprop="contentURL" content="//www.youtube.com/watch?v=nyqhytBYQCc"><meta itemprop="uploadDate" content="2018-05-11"><meta itemprop="duration" content="PT02M10S"><div data-widget="videoplayer" data-videodisplay="inline" data-videoid="nyqhytBYQCc" data-videotype="youtube" data-customplaceholder="true" data-showvideotitle="true" data-titledisplaytype="overlay" data-showimageplaybutton="true" class="ibm-video-player-con"><div><a href="https://www.youtube.com/watch?v=nyqhytBYQCc" class="ibm-video-placeholder" aria-label="Youtube - Building trusted, digital identity with blockchain"><span class="ibm-play-link"></span><img class="ibm-resize" src="./Private and confidential transactions with Hyperledger Fabric_files/thumbnail4.gif" height="330" width="940" alt="Building trusted, digital identity with blockchain"><div class="ibm-video-info"><div class="ibm-video-duration"><p class="ibm-padding-bottom-0">02:10</p></div><div class="ibm-video-title ibm-bold"><p class="ibm-padding-bottom-0">Building trusted, digital identity with blockchain</p></div></div></a></div></div></div><p>The database storing the private data is updated alongside the public
+                ledger as transactions containing references to private data are
+                committed. In fact, the hashes on the public ledger serve as verifiable
+                proof of the data. Private transactions can be combined with anonymous
+                client authentication (see next section) to avoid leaking the connection
+                between the identity of the transaction's creator and the ledger stored
+                (hashed) data.</p><p>This feature is especially useful in cases where, for regulatory or legal
+                reasons, private data is not allowed to reside off the premise of the
+                parties involved in the transaction. Consider an example in the healthcare
+                sector where a patient's health information should be released only for a
+                specified amount of time. For example, a patient's prescription history
+                may be made available to a specialist for a period of time before a
+                specific surgery occurs. Private transactions would ensure data
+                confidentiality in only allowing the patient and the specialist to see the
+                information for a specified amount of time while also recording the hash
+                of the data as evidence that the transaction occurred.&nbsp; Privacy is
+                achieved in that there is control over who can access the actual sensitive
+                data. If anonymous client authentication is used in addition to this (see
+                the next section), stronger privacy would be offered as the identity of
+                the entity that introduced or updated the (hashed) record will also be
+                concealed.</p><p>Private transactions should be used with care in cases where the pattern of
+                private data updates is also sensitive information and could be used to
+                derive the actual private data. Although Hyperledger Fabric architecture
+                prevents unauthorized access to the actual private data, shared ledger
+                participants can still see when a private data (hashed) entry is modified.
+                In the previous example, if a private data entry represents the number of
+                visits by a specific patient to a hospital (assuming the patient has
+                regular weekly meetings with his or her doctor), then patterns of updates
+                to this entry could provide information about the reason for that
+                patient’s visit to the doctor (for example, that the patient suffers from
+                chronic disease).</p><p>While private transactions protect the actual private data from being
+                directly accessed by unauthorized parties, they do not prevent public
+                ledger participants from detecting when this private data is being
+                modified. Private data hashes occupy key-value entries in the ledger
+                state, whose changes are publicly available.</p><p>Also, private transactions do not conceal the
+                parties who are allowed access to the private data. This information is
+                available on the ledger for private data dissemination to take place
+                properly.</p><p>Finally, private transactions would need to be accompanied with anonymous
+                client authentication mechanisms (described in the next section) to avoid
+                leaking the connection between the identity of the transaction's creator
+                and the ledger stored (hashed) data.</p><div class="dw-article-head-container"><div class="dw-article-step"><div class="dw-article-stepnum">3</div></div><div class="dw-article-h2"><h2 id="zkp" class="ibm-h2">Zero-knowledge proof
+                (ZKP) technologies in Hyperledger Fabric</h2></div></div><p>Zero-knowledge proof
+                
+                primitives enable a party who possesses a secret (the prover) to prove to
+                another party (the verifier) that its secret satisfies a certain set of
+                properties (knowledge) without revealing the actual secret
+                (zero-knowledge).</p><div class="ibm-pull-quote ibm-h3"><blockquote><p><em class="dw-pullquote"><span class="dw-pullquote-open">“</span>A zero-knowledge proof (ZKP) allows a “prover” to assure a
+                    “verifier” that they have knowledge of a secret without revealing the
+                    secret itself. It's a way to show you know something that satisfies a
+                    statement without showing what you know.<span class="dw-pullquote-close">”</span></em></p></blockquote></div><p>Here's a basic example to demonstrate the power of ZKP. If you show your ID
+                to the bouncer at a bar, you end up revealing your name, address, and
+                age.&nbsp;If you used ZKP, you would be able to transform your ID into another
+                form that would preserve the fact that it is a valid ID and the fact that
+                you meet the bar’s age requirements, while concealing your name, address,
+                and exact age.</p><p>Two privacy aspects of Hyperledger Fabric will be achieved using ZKPs:
+                Anonymous client authentication with Identity Mixer, and
+                privacy-preserving exchange of assets with Zero-Knowledge Asset Transfer
+                (ZKAT). We'll cover both in the next sections.</p><h3 id="N10128" class="ibm-h3">Anonymous client authentication with Identity
+                Mixer</h3><p><a href="http://hyperledger-fabric.readthedocs.io/en/release-1.1/idemix.html">Identity Mixer</a> is available in the Hyperledger Fabric 1.1 tech
+                preview (and coming as a release feature in Hyperledger Fabric 1.2). It
+                leverages ZKP to offer anonymous authentication for clients in their
+                transactions. ZKP protocols take place between the Fabric client whose
+                secret is its actual identity — and any attributes associated with
+                it — and the rest of network entities, such as&nbsp;its peers. These
+                entities wish to verify that the creator of a transaction is a member of a
+                particular organization (known as a "membership proof"), or that it is in
+                possession of a specific set of attributes (known as "selective disclosure
+                of attributes").</p><p>In both cases, the protocols guarantee that nothing is revealed about the
+                client’s identity beyond whether the corresponding statement is true.</p><h3 id="N10136" class="ibm-h3">Privacy-preserving exchange of assets with Zero-Knowledge
+                Asset Transfer (ZKAT)</h3><p> In an upcoming
+                release, Hyperledger Fabric will integrate ZKP into a wider range of
+                applications targeting asset management. Demonstrated at <a href="https://www.coindesk.com/events/consensus-2018/">Consensus
+                    2018</a>, the Hyperledger Fabric community showed the next evolution
+                and use of ZKP to accommodate privacy-preserving asset management with
+                audit support (also known as Zero-Knowledge Asset Transfer, or ZKAT). It
+                allows transactors to issue assets and request transfer of their assets
+                without revealing anything to the public ledger for the assets being
+                exchanged beyond the fact that the transfer complies with the asset
+                management rules (that each asset is transferred at its owner's request,
+                and there is no new value created through the transfer). ZKAT is built on
+                top of anonymous authentication mechanisms offered by Identity Mixer.</p><p>Unlike other privacy-preserving asset management systems for blockchain,
+                ZKAT is tailored to the needs of enterprise networks. In particular,
+                auditability of the privacy-preserving transactions is a crucial
+                differentiator from other schemes available. Each user is assigned a
+                specific auditor who is entitled unlimited access to all the transactions
+                of that user. The auditors are passive; they may&nbsp;come in afterwards and
+                extract the confidential information of all transactions the audited user
+                is involved in, but they cannot access the data for any other party.</p><p>Three privacy asset management models (based on unspent transaction output
+                model exclusively) are currently adopted by existing blockchain systems.
+                You can see them illustrated in the next figure, where three banks (Bank
+                A, Bank B, and Bank C) trade three types of assets on the blockchain
+                (Loyyal points, Water Canary, and MUFG ones).</p><img src="./Private and confidential transactions with Hyperledger Fabric_files/fig1e.png" class="ibm-downsize" alt="" height="538" width="1251"><p class="ibm-ind-link"><a class="ibm-popup-link" onclick="IBMCore.common.widget.overlay.show(&#39;N10147&#39;);return false;" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#N10147">View image at full size</a></p><p>In the figure, the model on the left has no privacy mechanism. The model in
+                the middle supports full privacy, concealing the identities of transaction
+                participants and traded assets details. The model on the right
+                demonstrates the secure auditing capability of ZKAT the auditor assigned
+                to a specific Bank is allowed unrestricted access to all transactions
+                involving this bank.</p><p>
+                Audit-enabled privacy is useful particularly in financial use cases.&nbsp;Banks
+                make money by lending at rates higher than the cost of money they
+                acquired. As a result, if a bank were to use a blockchain network with
+                this advanced ZKP capability applied, they would want to be able to
+                exchange assets (money) and record the corresponding transactions in the
+                shared ledger without revealing the fact that they are transacting, with
+                whom they transact, or the amount of the assets they are exchanging in
+                their transactions. Failure to do so would clearly compromise their
+                confidentiality regulations, and expose their business models.</p><p>With zero-knowledge proof, transactions containing verifiable proof that
+                the asset (money) is exchanged are available on the ledger, without
+                revealing the lending rates or the quantity and parties a bank trades,
+                allowing the bank at any particular time to understand the liquidity of
+                what they have in cash. The additional advantage with Hyperledger Fabric
+                is they can now be audited based on ZKAT.</p><h2 id="N10153" class="ibm-h2">Differences from other blockchain technologies</h2><p>Zero-knowledge proof protocols for asset management implemented on
+                Hyperledger Fabric
+                
+                permissioned blockchains are state of the art. Strong privacy is supported
+                where not only the anonymity of transaction participants is preserved but
+                also complete unlinkability of the assets transferred from one party to
+                the other (that is, UTXO graph concealment).</p><p>In addition, these protocols are tailored to the needs of permissioned
+                systems. The long-term identities of individual users are considered,
+                providing strong accountability and non-repudiation of user participation
+                in transactions, and offering strong and secure auditing features on the
+                privacy-preserving transactions that are announced  in the
+                blockchain. Hyperledger Fabric protocols  support an audit
+                model where auditors are assigned to one or more users in the system but
+                are not involved in transactions. These protocols guarantee that auditors
+                will later be able to audit transactions of the users assigned to them,
+                given only the transactions logs stored in the blockchain.</p><p>On a more technical level, protocols in Hyperledger Fabric rely on standard
+                cryptographic assumptions and exhibit a lightweight setup that can be
+                easily decentralized. Last but not least, these demonstrate constant
+                transaction creation and validation times that do not depend on the number
+                of transactions  already  submitted to the
+                ledger.</p><h2 id="N10166" class="ibm-h2">Conclusion</h2><p>Over the past several years, blockchain has become recognized as a
+                 game-changer for many industries. The year 2018 will
+                continue to bring state-of-the-art
+                 privacy and
+                confidentiality enhancements, as more permissioned DLTs
+                 move into production. In this article,
+                we've discussed privacy features in existing blockchain systems and the
+                use cases they're best suited to, as well as new enhancements soon to be
+                available in Hyperledger Fabric.</p><p>Depending on your network's needs for
+                privacy and confidentiality, application  developers may
+                chose to implement Hyperledger Fabric channels, private transactions,
+                and/or different levels of zero-knowledge
+                proof,
+                including anonymous client authentication with Identity Mixer and
+                privacy-preserving asset management with audit support (Zero-Knowledge
+                Asset Transfer, ZKAT).
+                
+                Hyperledger Fabric is bringing a new level playing field to permissioned
+                enterprise blockchains.</p><h2 id="N1017E" class="ibm-h2">Next steps</h2><ul class="ibm-bullet-list"><li>IBM Blockchain runs on Hyperledger Fabric. Let the new IBM Blockchain
+                    Platform Starter Plan (free while in beta) help you <a href="https://www.ibm.com/developerworks/cloud/library/cl-ibm-blockchain-101-quick-start-guide-for-developers-bluemix-trs/index.html" target="new"><strong>kick-start your blockchain
+                    network</strong></a>.<br>&nbsp;</li><li>Once you launch your Starter Plan instance, then <a href="https://www.ibm.com/developerworks/cloud/library/cl-deploy-blockchain-starter-plan-network/index.html" target="new"><strong>deploy a sample network and run your first blockchain
+                            application</strong></a>.<br>&nbsp;</li><li>Learn how to create business networks from scratch using Hyperledger
+                    Composer in our popular series, <a href="https://www.ibm.com/developerworks/views/global/libraryview.jsp?site_id=1&amp;contentarea_by=All%20Zones&amp;sort_by=Title&amp;sort_order=1&amp;start=1&amp;end=3&amp;topic_by=-1&amp;product_by=-1&amp;type_by=All%20Types&amp;show_abstract=true&amp;search_by=hyperledger%20composer%20basics,%20part&amp;industry_by=-1&amp;series_title_by=" target="new"><strong>Hyperledger Composer basics</strong></a>, by Steve
+                    Perry.<br>&nbsp;</li><li>Stay in the know with the monthly Blockchain Newsletter for
+                    developers. Check out the <a href="http://ibm.biz/blockchain-newsletter" target="new"><strong>current issue</strong></a> and <a href="http://ibm.biz/blockchain-newsletter-signup" target="new"><strong>subscribe</strong></a>.<br>&nbsp;</li><li>Check out the many <a href="https://developer.ibm.com/code/technologies/blockchain/" target="new"><strong>code patterns</strong></a>, which provide roadmaps
+                    for solving complex problems with blockchain technology, and include
+                    architecture diagrams, code repos, and additional
+                    reading.<br>&nbsp;</li><li>Stop by the <a href="http://developer.ibm.com/blockchain" target="new"><strong>Blockchain Developer Center</strong></a>. It's your
+                    source for free tools and tutorials, along with code and community
+                    support, for developing and deploying blockchain solutions for
+                    business.</li></ul><!--CMA ID: 1060896--><!--Site ID: 1--><!--XSLT stylesheet used to transform this file: dw-document-html-8.0.xsl-->
+                                        <!-- Article Quiz -->
+                                        
+                                        <!-- Article Resources -->
+                                        <div class="ibm-alternate-rule"><hr></div><h4 id="artdownload" class="ibm-h4">Downloadable resources</h4><ul class="ibm-link-list"><li><a class="ibm-document-link" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof-pdf.pdf">PDF of this content</a></li></ul>
+                                        <!-- Commenting -->
+<!-- INLINE_COMMENTS_BEGIN: -->
+<div class="ibm-alternate-rule"><hr></div>
+<div id="dw-article-cmts-top" class="ibm-columns">
+    <div class="ibm-col-6-2">
+        <h4 id="icomments" class="ibm-h4">Comments</h4>
+        <div id="dw-article-cmts-login">
+            <p><a onclick="window.location=userLinks[0].url;" tabindex="0" role="link">Sign in</a> or 
+                <a onclick="window.location=userLinks[1].url;" tabindex="0" role="link">register</a> to add and subscribe to comments.</p>
+        </div>
+    </div>    
+    <div class="ibm-col-6-2" id="dw-notify"> 
+        <input type="checkbox" value="1" name="comment_notification" id="comment_notification" disabled="">
+        <label for="comment_notification" style="color: rgb(204, 204, 204);">Subscribe me to comment notifications</label>	   
+    </div>
+</div>
+
+<div class="dw-article-cmts-container">       
+    <div class="ibm-no-print jquery-comments read-only" id="dw-icomments-container"><div class="commenting-field main"><img src="./Private and confidential transactions with Hyperledger Fabric_files/user-icon.png" alt="" class="profile-picture round by-current-user"><div class="textarea-wrapper"><span class="close" style="display: none;"><span class="left"></span><span class="right"></span></span><div class="textarea" data-placeholder="Add a comment" contenteditable="true" style="height: 3.65em;"></div><div class="control-row" style="display: none;"><span class="send save highlight-background">Submit</span></div></div></div><ul class="navigation"><div class="navigation-wrapper"><li data-sort-key="newest" data-container-name="comments" class="active">Newest</li><li data-sort-key="oldest" data-container-name="comments">Oldest</li><li data-sort-key="popularity" data-container-name="comments">Popular</li></div><div class="navigation-wrapper responsive"><li class="title active"><header>Newest</header></li><ul class="dropdown"><li data-sort-key="newest" data-container-name="comments" class="active">Newest</li><li data-sort-key="oldest" data-container-name="comments">Oldest</li><li data-sort-key="popularity" data-container-name="comments">Popular</li></ul></div></ul><div class="data-container" data-container="comments"><ul id="comment-list" class="main"></ul><div class="no-comments no-data"><i class="fa fa-comments fa-2x"></i><br>Be the first to add a comment</div></div></div>
+</div>
+<!-- INLINE_COMMENTS_END -->                                        <!-- CENTER_6_4_CONTENT_COLUMN_END -->
+                                    </div>   
+                                </div>
+                        <!--Rating_Meta_BEGIN--><div class="metavalue">static.content.url=http://www.ibm.com/developerworks/js/artrating/</div><div class="metavalue">SITE_ID=1</div><div class="metavalue">Zone=Blockchain, Cloud computing</div><div class="metavalue">ArticleID=1060896</div><div class="metavalue">ArticleTitle=Private and confidential transactions with Hyperledger Fabric</div><div class="metavalue">publish-date=05112018</div><script language="javascript" type="text/javascript">document.write('<div class="metavalue">url='+location.href.replace(/</g,  '%3C')+'</div>');</script><div class="metavalue">url=https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html</div><!--Rating_Meta_END-->
+                    </div>
+                    <!-- END_IBM-CONTENT-MAIN -->
+                </div>
+                <!-- END_IBM-CONTENT-BODY -->
+            </div>
+            <!-- END_IBM-CONTENT -->
+        </div>
+        <!-- END_IBM-PCON -->
+    </main>
+    <!-- MAIN_CONTENT_END -->
+    
+    <!-- END_CONTENT-WRAPPER -->	
+</div>
+<!-- FOOTER_BEGIN -->
+<footer role="contentinfo" aria-label="IBM Developer">
+    <div id="dw-footer-module" class="dw-footer-home ibmdeveloper">
+        <section aria-label="Resources" role="contentinfo">
+            <div class="ibm-columns">
+                <div class="ibm-col-6-1 dw-footer-col-1">
+                    <ul>
+                        <li class="dw-footer-heading" aria-label="IBM Developer"><a href="https://developer.ibm.com/">IBM <b>Developer</b></a></li>
+                        <li><a href="https://developer.ibm.com/about">About</a></li>
+                        <li class="dw-footer-newline"><a href="https://developer.ibm.com/feedback">Site Feedback &amp; FAQ</a></li>
+                        <li class="dw-footer-newline"><a href="https://developer.ibm.com/terms/submission-of-content-agreement/">Submit content</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/secure/report/">Report abuse</a></li>
+                        <li class="dw-footer-newline"><a href="https://developer.ibm.com/terms/third-party-notice/">Third-party notice</a></li>
+                    </ul>
+                    <ul>
+                        <li class="dw-footer-heading dw-follow-us" aria-label="Follow us">Follow us</li>
+                    </ul>
+                    <p class="dw-footer-social">
+                        <a href="https://twitter.com/IBMDeveloper">
+                            <img width="28" height="27" alt="Twitter" src="./Private and confidential transactions with Hyperledger Fabric_files/dw-footer-icon-twitter.png">
+                        </a>
+                    </p>
+                    <p class="dw-footer-social-right">
+                        <a href="https://www.facebook.com/IBMDeveloper">
+                            <img width="28" height="27" alt="Facebook" src="./Private and confidential transactions with Hyperledger Fabric_files/dw-footer-icon-facebook.png">
+                        </a>
+                    </p>
+                    <br>
+                    <p class="dw-footer-social">
+                        <a href="https://www.linkedin.com/showcase/ibmdeveloper/">
+                            <img width="28" height="27" alt="LinkedIn" src="./Private and confidential transactions with Hyperledger Fabric_files/dw-footer-icon-linkedin.png">
+                        </a>
+                    </p>
+                    <p class="dw-footer-social-right">
+                        <a href="https://www.youtube.com/channel/UCUm6InQvGI9-6vo1teGWINA">
+                            <img width="28" height="27" alt="YouTube" src="./Private and confidential transactions with Hyperledger Fabric_files/dw-footer-icon-youtube.png">
+                        </a>
+                    </p>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-2">
+                    <ul class="dw-footer-lang" aria-label="Select a language">
+                        <li class="dw-footer-heading">Select a language</li>
+                        <li><a href="https://developer.ibm.com/">English</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/cn/" lang="zh">中文</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/jp/" lang="ja">日本語</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/ru/" lang="ru">Русский</a></li>
+                        <li class="dw-footer-newline"><a href="https://www.ibm.com/developerworks/br/" lang="pt">Português (Brasil)</a></li>
+                        <li><a href="https://www.ibm.com/developerworks/ssa/" lang="es">Español</a></li>
+                        <li><a href="https://developer.ibm.com/kr/" lang="kr">한글</a></li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-3"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-4"> </div>
+                <div class="ibm-col-6-1 dw-footer-col-5">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/patterns/">Code Patterns</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/articles/">Articles</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/tutorials/">Tutorials</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/recipes/">Recipes</a> 
+                        </li>        
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/open/">Open Source Projects</a> 
+                        </li>
+                    </ul>
+                </div>
+                <div class="ibm-col-6-1 dw-footer-col-6">
+                    <ul class="dw-footer-categories">
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/videos/">Videos</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/newsletters/">Newsletters</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/events/">Events</a>
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/cities/">Cities</a>  
+                        </li>
+                        <li class="dw-footer-category">
+                            <a href="https://developer.ibm.com/answers/">Developer Answers</a>  
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="dw-footer" class="ibm-padding-normal ibm-alternate">
+        <div class="ibm-columns">
+            <div class="ibm-col-1-1">
+                <div class="dw-footer-corporate-links">
+                    <ul>
+                        <li><a href="https://developer.ibm.com/community/">Contact</a></li>
+                        <li><a href="https://www.ibm.com/privacy/us/en/">Privacy</a></li>
+                        <li><a href="https://developer.ibm.com/terms/ibm-developer-terms-of-use/">Terms of use</a></li>
+                        <li><a href="https://www.ibm.com/accessibility/us/en/">Accessibility</a></li>
+                        <li class="ibm-feedbacklink"><a href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#">Feedback</a></li>
+                        <li id="ibm-truste-cp"><a onclick="truste.eu.clickListener();return false;" href="https://www.ibm.com/developerworks/cloud/library/cl-blockchain-private-confidential-transactions-hyperledger-fabric-zero-knowledge-proof/index.html#">Cookie Preferences</a></li>
+                    </ul>                 
+                </div>
+                <div id="ibm-footer-locale-selector"><h3 class="ibm-bold">Select a country/region</h3><select class="ibm-fullwidth select2-hidden-accessible ibm-widget-processed" aria-label="Select a country/region" tabindex="-1" aria-hidden="true" style="width: 401px;"><optgroup label="Worldwide ibm.com home pages"><option data-localecode="en-us" value="http://www.ibm.com/us-en/?lnk=fcc">United States - English</option><option data-localecode="en-af" value="http://www.ibm.com/af-en/?lnk=fcc">Afghanistan - English</option><option data-localecode="fr-dz" value="http://www.ibm.com/dz-fr/?lnk=fcc">Algeria - French</option><option data-localecode="pt-ao" value="http://www.ibm.com/ao-pt/?lnk=fcc">Angola - Portuguese</option><option data-localecode="en-ai" value="http://www.ibm.com/ai-en/?lnk=fcc">Anguilla - English</option><option data-localecode="en-ag" value="http://www.ibm.com/ag-en/?lnk=fcc">Antigua and Barbuda - English</option><option data-localecode="es-ar" value="http://www.ibm.com/ar-es/?lnk=fcc">Argentina - Spanish</option><option data-localecode="en-aw" value="http://www.ibm.com/aw-en/?lnk=fcc">Aruba - English</option><option data-localecode="en-au" value="http://www.ibm.com/au-en/?lnk=fcc">Australia - English</option><option data-localecode="de-at" value="http://www.ibm.com/at-de/?lnk=fcc">Austria - German</option><option data-localecode="en-bs" value="http://www.ibm.com/bs-en/?lnk=fcc">Bahamas - English</option><option data-localecode="en-bh" value="http://www.ibm.com/bh-en/?lnk=fcc">Bahrain - English</option><option data-localecode="en-bd" value="http://www.ibm.com/bd-en/?lnk=fcc">Bangladesh - English</option><option data-localecode="en-bb" value="http://www.ibm.com/bb-en/?lnk=fcc">Barbados - English</option><option data-localecode="nl-be" value="http://www.ibm.com/be-nl/?lnk=fcc">Belgium/Luxembourg - Dutch</option><option data-localecode="en-be" value="http://www.ibm.com/be-en/?lnk=fcc">Belgium/Luxembourg - English</option><option data-localecode="fr-be" value="http://www.ibm.com/be-fr/?lnk=fcc">Belgium/Luxembourg - French</option><option data-localecode="en-bm" value="http://www.ibm.com/bm-en/?lnk=fcc">Bermuda - English</option><option data-localecode="es-bo" value="http://www.ibm.com/bo-es/?lnk=fcc">Bolivia - Spanish</option><option data-localecode="en-bw" value="http://www.ibm.com/bw-en/?lnk=fcc">Botswana - English</option><option data-localecode="pt-br" value="http://www.ibm.com/br-pt/?lnk=fcc">Brazil - Portuguese</option><option data-localecode="en-bn" value="http://www.ibm.com/bn-en/?lnk=fcc">Brunei Darussalam - English</option><option data-localecode="bg-bg" value="http://www.ibm.com/bg-bg/?lnk=fcc">Bulgaria - Bulgarian</option><option data-localecode="fr-bf" value="http://www.ibm.com/bf-fr/?lnk=fcc">Burkina Faso - French</option><option data-localecode="en-kh" value="http://www.ibm.com/kh-en/?lnk=fcc">Cambodia - English</option><option data-localecode="en-cm" value="http://www.ibm.com/cm-en/?lnk=fcc">Cameroon - English</option><option data-localecode="fr-cm" value="http://www.ibm.com/cm-fr/?lnk=fcc">Cameroon - French</option><option data-localecode="en-ca" value="http://www.ibm.com/ca-en/?lnk=fcc">Canada - English</option><option data-localecode="fr-ca" value="http://www.ibm.com/ca-fr/?lnk=fcc">Canada - French</option><option data-localecode="en-ky" value="http://www.ibm.com/ky-en/?lnk=fcc">Cayman Islands - English</option><option data-localecode="fr-td" value="http://www.ibm.com/td-fr/?lnk=fcc">Chad - French</option><option data-localecode="es-cl" value="http://www.ibm.com/cl-es/?lnk=fcc">Chile - Spanish</option><option data-localecode="zh-cn" value="http://www.ibm.com/cn-zh/?lnk=fcc">China - Chinese (Simplified)</option><option data-localecode="es-co" value="http://www.ibm.com/co-es/?lnk=fcc">Colombia - Spanish</option><option data-localecode="fr-cg" value="http://www.ibm.com/cg-fr/?lnk=fcc">Congo - French</option><option data-localecode="fr-cd" value="http://www.ibm.com/cd-fr/?lnk=fcc">Congo, The Democratic Republic of the - French</option><option data-localecode="es-cr" value="http://www.ibm.com/cr-es/?lnk=fcc">Costa Rica - Spanish</option><option data-localecode="hr-hr" value="http://www.ibm.com/hr-hr/?lnk=fcc">Croatia - Croatian</option><option data-localecode="en-cw" value="http://www.ibm.com/cw-en/?lnk=fcc">Curacao - English</option><option data-localecode="en-cy" value="http://www.ibm.com/cy-en/?lnk=fcc">Cyprus - English</option><option data-localecode="cs-cz" value="http://www.ibm.com/cz-cs/?lnk=fcc">Czech Republic - Czech</option><option data-localecode="da-dk" value="http://www.ibm.com/dk-da/?lnk=fcc">Denmark - Danish</option><option data-localecode="en-dm" value="http://www.ibm.com/dm-en/?lnk=fcc">Dominica - English</option><option data-localecode="es-ec" value="http://www.ibm.com/ec-es/?lnk=fcc">Ecuador - Spanish</option><option data-localecode="en-eg" value="http://www.ibm.com/eg-en/?lnk=fcc">Egypt - English</option><option data-localecode="et-ee" value="http://www.ibm.com/ee-et/?lnk=fcc">Estonia - Estonian</option><option data-localecode="en-et" value="http://www.ibm.com/et-en/?lnk=fcc">Ethiopia - English</option><option data-localecode="fi-fi" value="http://www.ibm.com/fi-fi/?lnk=fcc">Finland - Finnish</option><option data-localecode="fr-fr" value="http://www.ibm.com/fr-fr/?lnk=fcc">France - French</option><option data-localecode="fr-ga" value="http://www.ibm.com/ga-fr/?lnk=fcc">Gabon - French</option><option data-localecode="de-de" value="http://www.ibm.com/de-de/?lnk=fcc">Germany - German</option><option data-localecode="en-gh" value="http://www.ibm.com/gh-en/?lnk=fcc">Ghana - English</option><option data-localecode="el-gr" value="http://www.ibm.com/gr-el/?lnk=fcc">Greece - Greek</option><option data-localecode="en-gd" value="http://www.ibm.com/gd-en/?lnk=fcc">Grenada - English</option><option data-localecode="en-gy" value="http://www.ibm.com/gy-en/?lnk=fcc">Guyana - English</option><option data-localecode="en-hk" value="http://www.ibm.com/hk-en/?lnk=fcc">Hong Kong S.A.R. of China - English</option><option data-localecode="hu-hu" value="http://www.ibm.com/hu-hu/?lnk=fcc">Hungary - Hungarian</option><option data-localecode="en-in" value="http://www.ibm.com/in-en/?lnk=fcc">India - English</option><option data-localecode="en-id" value="http://www.ibm.com/id-en/?lnk=fcc">Indonesia - English</option><option data-localecode="en-iq" value="http://www.ibm.com/iq-en/?lnk=fcc">Iraq - English</option><option data-localecode="en-ie" value="http://www.ibm.com/ie-en/?lnk=fcc">Ireland - English</option><option data-localecode="he-il" value="http://www.ibm.com/il-he/?lnk=fcc">Israel - Hebrew</option><option data-localecode="it-it" value="http://www.ibm.com/it-it/?lnk=fcc">Italy - Italian</option><option data-localecode="fr-ci" value="http://www.ibm.com/ci-fr/?lnk=fcc">Ivory Coast - French</option><option data-localecode="en-jm" value="http://www.ibm.com/jm-en/?lnk=fcc">Jamaica - English</option><option data-localecode="ja-jp" value="http://www.ibm.com/jp-ja/?lnk=fcc">Japan - Japanese</option><option data-localecode="en-jo" value="http://www.ibm.com/jo-en/?lnk=fcc">Jordan - English</option><option data-localecode="kk-kz" value="http://www.ibm.com/kz-kk/?lnk=fcc">Kazakhstan - Kazakh</option><option data-localecode="en-ke" value="http://www.ibm.com/ke-en/?lnk=fcc">Kenya - English</option><option data-localecode="ko-kr" value="http://www.ibm.com/kr-ko/?lnk=fcc">Korea, Republic of - Korean</option><option data-localecode="en-kw" value="http://www.ibm.com/kw-en/?lnk=fcc">Kuwait - English</option><option data-localecode="lv-lv" value="http://www.ibm.com/lv-lv/?lnk=fcc">Latvia - Latvian</option><option data-localecode="en-lb" value="http://www.ibm.com/lb-en/?lnk=fcc">Lebanon - English</option><option data-localecode="en-ly" value="http://www.ibm.com/ly-en/?lnk=fcc">Libya - English</option><option data-localecode="lt-lt" value="http://www.ibm.com/lt-lt/?lnk=fcc">Lithuania - Lithuanian</option><option data-localecode="fr-mg" value="http://www.ibm.com/mg-fr/?lnk=fcc">Madagascar - French</option><option data-localecode="en-mw" value="http://www.ibm.com/mw-en/?lnk=fcc">Malawi - English</option><option data-localecode="en-my" value="http://www.ibm.com/my-en/?lnk=fcc">Malaysia - English</option><option data-localecode="en-mu" value="http://www.ibm.com/mu-en/?lnk=fcc">Mauritius - English</option><option data-localecode="fr-mu" value="http://www.ibm.com/mu-fr/?lnk=fcc">Mauritius - French</option><option data-localecode="es-mx" value="http://www.ibm.com/mx-es/?lnk=fcc">Mexico - Spanish</option><option data-localecode="en-ms" value="http://www.ibm.com/ms-en/?lnk=fcc">Montserrat - English</option><option data-localecode="fr-ma" value="http://www.ibm.com/ma-fr/?lnk=fcc">Morocco - French</option><option data-localecode="pt-mz" value="http://www.ibm.com/mz-pt/?lnk=fcc">Mozambique - Portuguese</option><option data-localecode="en-na" value="http://www.ibm.com/na-en/?lnk=fcc">Namibia - English</option><option data-localecode="en-np" value="http://www.ibm.com/np-en/?lnk=fcc">Nepal - English</option><option data-localecode="nl-nl" value="http://www.ibm.com/nl-nl/?lnk=fcc">Netherlands - Dutch</option><option data-localecode="en-nz" value="http://www.ibm.com/nz-en/?lnk=fcc">New Zealand - English</option><option data-localecode="fr-ne" value="http://www.ibm.com/ne-fr/?lnk=fcc">Niger - French</option><option data-localecode="en-ng" value="http://www.ibm.com/ng-en/?lnk=fcc">Nigeria - English</option><option data-localecode="no-no" value="http://www.ibm.com/no-no/?lnk=fcc">Norway - Norwegian</option><option data-localecode="en-om" value="http://www.ibm.com/om-en/?lnk=fcc">Oman - English</option><option data-localecode="en-pk" value="http://www.ibm.com/pk-en/?lnk=fcc">Pakistan - English</option><option data-localecode="es-py" value="http://www.ibm.com/py-es/?lnk=fcc">Paraguay - Spanish</option><option data-localecode="es-pe" value="http://www.ibm.com/pe-es/?lnk=fcc">Peru - Spanish</option><option data-localecode="en-ph" value="http://www.ibm.com/ph-en/?lnk=fcc">Philippines - English</option><option data-localecode="pl-pl" value="http://www.ibm.com/pl-pl/?lnk=fcc">Poland - Polish</option><option data-localecode="pt-pt" value="http://www.ibm.com/pt-pt/?lnk=fcc">Portugal - Portuguese</option><option data-localecode="en-qa" value="http://www.ibm.com/qa-en/?lnk=fcc">Qatar - English</option><option data-localecode="ro-ro" value="http://www.ibm.com/ro-ro/?lnk=fcc">Romania - Romanian</option><option data-localecode="ru-ru" value="http://www.ibm.com/ru-ru/?lnk=fcc">Russian Federation - Russian</option><option data-localecode="en-kn" value="http://www.ibm.com/kn-en/?lnk=fcc">Saint Kitts and Nevis - English</option><option data-localecode="en-lc" value="http://www.ibm.com/lc-en/?lnk=fcc">Saint Lucia - English</option><option data-localecode="en-vc" value="http://www.ibm.com/vc-en/?lnk=fcc">Saint Vincent and the Grenadines - English</option><option data-localecode="en-sa" value="http://www.ibm.com/sa-en/?lnk=fcc">Saudi Arabia - English</option><option data-localecode="fr-sn" value="http://www.ibm.com/sn-fr/?lnk=fcc">Senegal - French</option><option data-localecode="sr-rs" value="http://www.ibm.com/rs-sr/?lnk=fcc">Serbia - Serbian</option><option data-localecode="fr-sc" value="http://www.ibm.com/sc-fr/?lnk=fcc">Seychelles - French</option><option data-localecode="en-sl" value="http://www.ibm.com/sl-en/?lnk=fcc">Sierra Leone - English</option><option data-localecode="en-sg" value="http://www.ibm.com/sg-en/?lnk=fcc">Singapore - English</option><option data-localecode="sk-sk" value="http://www.ibm.com/sk-sk/?lnk=fcc">Slovakia - Slovak</option><option data-localecode="sl-si" value="http://www.ibm.com/si-sl/?lnk=fcc">Slovenia - Slovenian</option><option data-localecode="en-za" value="http://www.ibm.com/za-en/?lnk=fcc">South Africa - English</option><option data-localecode="es-es" value="http://www.ibm.com/es-es/?lnk=fcc">Spain - Spanish</option><option data-localecode="en-lk" value="http://www.ibm.com/lk-en/?lnk=fcc">Sri Lanka - English</option><option data-localecode="en-sr" value="http://www.ibm.com/sr-en/?lnk=fcc">Suriname - English</option><option data-localecode="sv-se" value="http://www.ibm.com/se-sv/?lnk=fcc">Sweden - Swedish</option><option data-localecode="fr-ch" value="http://www.ibm.com/ch-fr/?lnk=fcc">Switzerland - French</option><option data-localecode="de-ch" value="http://www.ibm.com/ch-de/?lnk=fcc">Switzerland - German</option><option data-localecode="zh-tw" value="http://www.ibm.com/tw-zh/?lnk=fcc">Taiwan - Chinese (Traditional)</option><option data-localecode="en-tz" value="http://www.ibm.com/tz-en/?lnk=fcc">Tanzania, United Republic of - English</option><option data-localecode="en-th" value="http://www.ibm.com/th-en/?lnk=fcc">Thailand - English</option><option data-localecode="en-tt" value="http://www.ibm.com/tt-en/?lnk=fcc">Trinidad and Tobago - English</option><option data-localecode="fr-tn" value="http://www.ibm.com/tn-fr/?lnk=fcc">Tunisia - French</option><option data-localecode="tr-tr" value="http://www.ibm.com/tr-tr/?lnk=fcc">Turkey - Turkish</option><option data-localecode="en-tc" value="http://www.ibm.com/tc-en/?lnk=fcc">Turks and Caicos Islands - English</option><option data-localecode="en-ug" value="http://www.ibm.com/ug-en/?lnk=fcc">Uganda - English</option><option data-localecode="uk-ua" value="http://www.ibm.com/ua-uk/?lnk=fcc">Ukraine - Ukrainian</option><option data-localecode="en-ae" value="http://www.ibm.com/ae-en/?lnk=fcc">United Arab Emirates - English</option><option data-localecode="en-uk" value="http://www.ibm.com/uk-en/?lnk=fcc">United Kingdom - English</option><option data-localecode="es-uy" value="http://www.ibm.com/uy-es/?lnk=fcc">Uruguay - Spanish</option><option data-localecode="uz-uz" value="http://www.ibm.com/uz-uz/?lnk=fcc">Uzbekistan - Uzbek</option><option data-localecode="es-ve" value="http://www.ibm.com/ve-es/?lnk=fcc">Venezuela - Spanish</option><option data-localecode="en-vn" value="http://www.ibm.com/vn-en/?lnk=fcc">Vietnam - English</option><option data-localecode="vi-vn" value="http://www.ibm.com/vn-vi/?lnk=fcc">Vietnam - Vietnamese</option><option data-localecode="en-vg" value="http://www.ibm.com/vg-en/?lnk=fcc">Virgin Islands, British - English</option><option data-localecode="en-ye" value="http://www.ibm.com/ye-en/?lnk=fcc">Yemen - English</option><option data-localecode="en-zm" value="http://www.ibm.com/zm-en/?lnk=fcc">Zambia - English</option><option data-localecode="en-zw" value="http://www.ibm.com/zw-en/?lnk=fcc">Zimbabwe - English</option></optgroup></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-nrya-container"><span class="select2-selection__rendered" id="select2-nrya-container" title="United States - English">United States - English</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+            </div>
+        </div>
+    </div>        
+</footer> <!-- FOOTER_END -->
+
+<!-- END_IBM-TOP -->
+</div>
+
+<!-- SCRIPTS_INCLUDE_BEGIN -->
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="./Private and confidential transactions with Hyperledger Fabric_files/jquery-comments.css">
+<link rel="stylesheet" href="./Private and confidential transactions with Hyperledger Fabric_files/font-awesome.min.css">
+
+<!-- Libraries -->
+<script type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/jquery-comments.min.js.下载"></script>
+<script type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/moment-with-locales.js.下载"></script>
+<script type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/ContentComments.js.下载"></script>
+<script type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/ContentCommentsFormatter.js.下载"></script>
+<script type="text/javascript" language="JavaScript">
+
+	IBMCore.common.module.masthead.subscribe("ready", "customjs", setupCommentsPlugin).runAsap(setupCommentsPlugin);
+
+	function setupCommentsPlugin(){
+		//debugger;
+			//alert(userLinks);
+			var commentsInitInfo = {
+				contentId : $("div[class=metavalue]:contains('ArticleID=')").text().split("=")[1],
+				siteId :  $("div[class=metavalue]:contains('SITE_ID=')").text().split("=")[1],
+				pluginDivId : '#dw-icomments-container',
+				notifyElementId : "#comment_notification",
+				loginMessageDivId : "#dw-article-cmts-login",
+				totalCommentsDivId : "#nCmts",
+						isIdea:false
+
+			};				
+								
+			ContentComments.Setup(commentsInitInfo);
+	}
+</script>
+
+<!-- SCRIPTS_INCLUDE_END -->
+
+
+
+<div id="ibm-overlay-backdrop"></div><div class="ibm-common-overlay ibm-overlay-alt-three" id="ibm-overlaywidget-N10147" role="dialog" aria-describedby="ibm-overlaywidget-N10147-content" aria-label="Overlay content" data-widget="overlay container" data-name=""><div class="ibm-overlay-heading-con"><p class="ibm-icononly"><a href="javascript:void(0);" class="ibm-close-link" role="button">Close</a></p></div><div id="ibm-overlaywidget-N10147-content" class="content"><div class="ibm-widget-processed" data-widget="overlay" id="N10147"><img alt="" src="./Private and confidential transactions with Hyperledger Fabric_files/fig1e.png" width="1251"></div></div></div><div id="ibm-mobilemenu-screen"></div><div id="teconsent" class="truste_cookie_prefs" style="position: fixed; display: none; height: 40px; background-color: #ffffff; z-index: 9999999999; bottom: 0; right: 0; margin: 0; padding: 0 16px; line-height: 40px; vertical-align: middle; box-shadow:0 0 10px 3px rgba(0,0,0,.1)" consent="undefined"><script type="text/javascript" src="./Private and confidential transactions with Hyperledger Fabric_files/notice" id="truste_0.6378538026112122"></script><script async="async" type="text/javascript" crossorigin="" src="./Private and confidential transactions with Hyperledger Fabric_files/1.12"></script><a id="icon-id026280719038150635" tabindex="0" role="button" lang="zh" style="cursor: pointer;">Cookie 喜好设置</a></div></body></html>

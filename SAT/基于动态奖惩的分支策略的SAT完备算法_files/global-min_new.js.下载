@@ -1,0 +1,550 @@
+﻿
+/***公共***/
+var $win = $(window);
+var closetrue="false";
+var $pagebdy = $("#pagebdy");
+var close_time; 
+var closeTF=0;
+$(document).ready(function ()
+{
+    onReadyDocument();
+    onReadyMainContainer();
+	MyAutoRun();
+	init_cn();
+	init_en();
+	init_full();
+}
+);
+
+
+function MyAutoRun(){  			
+	var tdh=$(".td1").height()+$(".td").height()+$(".topguanggaoT").height();	
+	var topp=(($(window).height()-tdh)/2+tdh);
+	if($(window).height()>450){
+		jQuery(".outline_switch_td").css({
+			position : "fixed",									 
+			top:topp+"px"
+		});
+	}
+
+	
+	
+						
+						
+} 
+	
+
+var clip = new ZeroClipboard.Client();
+var clip1 = new ZeroClipboard.Client(); // 新建一个对象
+var clip2 = new ZeroClipboard.Client(); // 新建一个对象
+function init_cn(){
+	
+	
+	clip.setHandCursor( true );
+	
+	//clip.addEventListener('load', my_load);
+	
+	clip.addEventListener('mouseOver', my_mouse_over_cn());
+	clip.addEventListener('complete', my_complete_cn);
+	
+	clip.glue( 'd_clip_button_CN' );
+	
+}		
+function init_en(){
+	
+	clip1.setHandCursor( true );
+	
+	clip1.addEventListener('mouseOver', my_mouse_over_en());
+	clip1.addEventListener('complete', my_complete_en);
+	
+	clip1.glue( 'd_clip_button_EN' );
+}	
+function init_full(){
+	
+	clip2.setHandCursor( true );
+	
+	clip2.addEventListener('mouseOver', my_mouse_over_full());
+	clip2.addEventListener('complete', my_complete_full);
+	
+	clip2.glue( 'd_clip_button_full' );
+}	
+	
+function my_mouse_over_cn(client){
+	var con=$('#copy_CN').html().replace(/<a href=\"(.*?)\">(.*?)<\/a>/g,"$2"); 
+	clip.setText(con); 
+}
+function my_mouse_over_en(client){
+	var con1=$('#copy_EN').html().replace(/<a href=\"(.*?)\">(.*?)<\/a>/g,"$2");
+	clip1.setText(con1); 
+}
+function my_mouse_over_full(client){
+	var con2=$('#copy_CN').html()+$('#copy_EN').html();
+	con2=con2.replace(/<a href=\"(.*?)\">(.*?)<\/a>/g,"$2");
+	clip2.setText(con2); 
+}
+
+function my_complete_cn(client,text){
+	alert("复制成功"); 
+}
+function my_complete_en(client,text){
+	alert("复制成功"); 
+}
+function my_complete_full(client,text){
+	alert("复制成功"); 
+}
+
+/**公共****/
+function onReadyDocument()
+{
+    $.support.touchEvents = (function ()
+    {
+        return (("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch)
+    }
+    )();
+    if ($.support.touchEvents)
+    {
+        $("html").addClass("touch")
+    }
+    $.fn.doOnce = function (b)
+    {
+        this.length && b.apply(this);
+        return this
+    };
+   
+   
+   
+   
+}
+/**公共***/
+function onReadyMainContainer()
+{
+    $article = $("#main_article_body");
+    $("#nav-article-page").doOnce(function ()
+    {
+        this.buildNav(
+        {
+            content : $article
+        }
+        )
+    }
+    );
+    if (!$.support.touchEvents)
+    {
+        $("#nav-article-page").doOnce(function ()
+        {
+            this.floatingNav(
+            {
+                sections : $article.find("span[id]").closest("div")
+            }
+            )
+        }
+        )
+    }
+    if (!$.support.touchEvents)
+    {
+        $article.doOnce(function ()
+        {
+            this.scrollFrame()
+        }
+        )
+    }
+   
+}
+
+
+/*****上面和左侧滑动功能***/
+(function (a)
+{
+    a.fn.floatingNav = function (b)
+    {
+        defaults =
+        {
+            margin : 40,
+            sections : ""
+        };
+        var b = a.extend(defaults, b);
+        return this.each(function ()
+        {
+            var k = a(this);           
+            var g = $("#leftPaneInner").offset().top;
+            var f = k.innerHeight();
+            var n = 0;       
+            var d = 0;
+            var e = k.find("a.scroll");
+			var lin=k.find(".nav-page");
+			var tdh=$(".td1").height()+$(".td").height()+$(".jiansuo").height()-1;	
+			var kk=$(".nav-page");
+            var c = function ()
+            {				
+                d = $win.scrollTop();	
+					if($.browser.msie){
+					var tp=tdh-d+2;
+				}else{					
+					var tp=tdh-d+1;
+				}
+				var hg=$win.height()-tp;	
+				var fhg=$win.height()-tdh;
+				var bhg=$win.height();
+				var mhg=$win.height();
+				
+			  if(d>g)
+                {
+				
+						k.css(
+                    {
+                        position : "fixed",
+                        top :0,						
+						height:mhg,
+						width:179,					
+						background:"#ecf2f6",
+                    }
+                    );	
+					kk.css({"padding-top":b.margin+15,"padding-left":10+"px"});	
+                }else if(d<g&&d>0){
+					 k.css(
+                    {
+                        position : "fixed",
+                        top : tp,						
+						height:hg,
+						width:179,					
+						background:"#ecf2f6",
+						
+                    }
+                    );
+				kk.css({"padding-top":20+"px","padding-left":10+"px"});	
+				
+				}else if(d==0){
+					
+                        k.css(
+                        {
+                            position : "static",
+							height:fhg,
+							width:179					
+							
+                        }
+                        );
+						kk.css({"padding-top":20+"px","padding-left":10+"px"});
+				
+				}				
+            };			
+            
+            c();
+        
+            $win.scroll(c);
+            $win.resize(c)
+        }
+        )
+    }
+}
+)(jQuery);
+/****公共***/
+(function (a)
+{
+    a.fn.buildNav = function (b)
+    {
+        defaults =
+        {
+            content : "",
+            margin : 60
+        };
+        var b = a.extend(defaults, b);
+        return this.each(function ()
+        {
+          var tabbool=false;
+		  var figbool=false;
+          var d = a(this);
+		 
+          var e = a('<ul class="nav-page" />');
+        		var _resourceLink = jQuery("#resourceLink").val();			
+						var _anchor = 1;
+						jQuery(".outline_anchor").each(function() {
+							var _this = jQuery(this);
+							_this.attr("id", "outline_anchor_" + _anchor);
+							if (_this.hasClass("figure")) {
+								if(!figbool){
+									$("span.fig a").attr('href','#outline_anchor_' + _anchor);
+									figbool=!figbool;
+								}
+								var _src = _this.find("img").attr("src");								
+								new_li =jQuery('<li style="display:none;padding-left: 20px;" class="imgshow"><a href="#outline_anchor_' + _anchor + '" class="scroll"><img class="outline_fig"src="' + _src + '" width="75%"/></a></li>').appendTo(e);
+								_this.clone().appendTo($('.figandtab'));								
+							} else if (_this.hasClass("table")) {
+								if(!tabbool){
+									$("span.tab a").attr('href','#outline_anchor_' + _anchor);
+									tabbool=!tabbool;
+								}
+								var _textId = _this.find("table").attr("id");
+								var _textSub=_textId.substring(5);
+								var _text=" 表"+_textSub+"(Table "+_textSub+")";
+								new_li =jQuery('<li style="display:none;padding-left: 20px;" class="tableshow"><a href="#outline_anchor_' + _anchor + '" class="scroll"><img class="outline_tb" src="images/table_thumbnail_icon.png"/>' + _text + '</a></li>').appendTo(e);
+								_this.clone().appendTo($('.figandtab'));
+							} else {
+								var _text = _this.html();
+								if (_this.attr("level") == "2") {							
+									new_li = jQuery('<li style="padding-left: 20px;"><a href="#outline_anchor_' + _anchor + '" class="scroll">' + _text + '</a></li>').appendTo(e);	
+								}else if (_this.attr("level") == "3") {							
+									new_li = jQuery('<li style="padding-left: 40px;"><a href="#outline_anchor_' + _anchor + '" class="scroll">' + _text + '</a></li>').appendTo(e);	
+								}else if(_this.attr("level") == "0"){	
+										new_li =jQuery('<li style="padding-left: 0px;font-weight:bold;cursor:pointer;" ><input type="checkbox" name="showLar" id="showFT" style="cursor:pointer"/><a id="showText">显示缩略图</a><br></li>').appendTo(e);	
+										new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;" ><a href="#outline_anchor_' + _anchor + '" class="scroll">本文结构</a><br></li>').appendTo(e);
+								}else if (_this.attr("level") == "4") {							
+									new_li = jQuery('<li style="padding-left: 60px;"><a href="#outline_anchor_' + _anchor + '" roll">' + _text + '</a></li>').appendTo(e);	
+								}else if(_this.attr("level") == "Guan_CN"){
+									new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;" ><a href="#outline_anchor_' + _anchor + '" class="scroll">关键词</a><br></li>').appendTo(e);
+								}else if(_this.attr("level") == "Zhai_CN"){
+									new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;" ><a href="#outline_anchor_' + _anchor + '" class="scroll">摘要</a><br></li>').appendTo(e);
+								}else if(_this.attr("level") == "Zhai_EN"){
+									new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;" ><a href="#outline_anchor_' + _anchor + '" class="scroll">Abstract</a><br></li>').appendTo(e);
+								}else if(_this.attr("level") == "Guan_EN"){
+									new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;" ><a href="#outline_anchor_' + _anchor + '" class="scroll">Keywords</a><br></li>').appendTo(e);
+								}else{
+										new_li = jQuery('<li style="padding-left: 0px;font-weight:bold;"><a href="#outline_anchor_' + _anchor + '"  class="scroll">' + _text + '</a></li>').appendTo(e);
+								}
+							}
+							_anchor += 1;
+						});
+                
+                e.find("li").eq(0).addClass("active");
+                e.prependTo(d);
+				var tdh=$(".td1").height()+$(".td").height();	
+				var fhg=$win.height()-tdh;
+				//alert(fhg);
+				$("#nav-article-page").css(
+						{
+							position : "static",
+							height:fhg,
+							width:220
+						}
+						);
+				$(".nav-page").css({"padding-top":20+"px","padding-left":10+"px"});
+				
+				
+				$("#showText").click(function(){
+					if(document.getElementById("showFT").checked == true){
+						document.getElementById("showFT").checked = false;
+						$(".imgshow").hide();
+						$(".tableshow").hide();
+						
+					}else{
+						document.getElementById("showFT").checked = true;
+						$(".imgshow").show();
+						$(".tableshow").show();
+					}
+				});
+				$("#showFT").click(function(){
+					if(document.getElementById("showFT").checked == true){
+						$(".imgshow").show();
+						$(".tableshow").show();
+					}else{
+						$(".imgshow").hide();
+						$(".tableshow").hide();
+					}
+				});
+               d.on("click", "a.scroll",
+                    function (g)
+                {
+                    var f = a(this);	
+                    if (window.history.pushState)
+                    {
+                        window.history.pushState({},
+                            document.title, g.target.href);
+					
+                    }
+                    g.preventDefault();
+                
+						if(closeTF==0){
+						a("html,body").animate( {	
+                        scrollTop : a('[id="' + this.hash.substring(1) + '"]').offset().top - b.margin+10
+						
+                    },
+                        500,
+                        function ()  {}
+                    
+                    )
+					}else{						
+						
+						a("html,body").animate( {	
+                        scrollTop : a('[id="' + this.hash.substring(1) + '"]').offset().top - b.margin+60
+						
+                    },
+                        500,
+                        function ()  {}
+                    
+                    )
+					}
+					
+                }
+                )       
+        }
+        )
+    }
+}
+)(jQuery);
+
+/******上面部分*******/
+(function (a)
+{
+    a.fn.scrollFrame = function ()
+    {
+        return this.each(function ()
+        {
+            var j = a(".article_title_cn");
+			var jj=a(".author_name_list");
+			
+            var l = j.offset().top;
+            var k = j.innerHeight();
+            var p = a("#pageftr").offset().top;
+            var q = false;
+            var f = false;
+            var b = true;
+            var c = false;
+            var e = "slow";
+            var o = a('<div class="btn-g"><span class="img"></span><a href="#close" class="btn-close"></a></div>').on("click",
+             function (r)
+                {	closetrue="true";                    
+                    n.remove();
+                    m.hide();
+                    $win.unbind("scroll.sf");
+                    $win.unbind("resize.sf");
+					closeTF=1;
+                }
+                );
+			
+			
+			if(j.html().length>115){
+				var titlee="<div class='title' align=center>"+j.html().substring(0,115)+"...</div>";
+			}else{
+				var titlee="<div class='title' align=center>"+j.html()+"</div>"
+			}
+			
+			var authorr=$("<div class='author_name_list' align=center>"+jj.html()+"</div>");		
+			 authorr.find("img").remove();
+			 authorr.find("sup").remove();
+			 authorr.find("a").remove();
+			 var author=authorr.text();			 
+			author=author.replace(/[ ]*,/g,",");
+			authorr.html();	
+			 if(author.length>160){
+				author=author.substring(0,160)+"...";
+			}
+			authorr.html(author);
+            var n = a('<div id="title-banner" />').prepend(authorr).prepend(titlee);
+           
+			var nn=n.prepend(o).wrapInner('<div class="content" />')
+            nn.appendTo(a("body"));
+            var g = n.height();
+            var m = a("#banner-ftr");
+            var d = function ()
+            {
+                win_top = $win.scrollTop();
+                win_h = $win.height();			
+                if (win_top > (l + k-($(".td1").height()+$(".td").height()+$(".topguanggaoT").height())-300))
+                {
+                    b = false
+                }
+                else
+                {
+                    b = true
+                }
+                if (win_top > (p - win_h))
+                {
+                    c = true
+                }
+                else
+                {
+                    c = false
+                }
+                if ($win.width() <1050)
+                {
+                    if (q)
+                    {
+                        n.stop().css(
+                        {
+                            top : "-100px"
+                        }
+                        );
+                        q = false
+                    }
+                    if (f)
+                    {
+                        m.stop().css(
+                        {
+                            bottom : "-100px"
+                        }
+                        );
+                        f = false
+                    }
+                    return false
+                }
+                if (!b && !q)
+                {
+                    n.stop().css(
+                    {
+                        top : "-100px"
+                    }
+                    ).animate(
+                    {
+                        top : "+=100"
+                    },
+                        e);
+                    q = true;
+                    if (window.location.hash && win_top > g + l + k)
+                    {
+                        window.scrollBy(0,  - (g))
+                    }
+                }
+                if (b && q)
+                {
+                    n.stop().css(
+                    {
+                        top : "0px"
+                    }
+                    ).animate(
+                    {
+                        top : "-=100"
+                    },
+                        e);
+                    q = false
+                }
+                if (!b && !c && !f)
+                {
+                    m.stop().css(
+                    {
+                        bottom : "-100px"
+                    }
+                    ).animate(
+                    {
+                        bottom : "+=100"
+                    },
+                        e);
+                    f = true
+                }
+                if ((b || c) && f)
+                {
+                    m.stop().css(
+                    {
+                        bottom : "0px"
+                    }
+                    ).animate(
+                    {
+                        bottom : "-=100"
+                    },
+                        e);
+                    f = false
+                }
+            };
+            d();
+            $win.bind("scroll.sf", d);
+            $win.bind("resize.sf", d)
+        }
+        )
+    }
+}
+)(jQuery);
+/******底部*******/
+(function (a)
+{
+	var bottomVoilue='<IFRAME id="Bottom" border=0 src="bottom.htm" scrolling=no frameborder=0 width="100%" ></IFRAME>';
+	document.getElementById
+}
+)(jQuery);

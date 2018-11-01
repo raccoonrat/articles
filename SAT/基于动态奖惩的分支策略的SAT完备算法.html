@@ -1,0 +1,1929 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0046)http://www.xml-data.org/JSJYY/2017-12-3487.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <meta http-equiv="X-UA-Compatible" content="IE=8"> 
+     
+  <title>基于动态奖惩的分支策略的SAT完备算法</title>
+  <meta name="keywords" content="NP完全问题; 可满足性问题; 冲突驱动子句学习; 完备算法; 分支策略">
+  <meta name="keywords" content="Non-deterministic Polynomial Complete problem (NPC); SATisfiability problem (SAT); conflict driven clause learning; exact algorithm; branching strategy">
+    <script type="text/x-mathjax-config;executed=true">
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]},"HTML-CSS": {
+            scale: 140,
+			linebreaks: {automatic: true}
+            }});
+  </script>
+ <script type="text/javascript" src="./基于动态奖惩的分支策略的SAT完备算法_files/MathJax.js.下载">
+  </script>
+  <link rel="stylesheet" type="text/css" href="./基于动态奖惩的分支策略的SAT完备算法_files/html_new.css"> 
+  <script type="text/javascript" src="./基于动态奖惩的分支策略的SAT完备算法_files/jquery-1.7.2.min.js.下载"></script> 
+
+
+  <style>
+	.table_top_border {border-top-width:1pt;border-top-color:black;border-top-style:solid;}
+	.table_top_border2 {border-top: 1px solid black;}
+	.table_bottom_border {border-bottom-width:1pt;border-bottom-color:black;border-bottom-style:solid;}
+	.table_bottom_border2 {border-bottom-width:1pt;border-bottom-color:black;border-bottom-style:solid;}
+	.table_border tr td {border:1pt;border-color:black;border-style:solid;}
+	.table_left_border {border-left-width:1pt;border-left-color:black;border-left-style:solid;}
+	.table_left_border2 {border-left-width:1pt;border-left-color:black;border-left-style:solid;}
+	.table_right_border {border-right-width:1pt;border-right-color:black;border-right-style:solid;}
+	.table_right_border2 {border-right-width:1pt;border-right-color:black;border-right-style:solid;}
+</style>
+ <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head> 
+ <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"><div id="MathJax_Message" style="display: none;"></div> 
+  <table width="1002" border="0" cellspacing="0" cellpadding="0" align="center"> 
+   <tbody>
+    <tr> 
+     <td style="cursor: pointer;" colspan="2" class="td1">
+	 <iframe id="Top" border="0" src="./基于动态奖惩的分支策略的SAT完备算法_files/top.html" width="100%" scrolling="no" frameborder="0"></iframe></td> 
+    </tr> 
+   </tbody>
+  </table>
+  <table width="1002" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#FFFFFF"> 
+   <tbody>
+    <tr> 
+	<td height="26" width="70%" align="left" class="td" style="border-left:1px solid #CCCCCE;">&nbsp;&nbsp;
+	<a href="http://www.joca.cn/CN/volumn/home.shtml">计算机应用</a>&nbsp;<img src="./基于动态奖惩的分支策略的SAT完备算法_files/dao.gif">&nbsp;
+	<a href="http://www.joca.cn/CN/article/showTenYearVolumnDetail.do?nian=2017">2017</a>, 
+	<a href="http://www.joca.cn/CN/article/showVolumnArticle.do?nian=2017&amp;juan=37">Vol. 37</a><img src="./基于动态奖惩的分支策略的SAT完备算法_files/dao.gif"> 
+	<a href="http://www.joca.cn/CN/volumn/volumn_1372.shtml">Issue (12)</a>: 3487-3492&nbsp;&nbsp;DOI: 
+	<a href="http://www.joca.cn/CN/10.11772/j.issn.1001-9081.2017.12.3487">10.11772/j.issn.1001-9081.2017.12.3487</a><img src="./基于动态奖惩的分支策略的SAT完备算法_files/readHtml.asp.下载" width="0" height="0" border="0"></td>
+	
+	<td align="right" width="30%" class="td" valign="middle" style="border-right:1px solid #CCCCCE;">
+	<div class="bshare-custom" style="margin-top:2px;"><div class="bsPromo bsPromo2"></div>
+	<a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a>
+	<a title="分享到QQ空间" class="bshare-qzone"></a>
+	<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+	<a title="分享到腾讯微博" class="bshare-qqmb"></a>
+	<a title="分享到网易微博" class="bshare-neteasemb"></a>
+	<a title="更多平台" class="bshare-more bshare-more-icon more-style-apple"></a>
+	<span class="BSHARE_COUNT bshare-share-count" style="float: none;">0</span></div><script type="text/javascript" charset="utf-8" src="./基于动态奖惩的分支策略的SAT完备算法_files/buttonLite.js.下载"></script>
+	<script type="text/javascript" charset="utf-8" src="./基于动态奖惩的分支策略的SAT完备算法_files/bshareC0.js.下载"></script>
+	</td></tr></tbody>
+  </table>
+  
+  <div class="rich_html_content"> 
+   <div id="leftPaneInner"><div id="leftPanelTable"><div class="outline_td"><div class="nav-col">
+   <div class="nav" id="nav-article-page" style="position: fixed; height: 848px; width: 179px; top: 0px; background: rgb(236, 242, 246); padding-right: 0px; overflow-y: hidden;"><ul class="nav-page" style="padding-top: 55px; padding-left: 10px;"><li style="padding-left: 0px;font-weight:bold;cursor:pointer;" class="active"><input type="checkbox" name="showLar" id="showFT" style="cursor:pointer"><a id="showText">显示缩略图</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_1" class="scroll">本文结构</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_2" class="scroll">摘要</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_3" class="scroll">关键词</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_4" class="scroll">Abstract</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_5" class="scroll">Keywords</a><br></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_6" class="scroll">0 引言</a></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_7" class="scroll">1 可满足性问题的求解</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_8" class="scroll">1.1 相关术语</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_9" class="scroll">1.2 SAT问题的完备算法</a></li><li style="display:none;padding-left: 20px;" class="imgshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_10" class="scroll"><img class="outline_fig" src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-1.jpg" width="75%"></a></li><li style="display:none;padding-left: 20px;" class="imgshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_11" class="scroll"><img class="outline_fig" src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-2.jpg" width="75%"></a></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_12" class="scroll">2 基于动态奖惩分支策略的SAT算法</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_13" class="scroll">2.1 基于学习过程的变元策略</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_14" class="scroll">2.2 基于学习与搜索双阶段的分支策略</a></li><li style="display:none;padding-left: 20px;" class="imgshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_15" class="scroll"><img class="outline_fig" src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-3.jpg" width="75%"></a></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_16" class="scroll">3 新分支策略的评估</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_17" class="scroll">3.1 实验环境和设置</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_18" class="scroll">3.2 实验结果</a></li><li style="display:none;padding-left: 20px;" class="tableshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_19" class="scroll"><img class="outline_tb" src="./基于动态奖惩的分支策略的SAT完备算法_files/table_thumbnail_icon.png"> 表1(Table 1)</a></li><li style="display:none;padding-left: 20px;" class="tableshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_20" class="scroll"><img class="outline_tb" src="./基于动态奖惩的分支策略的SAT完备算法_files/table_thumbnail_icon.png"> 表2(Table 2)</a></li><li style="padding-left: 20px;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_21" class="scroll">3.3 实验结果分析</a></li><li style="display:none;padding-left: 20px;" class="tableshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_22" class="scroll"><img class="outline_tb" src="./基于动态奖惩的分支策略的SAT完备算法_files/table_thumbnail_icon.png"> 表3(Table 3)</a></li><li style="display:none;padding-left: 20px;" class="imgshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_23" class="scroll"><img class="outline_fig" src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-4.jpg" width="75%"></a></li><li style="display:none;padding-left: 20px;" class="imgshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_24" class="scroll"><img class="outline_fig" src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-5.jpg" width="75%"></a></li><li style="display:none;padding-left: 20px;" class="tableshow"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_25" class="scroll"><img class="outline_tb" src="./基于动态奖惩的分支策略的SAT完备算法_files/table_thumbnail_icon.png"> 表4(Table 4)</a></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_26" class="scroll">4 结语</a></li><li style="padding-left: 0px;font-weight:bold;"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#outline_anchor_27" class="scroll"><b>参考文献(References)</b></a></li></ul></div></div></div></div></div> 
+   <div id="main_article_body" style="width: 820px;"> 
+    <div class="outline_switch_td" style="position: fixed; top: 424px;"><img src="./基于动态奖惩的分支策略的SAT完备算法_files/outline_switch.png" style="cursor: pointer;"></div> 
+    <div id="pagebdy"> 
+     <div class="cf" id="article-block"> 
+      <div class="header" id="hdr-article"> 
+       <div class="article-kicker"></div></div> 
+      <div id="haha" style="width: 807px;"> 
+       <div id="youce" style="height: 854px;"> 
+        <div id="youcebottom">          
+         <div id="bibliographicdiv" class="gongzuoquyue" kaiguan="1"> 
+          <dl class="citation">
+			<h3 style="margin-bottom:3px;">引用本文<img src="./基于动态奖惩的分支策略的SAT完备算法_files/to.jpg">&nbsp;<a id="d_clip_button_full" href="javascript:void(0);" style="font-size:12px;"></a></h3>
+			<dd> 		   
+			   <div class="yinyongbenwen" id="copy_CN">刘燕丽, 徐振兴, 熊丹. 基于动态奖惩的分支策略的SAT完备算法[J]. <span class="spantitle">计算机应用, 2017, 37(12): 3487-3492.DOI: <a href="http://www.joca.cn/CN/10.11772/j.issn.1001-9081.2017.12.3487" style="text-decroation:none;color:#5C5C5C;">10.11772/j.issn.1001-9081.2017.12.3487</a>. <img class="copy_btn" title="复制到剪切板" src="./基于动态奖惩的分支策略的SAT完备算法_files/copy.gif"></span></div><a id="d_clip_button_CN" href="javascript:void(0);"></a>
+				<div class="yinyongbenwen" id="copy_EN">LIU Yanli, XU Zhenxing, XIONG Dan. Exact SAT algorithm based on dynamic branching strategy of award and punishment[J]. Journal of Computer Applications, 2017, 37(12): 3487-3492.  DOI: <a href="http://www.joca.cn/CN/10.11772/j.issn.1001-9081.2017.12.3487" style="text-decroation:none;color:#5C5C5C;">10.11772/j.issn.1001-9081.2017.12.3487</a>. <img class="copy_btn" title="复制到剪切板" src="./基于动态奖惩的分支策略的SAT完备算法_files/copy.gif"></div><a id="d_clip_button_EN" href="javascript:void(0);"></a>
+			</dd>
+          </dl> 
+		   		  <dl>
+		   <dd> 
+            <h3 style="margin-bottom:3px;">基金项目 </h3> 
+           </dd> 
+           <dd>
+		湖北省教育厅科学研究计划项目（B2016015）
+           </dd> 
+          </dl> 
+		                      <dl>
+		   <dd> 
+            <h3 style="margin-bottom:3px;">通信作者 </h3> 
+           </dd> 
+           <dd>
+			刘燕丽, E-mail:<a href="mailto:yanlil2008@163.com">yanlil2008@163.com</a>
+           </dd> 
+          </dl>
+          		            <dl>
+		   <dd> 
+            <h3 style="margin-bottom:3px;">作者简介</h3> 
+           </dd> 
+           <dd>
+		刘燕丽(1980-), 女, 河南西平人, 讲师, 硕士, CCF会员, 主要研究方向:NP问题的算法设计、算法优化;<br>徐振兴(1990-), 男, 湖北鄂州人, 博士研究生, 主要研究方向:NP问题的近似求解、算法优化;<br>熊丹(1979-), 女, 湖北天门人, 讲师, 硕士, 主要研究方向:数理统计、系统辨识
+           </dd> 
+          </dl> 
+                    <dl class="articleHistory"> 
+           <dd> 
+            <h3 style="margin-bottom:3px;">文章历史</h3> 
+           </dd>
+           <dd>
+           		            收稿日期：2017-06-07
+                                   	<br>修回日期：2017-08-03
+           	           	           </dd> 
+          </dl> 
+         </div> 
+        </div> 
+       </div> 
+       <div id="hahacontentyouce" style="width: 611px;"> 
+        <div class="article_meta_info"> 
+         <span class="abs_title outline_anchor" level="0" id="outline_anchor_1"></span> 
+         <div class="topzhanshi">
+				<div class="AbsPdfFigTab" align="center">			
+				<span class="fulltextbut"><a href="http://www.joca.cn/CN/volumn/volumn_1372.shtml"><b>Contents</b></a></span>	
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="fulltextbut"><a href="http://www.joca.cn/CN/abstract/abstract21348.shtml"><b>Abstract</b></a></span>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="fulltextbut"><a href="javascript:void(0)"><b>Full text</b></a></span>				
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span class="figtab"><a href="javascript:void(0);"><b>Figures/Tables</b></a></span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<span><a href="http://www.joca.cn/CN/article/downloadArticleFile.do?attachType=PDF&amp;id=21348"><b>PDF</b></a></span>
+			</div></div>
+        </div> 
+		
+		<div class="fulltext">
+        <div class="article_title_cn">			
+			基于动态奖惩的分支策略的SAT完备算法
+		</div>
+		<div class="author_name_list">
+			 	<span class="author_CN">刘燕丽</span><sup>1,2</sup><sup><img title="通讯作者" src="./基于动态奖惩的分支策略的SAT完备算法_files/REcor.gif"></sup><sup><a href="mailto:yanlil2008@163.com"><img title="yanlil2008@163.com" src="./基于动态奖惩的分支策略的SAT完备算法_files/REemail.gif"></a></sup>, 	<span class="author_CN">徐振兴</span><sup>2</sup>, 	<span class="author_CN">熊丹</span><sup>1</sup>&nbsp;&nbsp;&nbsp;&nbsp;<a class="layout_arrows to_down"></a>
+		</div>
+		<div class="layout_arrows_content">
+			<div class="affiliation_list">
+				<div>
+										1. 武汉科技大学 理学院, 武汉 430081;<br> 					2. 华中科技大学 计算机科学与技术学院, 武汉 430074									</div>
+			</div>
+			<div class="article_meta_other">
+				<div class="receivedate">
+									            收稿日期：2017-06-07；修回日期：2017-08-03				</div>
+								<div class="fund">基金项目：湖北省教育厅科学研究计划项目（B2016015）</div>
+												<div class="author">作者简介：刘燕丽(1980-), 女, 河南西平人, 讲师, 硕士, CCF会员, 主要研究方向:NP问题的算法设计、算法优化;<br>徐振兴(1990-), 男, 湖北鄂州人, 博士研究生, 主要研究方向:NP问题的近似求解、算法优化;<br>熊丹(1979-), 女, 湖北天门人, 讲师, 硕士, 主要研究方向:数理统计、系统辨识</div>
+					            				<div class="corres">
+	              		通信作者：刘燕丽, E-mail:<a href="mailto:yanlil2008@163.com">yanlil2008@163.com</a>
+				</div>
+	            			</div>
+		</div>
+		<span class="outline_anchor" level="Zhai_CN" id="outline_anchor_2"></span>
+				<div class="abs" style="MARGIN-TOP: 10px">
+			<b>摘要</b>: 
+				       			       	 针对学习子句数量有限或相似度高导致历史信息有限、搜索树不平衡的问题，提出了基于动态奖惩的分支策略。首先，对每次单子句传播的变元进行惩罚，依据变元是否产生冲突和产生冲突的间隔，确立不同的惩罚函数；其次，在学习阶段，利用学习子句确定对构造冲突有益的变元，非线性增加它们的活跃度；最后，选择活跃度最大的变元作为新分支变元。在glucose3.0算法基础上，完成了改进的动态奖惩算法——AP7。实验结果表明，相比glucose3.0算法，AP7算法的剪枝率提高了14.2%~29.3%，少数算例剪枝率的提高可达51%，且改进后的AP7算法相比glucose3.0算法，运行时间缩短了7%以上。所提分支策略可以有效降低搜索树规模，使搜索树更加平衡，减少计算时间。</div>
+				<span class="outline_anchor" level="Guan_CN" id="outline_anchor_3"></span>
+				<div class="key">			
+			<span class="key_title outline_anchor1">关键词</span>: <span class="keyword">NP完全问题</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">可满足性问题</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">冲突驱动子句学习</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">完备算法</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">分支策略</span>&nbsp;&nbsp;&nbsp;&nbsp;		</div>
+		
+		<div class="article_title_cn">			
+			Exact SAT algorithm based on dynamic branching strategy of award and punishment
+		</div>
+		<div class="author_name_list">
+			 <span class="author_EN">LIU Yanli</span><sup>1,2</sup><sup><img title="Corresponding author" src="./基于动态奖惩的分支策略的SAT完备算法_files/REcor.gif"></sup><sup><a href="mailto:yanlil2008@163.com"><img title="yanlil2008@163.com" src="./基于动态奖惩的分支策略的SAT完备算法_files/REemail.gif"></a></sup>, <span class="author_EN">XU Zhenxing</span><sup>2</sup>, <span class="author_EN">XIONG Dan</span><sup>1</sup>						&nbsp;&nbsp;&nbsp;&nbsp;<a class="layout_arrows to_down"></a>
+					</div>
+		<div class="layout_arrows_content">
+			<div class="affiliation_list">
+				<div>
+									   				   <span class="danwei1_CN">
+				   1. College of Science, Wuhan University of Science and Technology, Wuhan Hubei 430081, China</span>;<br> 	               				   <span class="danwei2_CN">
+				   2. School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan Hebei 430074, China</span>	               				</div>
+			</div>
+			<div class="article_meta_other">
+								<div class="found">
+					Foundation Item: This work is partially supported by the Science and Technology Project of Hubei Provincial Education Department (B2016015)
+				</div>
+												<div class="author">Author introduction: <b>LIU Yanli</b>, born in 1980, M. S., lecturer. Her research interests include algorithm design of NP problem, algorithm optimization;<br><b>XU Zhenxing</b>, born in 1990, Ph. D. candidate. His research interests include approximate solution of NP problem, algorithm optimization;<br><b>XIONG Dan</b>, born in 1979, M. S., lecturer. Her research interests include mathematical statistics, system identification</div>
+											</div>
+					</div>
+		<span class="outline_anchor" level="Zhai_EN" id="outline_anchor_4"></span>
+				<div class="abs" style="MARGIN-TOP: 10px">			
+			<b>Abstract</b>: 
+				       					       			       	 The limited number and high similarity of learning clauses lead to limited historical information and imbalanced search tree. In order to solve the problems, a dynamic branching strategy of award and punishment was proposed. Firstly, the variables of every unit propagation were punished. Different penalty functions were established according to whether the variable generated a conflict and the conflict interval. Then, in the learning phase, the positive variables for the conflict were found according to the learning clauses, and their activities were nonlinearly increased. Finally, the variable with the maximum activity was chosen as the new branching variable. On the basis of the glucose3.0 algorithm, an improved dynamic algorithm of award and punishment named Award and Punishment 7 (AP7) was completed. The experimental results show that, compared with the glucose3.0 algorithm, the rate of cutting branches of AP7 algorithm is improved by 14.2%-29.3%, and that of a few examples is improved up to 51%. The running time of the improved AP7 algorithm is shortened more than 7% compared with the glucose3.0 algorithm. The branching strategy can efficiently reduce the size of search tree, make the search tree more balanced and reduce the computation time.
+												</div>
+				<span class="outline_anchor" level="Guan_EN" id="outline_anchor_5"></span>
+				<div class="key">			
+			<span class="key_title outline_anchor1">Key words</span>: <span class="keyword">Non-deterministic Polynomial Complete problem (NPC)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">SATisfiability problem (SAT)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">conflict driven clause learning</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">exact algorithm</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">branching strategy</span>&nbsp;&nbsp;&nbsp;&nbsp;		</div>
+		        <div class="article_body"> 
+										<span class="paragraph_title outline_anchor" level="1" id="outline_anchor_6">0 引言</span>
+																									<p>可满足性问题(SATisfiability problem, SAT)是计算机科学领域经典的NP问题(Non-deterministic Polynomial Complete problem, NPC)，在计算机科学理论中占有非常重要的地位。现实世界的问题大多数都是NP问题，即不确定性问题。比如，超大规模集成电路测试、资源配置、网络的搜索、数据挖掘、城市交通等，解决这些工业问题的SAT技术推动了人工智能的重要发展。</p>
+																																								<p>目前，绝大多数SAT完备算法是基于深度遍历二叉树的DPLL(Davis Putnam Logemann Loveland)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b1" ref-type="bibr">1</a></span>]</sup>算法。2001年Moskewicz等<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b2" ref-type="bibr">2</a></span>]</sup>提出的冲突驱动子句学习(Conflict Driven Clause Learning, CDCL)，使得SAT求解效率有了标志性的进步，在合理时间内，求解规模从数百个变元，扩大到数万个变元。后续提出的SAT完备算法的主要方法和改进<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b3" ref-type="bibr">3</a></span>-<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b4" ref-type="bibr">4</a></span>]</sup>均基于冲突驱动子句学习技术。比如，非时间序列回溯(Non-chronological Backtracking, NCB)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b5" ref-type="bibr">5</a></span>]</sup>，该策略分析冲突的产生原因，记录优化的学习子句，并在回溯后，优先满足学习子句，以避免再次陷入相同冲突。文字块距离(Literal Block Distance, LBD)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b6" ref-type="bibr">6</a></span>]</sup>是统计学习子句中不同分支层的变元数，是一个动态变化值。子句库始终保留二元学习子句或LBD值小的学习子句。该策略既避免了因学习子句剧增而内存崩溃的危险，又保留了质量高的变元约束条件，是有效的子句删除策略。</p>
+																																								<p>变元独立衰减(Variables State Independent Decaying Sum, VSIDS)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b7" ref-type="bibr">7</a></span>]</sup>分支策略强化了冲突学习对搜索的影响。一旦变元在产生学习子句的过程中出现，那么该变元的活跃度将非线性增加。近几年的SAT竞赛数据显示变元独立衰减策略或者其变种是较为高效的分支策略。动态重启(Dynamic Restart, DR)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b8" ref-type="bibr">8</a></span>]</sup>是当算法较长时间不能找到冲突时，程序撤销之前的搜索动作，重新开始遍历二叉树。因为新搜索是在含有学习子句的子句库中进行，学习子句代表了之前的搜索信息，所以重启并不是推翻之前的搜索。目前，工业算例的规模可达百万个变元数，千万个子句数。因为问题的复杂度高，量化这些策略在搜索过程中的作用，以及它们之间的相互影响，是非常困难的事情。</p>
+																																								<p>本文针对在搜索空间为2<sup><i>n</i></sup>(<i>n</i>是变元数)的二叉树中，由于学习子句数量有限，或学习子句相似度高而导致搜索树层次过深、计算效率低的问题，提出了双阶段评分的新分支策略。即对于搜索阶段传播的变元，若其对构造冲突作用小，则给予适当的惩罚；对于学习阶段中构建冲突的变元给予奖励，通过较为全面地评估变元对搜索的影响，以达到更快地发现冲突，提高剪枝率的目标。计算了SAT国际竞赛的工业组算例，实验结果表明新变元选择策略可有效地调整搜索树的高度，缩短运算时间。</p>
+																																					<span class="paragraph_title outline_anchor" level="1" id="outline_anchor_7">1 可满足性问题的求解</span>
+																									<p>文献[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b9" ref-type="bibr">9</a></span>]给出了可满足性问题的相关术语的定义。</p>
+																																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_8">1.1 相关术语</span>
+																									<p><b>定义1</b>&nbsp;&nbsp;布尔变元集合。符号<i>V</i>表示命题变元集合，<i>V</i>={<i>x</i><sub>1</sub>, <i>x</i><sub>2</sub>, …, <i>x</i><sub><i>n</i>-1</sub>, <i>x<sub>n</sub></i>}，<i>x<sub>i</sub></i>∈{true, false}。文字<i>l<sub>i</sub></i>是布尔变元<i>x<sub>i</sub></i>及其否定形式<i><span style="text-decoration:overline">x</span><sub>i</sub></i>。一般称<i>x<sub>i</sub></i>为正文字，<i><span style="text-decoration:overline">x</span><sub>i</sub></i>为负文字。变元<i>x<sub>i</sub></i>取true使得正文字满足, 取false使得负文字满足。</p>
+																																								<p><b>定义2</b>&nbsp;&nbsp;子句集。子句是<i>V</i>上若干文字的析取，记为<i>c</i>。子句集是由若干子句构成的集合，记为<i>C</i>。子句长度是子句所含文字的个数，记为|<i>c</i>|。特别地，长度为1的子句称为单子句。长度为0的子句称为空子句，记为<i>δ</i>。</p>
+																																								<p><b>定义3</b>&nbsp;&nbsp;子句满足。若子句满足当且仅当子句中至少有1个文字为true。因不含有任何文字，所以空子句永远不满足。若子句不满足当且仅当子句中所有文字均为false，该子句又称为冲突子句，记为□。</p>
+																																								<p><b>定义4</b>&nbsp;&nbsp;合取范式。合取范式(Conjunctive Normal Formula, CNF)是由若干<i>V</i>上的子句合取构成的命题公式，记为<i>F</i>。</p>
+																																								<p><b>定义5</b>&nbsp;&nbsp;真值指派。真值指派是命题变元<i>V</i>′→{1, 0}的映射，<i>V</i>′⊆<i>V</i>，记为<i>A</i>。当<i>V</i>′=<i>V</i>时，<i>A</i>是完整真值指派；否则，称之为部分真值指派。</p>
+																																								<p><b>定义6</b>&nbsp;&nbsp;冲突集。对任意一组<i>V</i>上的真值指派，若子句集<i>C</i>中至少含有1个不满足子句，则称<i>C</i>为冲突集，记为<i>Φ</i>。若两个冲突集的交为空，则称它们是相互独立的。</p>
+																																								<p><b>定义7</b>&nbsp;&nbsp;SAT问题。对于命题变元集合<i>V</i>和子句集<i>C</i>，判定是否存在一组关于<i>V</i>的真值指派使得<i>C</i>中所有子句满足。</p>
+																																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_9">1.2 SAT问题的完备算法</span>
+																									<p>目前，DPLL是绝大多数SAT完备算法的主流程的控制程序。算法从根节点开始深度遍历二叉树，当遇到冲突的真值指派时，算法回溯。若算法找到一组真值指派，使得每个子句满足，那么程序终止，返回“可满足”。若遍历完完整的二叉树后，未找到一组真值指派使得所有子句满足，那么程序终止，返回“不可满足”。DPLL算法详见文献[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b1" ref-type="bibr">1</a></span>]。</p>
+																																								<p>1) 测试冲突的单子句传播。</p>
+																																								<p>单子句传播(Unit Propagation)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b9" ref-type="bibr">9</a></span>-<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b10" ref-type="bibr">10</a></span>]</sup>可以帮助SAT算法推导出真值指派的冲突，减少搜索空间。算法1是单子句传播的具体过程。</p>
+																																								<p>算法1&nbsp;&nbsp;UnitPropagate(<i>F</i>)。</p>
+																																								<p>输入&nbsp;&nbsp;合取范式<i>F</i>；</p>
+																																								<p>输出&nbsp;&nbsp;若有冲突，返回冲突子句，否则返回NoConflict。</p>
+																																								<p>1) <i>F</i>′← <i>F</i></p>
+																																								<p>2) do {</p>
+																																								<p>3) &nbsp;&nbsp;取<i>UnitQue</i>中单子句<i>c<sub>j</sub></i>，满足<i>c<sub>j</sub></i>的文字<i>l</i>；</p>
+																																								<p>4) &nbsp;&nbsp;形如<i>l</i>∨<i>l<sub>i</sub></i>…∨<i>l<sub>k</sub></i>的子句已满足，从<i>F</i>′中移除；</p>
+																																								<p>5) &nbsp;&nbsp;形如<i><span style="text-decoration:overline">l</span></i>∨<i>l<sub>m</sub></i>∨<i>l<sub>s</sub></i>…∨<i>l<sub>t</sub></i>的子句<i>c<sub>n</sub></i>，化简为<i>l<sub>m</sub></i>∨<i>l<sub>s</sub></i>…∨<i>l<sub>t</sub></i>；</p>
+																																								<p>6) &nbsp;&nbsp;if (<i>l<sub>m</sub></i>∨<i>l<sub>s</sub></i>…∨<i>l<sub>t</sub></i>为单子句)</p>
+																																								<p>7) &nbsp;&nbsp;&nbsp;&nbsp;<i>l<sub>m</sub></i>∨<i>l<sub>s</sub></i>…∨<i>l<sub>t</sub></i>入<i>UnitQue</i>队列；</p>
+																																								<p>8) &nbsp;&nbsp;else if (<i>l<sub>m</sub></i>∨<i>l<sub>s</sub></i>…∨<i>l<sub>t</sub></i>为空子句)</p>
+																																								<p>9) &nbsp;&nbsp;&nbsp;&nbsp;return <i>c<sub>n</sub></i>；</p>
+																																								<p>10)&nbsp;&nbsp;}while(<i>UnitQue</i>不为空)</p>
+																																								<p>11)&nbsp;&nbsp;return NoConflict</p>
+																																								<p>单子句传播满足单子句中的文字，不断地简化其他子句，直至单子句队列<i>UnitQue</i>为空，或冲突子句出现为止。例1说明了单子句传播推理冲突子句的过程。因为<i><span style="text-decoration:overline">x</span><sub>i</sub></i>∨<i>x<sub>j</sub></i>等价于<i>x<sub>i</sub></i>→<i>x<sub>j</sub></i>，所以建立<i>F</i>的蕴含图更直观地体现推理过程。如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure1" ref-type="fig">图 1</a></span>所示，<i>x</i><sub>1</sub>是当前第9层的分支文字，<i><span style="text-decoration:overline">x</span></i><sub>17</sub>、<i>x</i><sub>15</sub>、<i>x</i><sub>23</sub>、<i>x</i><sub>2</sub>分别是第2、5、4、2层的已满足的文字。当<i><span style="text-decoration:overline">x</span></i><sub>17</sub>=1、<i>x</i><sub>1</sub>=1时，子句<i>x</i><sub>17</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>1</sub>∨<i>x</i><sub>6</sub>简化为单子句<i>x</i><sub>6</sub>，所以<i>x</i><sub>6</sub>的决策层亦是9。同理，未标识括号的变元的决策层均是第9层。□表示冲突子句<i>x</i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>9</sub>。</p>
+																																								<div class="figure outline_anchor" id="outline_anchor_10">
+							<div class="figure_anchor" style="display: none;">图 1</div>
+							<table id="Figure1">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-1.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-1.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure1">图 1</span> <i>F</i>的逻辑蕴含图</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure1">Figure 1</span> Logical implication graph of <i>F</i></span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div>
+																													<p>例1&nbsp;&nbsp;<i>F</i>={<i>x</i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>9</sub>, <i>x</i><sub>17</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>1</sub>∨<i>x</i><sub>6</sub>, <i><span style="text-decoration:overline">x</span></i><sub>1</sub>∨<i>x</i><sub>7</sub>, <i><span style="text-decoration:overline">x</span></i><sub>1</sub>∨<i>x</i><sub>4</sub>, <i><span style="text-decoration:overline">x</span></i><sub>6</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>7</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>4</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>3</sub>, <i>x</i><sub>3</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>15</sub>∨<i>x</i><sub>11</sub>, <i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>2</sub>, <i>x</i><sub>9</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>, <i>x</i><sub>17</sub>∨<i>x</i><sub>2</sub>, …}</p>
+																																								<p>2) 学习子句的产生。</p>
+																																								<p>当搜索到冲突后，SAT算法进入分析冲突的原因，产生学习子句的学习阶段。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure2" ref-type="fig">图 2</a></span>显示了由冲突子句出发，通过消解规则，逐一产生学习子句的过程。消解规则是若两个子句中包含有相反文字，则将这对文字删除，剩余文字通过析取构成新的子句。消解规则不改变合取范式的满足性。</p>
+																																								<div class="figure outline_anchor" id="outline_anchor_11">
+							<div class="figure_anchor" style="display: none;">图 2</div>
+							<table id="Figure2">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-2.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-2.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure2">图 2</span> 学习子句的产生过程</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure2">Figure 2</span> Generation process of learning clauses</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div>
+																													<p>同一个冲突可以学习到多个新子句，如<i>x</i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>和<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>2</sub>均是学习子句。经实验验证，第一蕴含点(First Unit Implication Point, FUIP)<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b5" ref-type="bibr">5</a></span>]</sup>的学习方式是更加有效的。具体操作是利用消解规则，按照变元传播的倒序，逐一消解子句中互为相反的变元。记录每个新子句中当前层次的文字数。当该值为1时，学习过程结束。如<i>F</i>的第一蕴含点的学习子句<i>L</i>是<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>2</sub>，<i>Φ<sub>L</sub></i>={<i>x</i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>9</sub>, <i>x</i><sub>9</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>, <i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>5</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>2</sub>}是<i>L</i>对应的冲突集。易验证，当学习子句不满足时，在任意真值指派下，冲突集中至少有1个子句是不满足的。利用此性质，在后续搜索中，一旦学习子句不满足，即可剪枝。目前，绝大多数SAT完备算法依据FUIP学习到的子句确定回溯层次。非时间序列回溯是指搜索回溯到学习子句中非当前层次文字的最大层次。如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure2" ref-type="fig">图 2</a></span>产生的学习子句<i><span style="text-decoration:overline">x</span></i><sub>11</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>23</sub>∨<i><span style="text-decoration:overline">x</span></i><sub>2</sub>，上层文字集合是{<i><span style="text-decoration:overline">x</span></i><sub>23</sub>，<i><span style="text-decoration:overline">x</span></i><sub>2</sub>}，其最大的层次是4。SAT算法回溯后，将撤销第5层到第9层的搜索工作。</p>
+																																					<span class="paragraph_title outline_anchor" level="1" id="outline_anchor_12">2 基于动态奖惩分支策略的SAT算法</span>
+																									<p>DPLL+子句学习是SAT完备算法的基础。为了减少搜索树的节点数，提高算法的效率，分支策略将选择对搜索树规模影响大的变元。</p>
+																																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_13">2.1 基于学习过程的变元策略</span>
+																									<p>如变元独立衰减策略或其变种，这类基于学习过程的分支策略是在产生学习子句的学习阶段，对参与消解操作的所有子句包含的变元，增大其活跃度。算法始终选择当前活跃度最大的变元作为新的分支点。如例1会增加变元<i>x</i><sub>5</sub>、<i>x</i><sub>9</sub>、<i>x</i><sub>11</sub>、<i>x</i><sub>23</sub>、<i>x</i><sub>2</sub>、<i>x</i><sub>15</sub>的活跃度。变元参与构造冲突越多，其活跃度越大。在后续搜索中选择活跃度大的变元，易找到之前发现过的冲突，有利于减少搜索路径。</p>
+																																								<p>我们发现仅基于学习过程的分支策略对减小搜索树规模并不总是有效的。某些情况下，相似的学习过程导致学习子句相似度高。学习子句代表的搜索的历史信息比较集中，回溯后或重启后，基于学习过程的变元策略会仅有少量变元可以优先选择。搜索没有足够的历史信息指引方向，会随机去选择变元作为新的分支节点，这会导致搜索树层次过深，算法陷入困境。目前，绝大多数SAT求解器采用动态重启逃脱这种困境。因为子句库保存了表述冲突关系的学习子句，所以重启后的搜索与没有学习信息的原始搜索不同。通过优先选择冲突关系多的变元，新搜索可能会找到冲突。但是动态重启只能缓和算法遇到的问题，并未改变变元的活跃度，程序可能会又陷入到某一子树的过度搜索中。</p>
+																																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_14">2.2 基于学习与搜索双阶段的分支策略</span>
+																									<p>为了减少搜索树规模，使搜索树更加平衡，全面地评估变元对搜索的作用，使得越容易构造冲突的变元，越接近树根，增大搜索优先找到冲突的概率是基于动态奖惩分支策略的奖惩算法——AP7(Award and Punishment 7)的主要改进思路。</p>
+																																								<p>SAT完备算法包括2个主要过程：一是搜索过程，即单子句传播，发现冲突的操作；二是学习过程，即产生学习子句，增加冲突变元的活跃度，确定回溯层次。AP7算法对以上两个过程中的变元进行全面的评估。在搜索阶段，降低较长时间内未找到冲突的变元的活跃度，在学习阶段，提高对构造冲突有益的变元的活跃度，并优先选择当前活跃度最大的变元作为分支变元。算法流程如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure3" ref-type="fig">图 3</a></span>所示。</p>
+																																								<div class="figure outline_anchor" id="outline_anchor_15">
+							<div class="figure_anchor" style="display: none;">图 3</div>
+							<table id="Figure3">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-3.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-3.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure3">图 3</span> AP7算法流程</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure3">Figure 3</span> AP7 algorithm flowchart</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div>
+																													<p>算法2是AP7的伪代码。算法中<i>penalty</i>是让变元活跃度随着传播而衰减的独立参数；<i>numCC</i>是冲突数，初始值为0；<i>penaltyV</i>是存储待惩罚变元的数组；<i>dl</i>是搜索树的层数；<i>lastC</i>[<i>x</i>]是存放变元<i>x</i>的最近一次出现的冲突；<i>Act</i>是记录变元<i>x</i>活跃度的数组；<i>Φ<sub>L</sub></i>是学习子句<i>L</i>对应的冲突集，<i>Variable</i>(<i>Φ<sub>L</sub></i> )是冲突集中出现的所有变元的集合；<i>V</i>是输入算例的变元集合；<i>BranchV</i>是分支变元；max函数返回活跃度最大的变元；<i>bl</i>是SAT算法产生冲突后的回溯层次；AP7采用非时间序列回溯的方法；<i>cancel</i>函数是算法回溯到指定的层次。</p>
+																																								<p>算法2&nbsp;&nbsp;AP7(<i>F</i>)。</p>
+																																								<p>输入&nbsp;&nbsp;合取范式<i>F</i>；</p>
+																																								<p>输出&nbsp;&nbsp;<i>F</i>是否满足，满足返回“SAT”，不满足返回“UNSAT”。</p>
+																																								<p>1) <i>penalty</i>=0.6;<i>numCC</i> =0;<i>penaltyV</i>.clear();</p>
+																																								<p>2) for(;;)</p>
+																																								<p>3) &nbsp;&nbsp;UnitPropagate(<i>F</i>)且将传播的变元<i>x</i>压入<i>penaltyV</i>中；</p>
+																																								<p>4) &nbsp;&nbsp;for <i>x<sub>t</sub></i>∈<i>penaltyV</i> do&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//搜索阶段的惩罚</p>
+																																								<p>5) &nbsp;&nbsp;&nbsp;&nbsp;if UnitPropagate(<i>F</i>) = =冲突then</p>
+																																								<p>6) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if <i>penalty</i> &lt; 0.98 then</p>
+																																								<p>7) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>penalty</i> = <i>penalty</i> + 10<sup>-7</sup>;</p>
+																																								<p>8) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if</p>
+																																								<p>9) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Act</i>[<i>x<sub>t</sub></i>]=<i>Act</i>[<i>x<sub>t</sub></i>]*<i>penalty</i>+(1-<i>penalty</i>)/(<i>numCC</i>-<i>lastC</i>[<i>x<sub>t</sub></i>]);</p>
+																																								<p>10)&nbsp;&nbsp;&nbsp;&nbsp;else</p>
+																																								<p>11)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Act</i>[<i>x<sub>t</sub></i>]=<i>Act</i>[<i>x<sub>t</sub></i>]* <i>penalty</i>;</p>
+																																								<p>12)&nbsp;&nbsp;&nbsp;&nbsp;end if</p>
+																																								<p>13)&nbsp;&nbsp;end for&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//结束惩罚计算</p>
+																																								<p>14)&nbsp;&nbsp;&nbsp;&nbsp;<i>penaltyV</i>.clear();</p>
+																																								<p>15)&nbsp;&nbsp;&nbsp;&nbsp;if UnitPropagate(<i>F</i>) = =冲突then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//找到冲突</p>
+																																								<p>16)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if <i>dl</i> = = 0 then</p>
+																																								<p>17)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "UNSAT";</p>
+																																								<p>18)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if</p>
+																																								<p>19)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>numCC</i> ++;</p>
+																																								<p>20)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FUIP方式产生学习子句<i>L</i>, 并返回回溯层次<i>bl</i>；</p>
+																																								<p>21)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for <i>x<sub>i</sub></i>∈<i>Variable</i>(<i>Φ<sub>L</sub></i>) do&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//学习阶段的奖励</p>
+																																								<p>22)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>lastC</i>[<i>x<sub>i</sub></i>]=<i>numCC</i>;</p>
+																																								<p>23)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Act</i>[<i>x<sub>i</sub></i>]<sub>=</sub>; <i>Act</i>[<i>x<sub>i</sub></i>]+(1/0.9)<sup><i>numCC</i></sup></p>
+																																								<p>24)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if; <i>Act</i>[<i>x<sub>i</sub></i>] &gt;1E100 then</p>
+																																								<p>25)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for <i>x<sub>i</sub></i>∈<i>V</i> do</p>
+																																								<p>26)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Act</i>[<i>x<sub>i</sub></i>]*=1E-100;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//作平滑</p>
+																																								<p>27)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end for</p>
+																																								<p>28)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if</p>
+																																								<p>29)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end for&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//学习阶段奖励结束</p>
+																																								<p>30)&nbsp;&nbsp;&nbsp;&nbsp;<i>cancel</i>(<i>bl</i>);</p>
+																																								<p>31)&nbsp;&nbsp;&nbsp;&nbsp;翻转学习子句<i>L</i>中未满足的文字；</p>
+																																								<p>32)&nbsp;&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//未找到冲突</p>
+																																								<p>33)&nbsp;&nbsp;&nbsp;&nbsp;<i>BranchV</i>=max(; <i>Act</i>[<i>x<sub>k</sub></i>]); <i>x<sub>k</sub></i>∈<i>V</i></p>
+																																								<p>34)&nbsp;&nbsp;&nbsp;&nbsp;if所有变元都有了真值指派then</p>
+																																								<p>35)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "SAT";</p>
+																																								<p>36)&nbsp;&nbsp;&nbsp;&nbsp;end if</p>
+																																								<p>37)&nbsp;&nbsp;&nbsp;&nbsp;<i>dl</i> ++;</p>
+																																								<p>38)&nbsp;&nbsp;&nbsp;&nbsp;<i>BranchV</i>压入<i>penaltyV</i>;</p>
+																																								<p>39)&nbsp;&nbsp;end if</p>
+																																								<p>40) end for</p>
+																																								<p>AP7首先作单子句传播，将单子句传播中所有变元压入<i>penaltyV</i>中，如果这些变元的真值指派之间没有冲突，那么将它们的活跃度降低至60%~98%；如果这些变元之间有冲突那么除了适当的给予惩罚之外，还给予少量的奖励。以上是传播阶段变元的活跃度计算。</p>
+																																								<p>如果单子句传播发现了冲突，且当前搜索层次是第0层，那么SAT问题无解，返回“UNSAT”；如果当前层次不是第0层，则AP7对冲突进行分析，采用FUIP方式产生学习子句，确定回溯层次<i>bl</i>。在学习子句对应的冲突集中出现的变元，其活跃度会得到大小为(1/0.9)<sup><i>numCC</i></sup>的奖励。AP7对构造冲突的变元进行奖励后，开始回溯，撤销第<i>bl</i>+1层到当前层传播的变元。因为回溯后的学习子句是单子句，所以满足学习子句，进入到新的一轮单子句传播。</p>
+																																								<p>如果单子句传播未发现冲突，则AP7选择活跃度最大且未赋值的变元作为分支变元。分支层次增加1，分支变元压入<i>penaltyV</i>中。AP7开始新的一轮单子句传播。如果所有变元具有合理的真值指派，没有未赋值的变元，那么AP7找到了问题的解，算法返回“SAT”。</p>
+																																								<p>学习阶段对变元的奖励值不是固定值，该值随着搜索层次的加深，奖励值越大。为了防止活跃度值的溢出，当某个变元的活跃度大于阈值1E100时，变元的活跃度整体地平滑下降。搜索阶段实施惩罚时需注意以下几个问题：1)降低活跃度的<i>penalty</i>不是一个固定值。算法找到越多的冲突，活跃度降低得越少。这是因为最近找到的冲突很大概率上质量会比之前的冲突要好。2)当搜索找到冲突时，增加了一个变量1/(<i>numCC</i>-<i>lastC</i>[<i>x<sub>t</sub></i>])。若某个变元一段时间之后，再次找到了冲突，那么它与长时间未有冲突的变元相比，活跃度应该高一些。3)当搜索没有找到冲突时，直接大幅度降低变元的活跃度。虽然这种方式比较野蛮，但是对于复杂的问题，它是有效的。</p>
+																																					<span class="paragraph_title outline_anchor" level="1" id="outline_anchor_16">3 新分支策略的评估</span>
+																						<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_17">3.1 实验环境和设置</span>
+																									<p>为了准确评估新分支策略在求解工业问题上的作用，实验对比了新算法AP7和glucose3.0。两者仅分支策略不同，AP7采用的是基于奖惩的新策略，而glucose3.0是基于学习过程的变元独立衰减分支策略。在SAT竞赛的工业组中，glucose算法及其变种<sup>[<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#b12" ref-type="bibr">12</a></span>]</sup>有重要的地位。glucose2.3算法是2013年竞赛的工业组冠军，获得2014年—2016年工业组前三名的算法均是以glucose3.0为基础的；同时，glucose被SAT组委会用于确定算例的难度等级。</p>
+																																								<p>实验的机器配置采用Intel E5 2.7 GHz处理器、32 GB内存、Centos 6.3服务器版本的操作系统。在相同的机器上，AP7算法和glucose3.0算法求解2016年SAT Competition (<a href="http://www.satcompetition.org/" target="_blank">http://www.satcompetition.org</a>)公布的工业算例集。这些算例来自软件测试、调度、硬件电路测试、网络安全、加密算法等实际问题。根据算例的解的满足性，这些算例被分为可满足算例集和不可满足算例集。实验采用SAT竞赛的限定时间，每个算例的运算不超过5000 s，若超出，该算例结果记为unsolved。</p>
+																																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_18">3.2 实验结果</span>
+																									<p>首先给出glucose3.0和AP7算法在相同机器上计算相同算例的时间结果。glucose3.0和AP7算法计算加密安全哈希算法(Secure Hash Algorithm, SHA)、矩形装配、交通规划等工业问题的运算时间如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table1" ref-type="table">表 1</a></span>所示。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table1" ref-type="table">表 1</a></span>中算例的变元数是13408~521147，子句数是308391~13378009。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table1" ref-type="table">表 1</a></span>显示，在27个算例中AP7算法有22个算例运行时间少于glucose3.0，AP7算法相比glucose3.0计算可满足算例的运行总时间缩短了31.66%。</p>
+																																													<div class="table outline_anchor" id="outline_anchor_19">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable1">表 1</span></div>
+							<table id="Table1">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table1">表 1</span> 不同算法可满足算例的运行时间对比&nbsp;s</span>
+																						<span class="caption"><span class="TabText" id="Table1">Table 1</span> Running time comparison of SAT examples for different algorithms&nbsp;s</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+         <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+    </tr>
+        </thead>
+<tbody>
+         <tr align="center">
+        <td class="table_top_border2">001-80-12</td>
+        <td class="table_top_border2">1783.374</td>
+        <td class="table_top_border2"><b>1745.778</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-12</td>
+        <td>1652.822</td>
+        <td><b>659.339</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-4</td>
+        <td>283.076</td>
+        <td><b>198.315</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-8</td>
+        <td><b>621.113</b></td>
+        <td>1009.017</td>
+    </tr>
+
+    <tr align="center">
+        <td>003-80-8</td>
+        <td>1208.672</td>
+        <td><b>681.527</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>004-80-8</td>
+        <td>450.735</td>
+        <td><b>394.191</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>006-80-4</td>
+        <td><b>313.704</b></td>
+        <td>395.040</td>
+    </tr>
+
+    <tr align="center">
+        <td>007-80-8</td>
+        <td>880.742</td>
+        <td><b>635.395</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>008-80-4</td>
+        <td><b>265.648</b></td>
+        <td>449.913</td>
+    </tr>
+
+    <tr align="center">
+        <td>008-80-8</td>
+        <td>600.966</td>
+        <td><b>487.762</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>009-80-4</td>
+        <td>184.456</td>
+        <td><b>124.684</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>009-80-8</td>
+        <td>935.316</td>
+        <td><b>311.037</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug3</td>
+        <td>16.958</td>
+        <td><b>9.713</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug7</td>
+        <td><b>30.391</b></td>
+        <td>37.258</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>75.655</td>
+        <td><b>23.322</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_03_56</td>
+        <td>848.849</td>
+        <td><b>17.407</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>1308.447</td>
+        <td><b>266.186</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.020…</td>
+        <td>29.588</td>
+        <td><b>7.290</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>154.362</td>
+        <td><b>35.348</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.050…</td>
+        <td>191.463</td>
+        <td><b>166.461</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-4degree…2008seed.050…</td>
+        <td>3481.445</td>
+        <td><b>3149.882</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>200.804</td>
+        <td><b>121.526</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>gss-18-s100</td>
+        <td>574.921</td>
+        <td><b>335.892</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>gss-19-s100</td>
+        <td>1970.073</td>
+        <td><b>1081.859</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>1543.116</td>
+        <td><b>35.293</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-sequencedstrips… p30_3.085-SAT</td>
+        <td>1541.417</td>
+        <td><b>35.819</b></td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">MD5-27-4</td>
+        <td class="table_bottom_border"><b>27.064</b></td>
+        <td class="table_bottom_border">58.614</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table1">表 1</span> 不同算法可满足算例的运行时间对比&nbsp;s</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table1">Table 1</span> Running time comparison of SAT examples for different algorithms&nbsp;s</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>			
+																								<p>glucose3.0和AP7算法计算硬件电路优化、电子控制等工业问题的运算时间对比如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table2" ref-type="table">表 2</a></span>所示。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table2" ref-type="table">表 2</a></span>中算例的变元数是3295~89315，子句数是13079~5584002。glucose3.0在5000 s限定时间内，未求解出<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table2" ref-type="table">表 2</a></span>的第1个算例smtlib-qfbv-aigs-ext_con_032_008_0256-tseitin，该算例在竞赛网站公布的最好成绩是Lingeling(druplig)算法的1.432 s。根据<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table2" ref-type="table">表 2</a></span>中AP7和glcuose3.0均计算出结果的21个算例，有17个算例AP7算法运算时间少于glucose3.0，AP7算法的运行总时间比glucose3.0缩短了37.13%。</p>
+																																													<div class="table outline_anchor" id="outline_anchor_20">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable2">表 2</span></div>
+							<table id="Table2">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table2">表 2</span> 不同算法不可满足算例的运行时间对比&nbsp;s</span>
+																						<span class="caption"><span class="TabText" id="Table2">Table 2</span> Running time comparison of UNSAT examples for different algorithms s</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+    </tr>
+        </thead>
+<tbody>
+        <tr align="center">
+        <td class="table_top_border2">smtlib-qfbv-aigs-ext_con_032_008_0256-tseitin</td>
+        <td class="table_top_border2">unsolved</td>
+        <td class="table_top_border2"><b>0.878</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>10pipe_q0_k</td>
+        <td><b>324.461</b></td>
+        <td>331.575</td>
+    </tr>
+
+    <tr align="center">
+        <td>11pipe_k</td>
+        <td>1891.926</td>
+        <td><b>641.281</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>238.564</td>
+        <td><b>78.488</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s167-opt</td>
+        <td>524.115</td>
+        <td><b>96.451</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s168-opt</td>
+        <td>242.458</td>
+        <td><b>101.478</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s169-opt</td>
+        <td>2511.387</td>
+        <td><b>177.528</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>7pipe_k</td>
+        <td>96.272</td>
+        <td><b>40.464</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>8pipe_k</td>
+        <td>200.294</td>
+        <td><b>92.202</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq3</td>
+        <td>156.496</td>
+        <td><b>110.975</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq4</td>
+        <td>324.014</td>
+        <td><b>242.681</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>beempgsol2b1</td>
+        <td>481.567</td>
+        <td><b>355.984</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>Beempgsol5b1</td>
+        <td>406.688</td>
+        <td><b>309.837</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>blocks-blocks-36-0.120…</td>
+        <td>1115.652</td>
+        <td><b>805.624</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>blocks-blocks-37-1.130…</td>
+        <td>874.808</td>
+        <td><b>627.649</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>bob12m02-opt</td>
+        <td>3806.336</td>
+        <td><b>3308.657</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>post-cbmc-aes-d-r2-noholes</td>
+        <td><b>925.548</b></td>
+        <td>1008.073</td>
+    </tr>
+
+    <tr align="center">
+        <td>post-cbmc-aes-d-r2</td>
+        <td>1010.857</td>
+        <td><b>952.850</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>rpoc_xits_15_SAT</td>
+        <td>0.558</td>
+        <td><b>0.131</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>q_query_3_L150_coli.sat</td>
+        <td><b>128.853</b></td>
+        <td>186.483</td>
+    </tr>
+
+    <tr align="center">
+        <td>maxxor032</td>
+        <td>309.920</td>
+        <td><b>265.089</b></td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">velev-vliw-uns-4.0-9</td>
+        <td class="table_bottom_border"><b>140.929</b></td>
+        <td class="table_bottom_border">143.284</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table2">表 2</span> 不同算法不可满足算例的运行时间对比&nbsp;s</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table2">Table 2</span> Running time comparison of UNSAT examples for different algorithms s</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>			
+																					<span class="paragraph_title outline_anchor" level="2" id="outline_anchor_21">3.3 实验结果分析</span>
+																									<p>分支数是SAT完备算法效率的核心参数。当搜索树分支减少，搜索空间减小，SAT完备算法的运算时间才会降低。</p>
+																																								<p>glucose3.0和AP7计算的部分算例的分支数以及降低比如<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table3" ref-type="table">表 3</a></span>所示。降低比=(glucose3.0分支数-AP7分支数)/(glucose3.0分支数)。</p>
+																																													<div class="table outline_anchor" id="outline_anchor_22">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable3">表 3</span></div>
+							<table id="Table3">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table3">表 3</span> 不同算法算例的分支数对比</span>
+																						<span class="caption"><span class="TabText" id="Table3">Table 3</span> Branch number comparison for different algorithms and examples</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+        <td class="table_top_border">分支数降低比/%</td>
+    </tr>
+        </thead>
+<tbody>
+       <tr align="center">
+        <td class="table_top_border2">002-80-12</td>
+        <td class="table_top_border2">219859144</td>
+        <td class="table_top_border2">188571304</td>
+        <td class="table_top_border2">14.2</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s168-opt.cnf</td>
+        <td>2527635</td>
+        <td>1492583</td>
+        <td>40.9</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>4376867</td>
+        <td>3091542</td>
+        <td>29.3</td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>6483466</td>
+        <td>3040712</td>
+        <td>53.1</td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>1702582</td>
+        <td>740187</td>
+        <td>56.5</td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>491662</td>
+        <td>413760</td>
+        <td>15.8</td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>627652</td>
+        <td>368956</td>
+        <td>41.2</td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq4</td>
+        <td>38817464</td>
+        <td>53127714</td>
+        <td>-26.9</td>
+    </tr>
+
+    <tr align="center">
+        <td>smtlib-qfbv-aigs-ext_con_032_008_0256-tseitin</td>
+        <td>—</td>
+        <td>579400</td>
+        <td>—</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>1963166</td>
+        <td>951890</td>
+        <td>51.5</td>
+    </tr>
+        </tbody>
+<tfoot>
+        <tr>
+        <td class="table_top_border" colspan="4">&nbsp;&nbsp;注：“—”表示算例在限定时间内未被计算出来。</td>
+        </tr>
+        </tfoot>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table3">表 3</span> 不同算法算例的分支数对比</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table3">Table 3</span> Branch number comparison for different algorithms and examples</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>			
+																								<p>从<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table3" ref-type="table">表 3</a></span>可以看出，除1个算例外，改进后的AP7相比glucose3.0可降低分支数为14.2%~56.5%。通过<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table3" ref-type="table">表 3</a></span>实验数据可知基于奖惩的分支策略相比仅增加变元活跃度的分支策略可以有效地减小搜索树规模。</p>
+																																								<p>为了进一步观察动态奖惩策略对搜索冲突的影响，每增长1万个冲突时，算法输出重启的次数。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure4" ref-type="fig">图 4</a></span>~<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure5" ref-type="fig">5</a></span>对比了两个算法计算相同算例时，相同冲突数下所需的重启次数。glucose3.0计算002-80-12.cnf重启了103921次，找到13841064次冲突；AP7则重启了67927次，找到10633140次冲突。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure4" ref-type="fig">图 4</a></span>显示在0~10633140次冲突时，两个算法相应的重启次数。AP7和glucose3.0采用相同的重启策略。在0~105万次冲突搜索中，glucose3.0比AP7重启次数少；在105万~1384万次冲突中，AP7重启次数少于glucose3.0。实验结果表明AP7算法综合地评定变元在搜索中的作用，可有效地减少较长时间找不到冲突的情况，从而减少了重启次数。</p>
+																																								<div class="figure outline_anchor" id="outline_anchor_23">
+							<div class="figure_anchor" style="display: none;">图 4</div>
+							<table id="Figure4">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-4.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-4.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure4">图 4</span> 可满足002-80-12.cnf的重启次数和冲突数的对比</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure4">Figure 4</span> Comparison of conflicts and restarts of SAT 002-80-12.cnf</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div>
+																													<div class="figure outline_anchor" id="outline_anchor_24">
+							<div class="figure_anchor" style="display: none;">图 5</div>
+							<table id="Figure5">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-5.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-5.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure5">图 5</span> 不可满足6s168-opt.cnf的冲突数和重启数的对比</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure5">Figure 5</span> Comparison of conflicts and restarts of UNSAT 6s168-opt.cnf</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div>
+																													<p>glucose3.0计算不可满足算例6s168-opt.cnf的冲突数是2063558，重启次数是4758；AP7计算该算例的冲突数是1084645，重启次数是2059。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure5" ref-type="fig">图 5</a></span>显示了6s168-opt.cnf在0~120万次冲突范围内两个算法的重启次数的对比。从<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Figure5" ref-type="fig">图 5</a></span>可以看出，产生相同个数的冲突时，AP7的重启次数远低于glucose3.0算法的重启次数。因此，基于奖惩的分支策略AP7对于不可满足的工业问题，也可以有效地减少搜索树层次，从而减少重启次数。</p>
+																																								<p>从学习子句质量进一步分析新分支策略的作用。SAT完备算法每次找到1个冲突，产生1个学习子句。每个学习子句会计算其相应的LBD值，LBD值为2的学习子句是指产生冲突的原因子句分布在搜索树的2个层次。因为LBD值为2的学习子句描述了关系更为紧密的冲突变元之间的关系，所以质量高的这类学习子句一直保留在子句库中，不会被删除。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table4" ref-type="table">表 4</a></span>列出了glucose3.0和AP7算法正确求解的算例的重启次数，LBD_2学习子句数以及LBD_2学习子句数与重启次数的比例。若LBD_2学习子句数与重启次数的比例越大，说明重启后被选择的搜索变元关系更加紧密，导致找到冲突后学习子句的LBD值下降。<span class="xref"><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#Table4" ref-type="table">表 4</a></span>显示在重启次数较小时(重启次数 &lt; 150)glucose3.0算法重启的平均学习质量较高，但是求解复杂的问题(重启次数&gt;150)AP7算法的平均学习质量较高。这表明综合评定变元可以产生更多高质量学习子句。</p>
+																																													<div class="table outline_anchor" id="outline_anchor_25">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable4">表 4</span></div>
+							<table id="Table4">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table4">表 4</span> 不同算例的重启次数、LBD_2子句数的对比</span>
+																						<span class="caption"><span class="TabText" id="Table4">Table 4</span> Comparison of number of restarts and LBD_2 clauses for different examples</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td rowspan="2" class="table_top_border">算例名</td>
+        <td class="table_top_border" colspan="3">glucose3.0</td>
+        <td class="table_top_border" rowspan="2">
+		</td><td class="table_top_border" colspan="3">AP7</td>
+    </tr>
+    <tr align="center">
+        <td class="table_top_border2">重启次数</td>
+        <td class="table_top_border2">LBD_2学习子句数</td>
+        <td class="table_top_border2">LBD_2学习子句数/重启次数</td>
+        <td class="table_top_border2">重启次数</td>
+        <td class="table_top_border2">LBD_2学习子句数</td>
+        <td class="table_top_border2">LBD_2学习子句数/重启次数</td>
+    </tr>
+        </thead>
+<tbody>
+        <tr align="center">
+<td class="table_top_border2">002-80-12</td>
+        <td class="table_top_border2">103921</td>
+        <td class="table_top_border2">10653</td>
+        <td class="table_top_border2">0.10</td>
+        <td class="table_top_border2 table_bottom_border" rowspan="12">
+        </td><td class="table_top_border2">67927</td>
+        <td class="table_top_border2">7947</td>
+        <td class="table_top_border2">0.11</td>
+    </tr>
+
+    <tr align="center">
+        <td>001-80-12</td>
+        <td>116275</td>
+        <td>11299</td>
+        <td>0.09</td>
+        <td>121041</td>
+        <td>11423</td>
+        <td>0.09</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>315</td>
+        <td>1566</td>
+        <td>4.97</td>
+        <td>43</td>
+        <td>246</td>
+        <td>5.72</td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>12293</td>
+        <td>3884</td>
+        <td>0.31</td>
+        <td>3730</td>
+        <td>4579</td>
+        <td>1.23</td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>369</td>
+        <td>454</td>
+        <td>1.23</td>
+        <td>115</td>
+        <td>113</td>
+        <td>0.98</td>
+    </tr>
+
+    <tr align="center">
+        <td>velev-vliw-uns-4.0-9</td>
+        <td>3686</td>
+        <td>5842</td>
+        <td>1.58</td>
+        <td>3673</td>
+        <td>8979</td>
+        <td>2.44</td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>52</td>
+        <td>791</td>
+        <td>15.20</td>
+        <td>51</td>
+        <td>658</td>
+        <td>12.90</td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>94</td>
+        <td>244</td>
+        <td>2.59</td>
+        <td>60</td>
+        <td>131</td>
+        <td>2.18</td>
+    </tr>
+
+    <tr align="center">
+        <td>smtlib-qbfv-aigs-ext_con_032_008_025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>60</td>
+        <td>1140</td>
+        <td>19.00</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s167-opt</td>
+        <td>6295</td>
+        <td>1737</td>
+        <td>0.27</td>
+        <td>2283</td>
+        <td>3271</td>
+        <td>1.43</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>4186</td>
+        <td>2093</td>
+        <td>0.50</td>
+        <td>2227</td>
+        <td>3748</td>
+        <td>1.68</td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">9dlx_vliw_at_b_iq4</td>
+        <td class="table_bottom_border">6288</td>
+        <td class="table_bottom_border">8511</td>
+        <td class="table_bottom_border">1.35</td>
+        <td class="table_bottom_border">5867</td>
+        <td class="table_bottom_border">14385</td>
+        <td class="table_bottom_border">2.45</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table4">表 4</span> 不同算例的重启次数、LBD_2子句数的对比</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table4">Table 4</span> Comparison of number of restarts and LBD_2 clauses for different examples</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div>			
+																					<span class="paragraph_title outline_anchor" level="1" id="outline_anchor_26">4 结语</span>
+																									<p>工业问题规模大，求解难度高。学习子句数量少或质量不高对搜索的指导意义有限，使搜索易陷入到层次过高，不平衡的困境中。为了缩短求解问题的时间，算法需要尽可能地选择对寻找冲突更有利的变元，以使得搜索树更加平衡。基于动态奖惩的分支策略综合地评估了变元对传播和学习两个主要过程的影响，建立惩罚函数。相比传统、单一的奖励变元评估策略，动态奖惩的分支策略通过调整更关键的变元靠近根节点，从而有效地降低重启次数，提高了学习子句质量，减小搜索树的规模。分支变元策略的改变使得搜索树更加紧凑，将会影响子句删除的标准，后续将对学习子句的删除作新的探索。</p>
+																																        </div> 
+        <div class="article_reference"> 
+<span class="outline_anchor article_reference_title" id="outline_anchor_27"><b>参考文献(References)</b></span><div class="clear"></div> 
+<table>
+    <tbody><tr id="b1">
+        <td class="label"><span>[1]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+
+        DAVIS M, LOGEMANN G, LOVELAND D. A machine program for theorem proving[J]. Communications of the ACM, 1962, 5(7): 394-397. <a href="http://dx.doi.org/10.1145/368273.368557" target="_blank" title="点击浏览原文">DOI:10.1145/368273.368557</a>    </td></tr>    <tr id="b2">
+        <td class="label"><span>[2]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    MOSKEWICZ M W, MADIGAN C F, ZHAO Y, et al. Chaff:engineering an efficient sat solver[C]//Proceedings of the 38th Annual Design Automation Conference. New York:ACM, 2001:530-535.      <a href="http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=935565" target="_blank" title="点击浏览原文">http://ieeexplore.ieee.org/xpls/icp.jsp?arnumber=935565</a>
+
+</td></tr>    <tr id="b3">
+        <td class="label"><span>[3]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+
+        ANSÓTEGUI C, BONET M L, LEVY J. SAT-based MaxSAT algorithms[J]. Artificial Intelligence, 2013, 196: 77-105. <a href="http://dx.doi.org/10.1016/j.artint.2013.01.002" target="_blank" title="点击浏览原文">DOI:10.1016/j.artint.2013.01.002</a>    </td></tr>    <tr id="b4">
+        <td class="label"><span>[4]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+
+        KOSHIMURA M, ZHANG T, FUJITA H, et al. QMaxSAT:a partial Max-SAT solver system description[J].  <a href="http://www.researchgate.net/publication/265492072_QMaxSAT_A_Partial_Max-SAT_Solver_system_description" target="_blank" title="点击浏览原文">Journal on Satisfiability, Boolean Modeling and Computation, 2012, 8(1/2): 95-100.</a>    </td></tr>    <tr id="b5">
+        <td class="label"><span>[5]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    ZHANG L T, MADIGAN C F, MOSKEWICZ M H, et al. Efficient conflict driven learning in a boolean satisfiability solver[C]//ICCAD 2001:Proceedings of the 2001 IEEE/ACM International Conference on Computer-Aided Design. Piscataway, NJ:IEEE, 2001:279-285.      <a href="http://dl.acm.org/citation.cfm?id=603095.603153" target="_blank" title="点击浏览原文">http://dl.acm.org/citation.cfm?id=603095.603153</a>
+
+</td></tr>    <tr id="b6">
+        <td class="label"><span>[6]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    LIU Y L, LI C M, HE K, et al. Breaking cycle structure to improve lower bound for Max-SAT[C]//FAW 2016:Proceeding of the 11th International Workshop on Frontiers in Algorithmics, LNCS 9711. Berlin:Springer, 2016:111-124.      <a href="http://link.springer.com/10.1007/978-3-319-39817-4_12" target="_blank" title="点击浏览原文">http://link.springer.com/10.1007/978-3-319-39817-4_12</a>
+
+</td></tr>    <tr id="b7">
+        <td class="label"><span>[7]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    AUDEMARD G, SIMON L. Predicting learnt clauses quality in modern SAT solvers[C]//IJCAI 2009:Proceeding of the 2009 International Joint Conference on Artificial Intelligence. San Francisco, CA:Morgan Kaufmann, 2009:399-404.      <a href="http://dl.acm.org/citation.cfm?id=1661509" target="_blank" title="点击浏览原文">http://dl.acm.org/citation.cfm?id=1661509</a>
+
+</td></tr>    <tr id="b8">
+        <td class="label"><span>[8]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    AUDEMARD G, LAGNIEZ J M, SIMON L. Improving glucose for incremental SAT solving with assumption:application to MUS extraction[C]//SAT 2013:Proceedings of the 16th International Conference on Theory and Applications of Satisfiability Testing. Berlin:Springer, 2013:309-317.      <a href="http://dl.acm.org/citation.cfm?id=2525713.2525745" target="_blank" title="点击浏览原文">http://dl.acm.org/citation.cfm?id=2525713.2525745</a>
+
+</td></tr>    <tr id="b9">
+        <td class="label"><span>[9]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+        DE KLERK E. Aspects of Semidefinite Programming[M]. Berlin: Springer, 2002: 211-228.    
+</td></tr>    <tr id="b10">
+        <td class="label"><span>[10]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+
+    刘燕丽, 李初民, 何琨. 基于优化冲突集提高下界的MaxSAT完备算法[J]. 计算机学报, 2013, 36(10): 2087-2095.         (LIU Y L, LI C M, HE K. Improved lower bounds in MAXSAT complete algorithm based optimizing inconsistent set[J].  <a href="http://www.oalib.com/paper/5135816" target="_blank" title="点击浏览原文">Chinese Journal of Computers, 2013, 36(10): 2087-2095.</a>)    </td></tr>    <tr id="b11">
+        <td class="label"><span>[11]</span></td>        <td class="citation" style="word-wrap:break-word;">
+
+
+    刘燕丽, 黄飞, 张婷. 基于环型扩展推理规则的MaxSAT完备算法[J]. 南京大学学报(自然科学版), 2015, 51(4): 762-771.         (LIU Y L, HUANG F, ZHANG T. MaxSAT complete algorithm based cycle extended inference rules[J].  <a href="http://edu.wanfangdata.com.cn/Periodical/Detail/jsjxb201310013" target="_blank" title="点击浏览原文">Journal of Nanjing University (Natural Sciences), 2015, 51(4): 762-771.</a>)    </td></tr>    <tr id="b12">
+        <td class="label"><span>[12]</span></td>        <td class="citation" style="word-wrap:break-word;">
+    AUDEMARD G, SIMON L. Lazy clause exchange policy for parallel SAT solvers[C]//SAT 2014:Proceedings of the 201417th International Conference on Theory and Applications of Satisfiability Testing, LNCS 8561. Berlin:Springer, 2014:197-205.      <a href="http://rd.springer.com/chapter/10.1007/978-3-319-09284-3_15" target="_blank" title="点击浏览原文">http://rd.springer.com/chapter/10.1007/978-3-319-09284-3_15</a>
+
+</td></tr></tbody></table></div>        <iframe id="Bottom" border="0" src="./基于动态奖惩的分支策略的SAT完备算法_files/bottom.html" scrolling="no" frameborder="0" width="100%"></iframe> 
+       </div> 
+		<div class="figandtab" style=""><div class="figure outline_anchor" id="outline_anchor_10">
+							<div class="figure_anchor" style="display: none;">图 1</div>
+							<table id="Figure1">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-1.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-1.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure1">图 1</span> <i>F</i>的逻辑蕴含图</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure1">Figure 1</span> Logical implication graph of <i>F</i></span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div><div class="figure outline_anchor" id="outline_anchor_11">
+							<div class="figure_anchor" style="display: none;">图 2</div>
+							<table id="Figure2">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-2.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-2.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure2">图 2</span> 学习子句的产生过程</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure2">Figure 2</span> Generation process of learning clauses</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div><div class="figure outline_anchor" id="outline_anchor_15">
+							<div class="figure_anchor" style="display: none;">图 3</div>
+							<table id="Figure3">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-3.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-3.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure3">图 3</span> AP7算法流程</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure3">Figure 3</span> AP7 algorithm flowchart</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div><div class="table outline_anchor" id="outline_anchor_19">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable1">表 1</span></div>
+							<table id="Table1">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table1">表 1</span> 不同算法可满足算例的运行时间对比&nbsp;s</span>
+																						<span class="caption"><span class="TabText" id="Table1">Table 1</span> Running time comparison of SAT examples for different algorithms&nbsp;s</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+         <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+    </tr>
+        </thead>
+<tbody>
+         <tr align="center">
+        <td class="table_top_border2">001-80-12</td>
+        <td class="table_top_border2">1783.374</td>
+        <td class="table_top_border2"><b>1745.778</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-12</td>
+        <td>1652.822</td>
+        <td><b>659.339</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-4</td>
+        <td>283.076</td>
+        <td><b>198.315</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>002-80-8</td>
+        <td><b>621.113</b></td>
+        <td>1009.017</td>
+    </tr>
+
+    <tr align="center">
+        <td>003-80-8</td>
+        <td>1208.672</td>
+        <td><b>681.527</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>004-80-8</td>
+        <td>450.735</td>
+        <td><b>394.191</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>006-80-4</td>
+        <td><b>313.704</b></td>
+        <td>395.040</td>
+    </tr>
+
+    <tr align="center">
+        <td>007-80-8</td>
+        <td>880.742</td>
+        <td><b>635.395</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>008-80-4</td>
+        <td><b>265.648</b></td>
+        <td>449.913</td>
+    </tr>
+
+    <tr align="center">
+        <td>008-80-8</td>
+        <td>600.966</td>
+        <td><b>487.762</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>009-80-4</td>
+        <td>184.456</td>
+        <td><b>124.684</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>009-80-8</td>
+        <td>935.316</td>
+        <td><b>311.037</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug3</td>
+        <td>16.958</td>
+        <td><b>9.713</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug7</td>
+        <td><b>30.391</b></td>
+        <td>37.258</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>75.655</td>
+        <td><b>23.322</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_03_56</td>
+        <td>848.849</td>
+        <td><b>17.407</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>1308.447</td>
+        <td><b>266.186</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.020…</td>
+        <td>29.588</td>
+        <td><b>7.290</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>154.362</td>
+        <td><b>35.348</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.050…</td>
+        <td>191.463</td>
+        <td><b>166.461</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-4degree…2008seed.050…</td>
+        <td>3481.445</td>
+        <td><b>3149.882</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>200.804</td>
+        <td><b>121.526</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>gss-18-s100</td>
+        <td>574.921</td>
+        <td><b>335.892</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>gss-19-s100</td>
+        <td>1970.073</td>
+        <td><b>1081.859</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>1543.116</td>
+        <td><b>35.293</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-sequencedstrips… p30_3.085-SAT</td>
+        <td>1541.417</td>
+        <td><b>35.819</b></td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">MD5-27-4</td>
+        <td class="table_bottom_border"><b>27.064</b></td>
+        <td class="table_bottom_border">58.614</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table1">表 1</span> 不同算法可满足算例的运行时间对比&nbsp;s</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table1">Table 1</span> Running time comparison of SAT examples for different algorithms&nbsp;s</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div><div class="table outline_anchor" id="outline_anchor_20">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable2">表 2</span></div>
+							<table id="Table2">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table2">表 2</span> 不同算法不可满足算例的运行时间对比&nbsp;s</span>
+																						<span class="caption"><span class="TabText" id="Table2">Table 2</span> Running time comparison of UNSAT examples for different algorithms s</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+    </tr>
+        </thead>
+<tbody>
+        <tr align="center">
+        <td class="table_top_border2">smtlib-qfbv-aigs-ext_con_032_008_0256-tseitin</td>
+        <td class="table_top_border2">unsolved</td>
+        <td class="table_top_border2"><b>0.878</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>10pipe_q0_k</td>
+        <td><b>324.461</b></td>
+        <td>331.575</td>
+    </tr>
+
+    <tr align="center">
+        <td>11pipe_k</td>
+        <td>1891.926</td>
+        <td><b>641.281</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>238.564</td>
+        <td><b>78.488</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s167-opt</td>
+        <td>524.115</td>
+        <td><b>96.451</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s168-opt</td>
+        <td>242.458</td>
+        <td><b>101.478</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>6s169-opt</td>
+        <td>2511.387</td>
+        <td><b>177.528</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>7pipe_k</td>
+        <td>96.272</td>
+        <td><b>40.464</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>8pipe_k</td>
+        <td>200.294</td>
+        <td><b>92.202</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq3</td>
+        <td>156.496</td>
+        <td><b>110.975</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq4</td>
+        <td>324.014</td>
+        <td><b>242.681</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>beempgsol2b1</td>
+        <td>481.567</td>
+        <td><b>355.984</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>Beempgsol5b1</td>
+        <td>406.688</td>
+        <td><b>309.837</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>blocks-blocks-36-0.120…</td>
+        <td>1115.652</td>
+        <td><b>805.624</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>blocks-blocks-37-1.130…</td>
+        <td>874.808</td>
+        <td><b>627.649</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>bob12m02-opt</td>
+        <td>3806.336</td>
+        <td><b>3308.657</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>post-cbmc-aes-d-r2-noholes</td>
+        <td><b>925.548</b></td>
+        <td>1008.073</td>
+    </tr>
+
+    <tr align="center">
+        <td>post-cbmc-aes-d-r2</td>
+        <td>1010.857</td>
+        <td><b>952.850</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>rpoc_xits_15_SAT</td>
+        <td>0.558</td>
+        <td><b>0.131</b></td>
+    </tr>
+
+    <tr align="center">
+        <td>q_query_3_L150_coli.sat</td>
+        <td><b>128.853</b></td>
+        <td>186.483</td>
+    </tr>
+
+    <tr align="center">
+        <td>maxxor032</td>
+        <td>309.920</td>
+        <td><b>265.089</b></td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">velev-vliw-uns-4.0-9</td>
+        <td class="table_bottom_border"><b>140.929</b></td>
+        <td class="table_bottom_border">143.284</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table2">表 2</span> 不同算法不可满足算例的运行时间对比&nbsp;s</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table2">Table 2</span> Running time comparison of UNSAT examples for different algorithms s</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div><div class="table outline_anchor" id="outline_anchor_22">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable3">表 3</span></div>
+							<table id="Table3">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table3">表 3</span> 不同算法算例的分支数对比</span>
+																						<span class="caption"><span class="TabText" id="Table3">Table 3</span> Branch number comparison for different algorithms and examples</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td class="table_top_border">算例名</td>
+        <td class="table_top_border">glucose3.0</td>
+        <td class="table_top_border">AP7</td>
+        <td class="table_top_border">分支数降低比/%</td>
+    </tr>
+        </thead>
+<tbody>
+       <tr align="center">
+        <td class="table_top_border2">002-80-12</td>
+        <td class="table_top_border2">219859144</td>
+        <td class="table_top_border2">188571304</td>
+        <td class="table_top_border2">14.2</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s168-opt.cnf</td>
+        <td>2527635</td>
+        <td>1492583</td>
+        <td>40.9</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>4376867</td>
+        <td>3091542</td>
+        <td>29.3</td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>6483466</td>
+        <td>3040712</td>
+        <td>53.1</td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>1702582</td>
+        <td>740187</td>
+        <td>56.5</td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>491662</td>
+        <td>413760</td>
+        <td>15.8</td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>627652</td>
+        <td>368956</td>
+        <td>41.2</td>
+    </tr>
+
+    <tr align="center">
+        <td>9dlx_vliw_at_b_iq4</td>
+        <td>38817464</td>
+        <td>53127714</td>
+        <td>-26.9</td>
+    </tr>
+
+    <tr align="center">
+        <td>smtlib-qfbv-aigs-ext_con_032_008_0256-tseitin</td>
+        <td>—</td>
+        <td>579400</td>
+        <td>—</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>1963166</td>
+        <td>951890</td>
+        <td>51.5</td>
+    </tr>
+        </tbody>
+<tfoot>
+        <tr>
+        <td class="table_top_border" colspan="4">&nbsp;&nbsp;注：“—”表示算例在限定时间内未被计算出来。</td>
+        </tr>
+        </tfoot>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table3">表 3</span> 不同算法算例的分支数对比</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table3">Table 3</span> Branch number comparison for different algorithms and examples</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div><div class="figure outline_anchor" id="outline_anchor_23">
+							<div class="figure_anchor" style="display: none;">图 4</div>
+							<table id="Figure4">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-4.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-4.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure4">图 4</span> 可满足002-80-12.cnf的重启次数和冲突数的对比</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure4">Figure 4</span> Comparison of conflicts and restarts of SAT 002-80-12.cnf</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div><div class="figure outline_anchor" id="outline_anchor_24">
+							<div class="figure_anchor" style="display: none;">图 5</div>
+							<table id="Figure5">
+								<tbody><tr>
+								<td align="center" valign="middle">
+								<img src="./基于动态奖惩的分支策略的SAT完备算法_files/jsjyy-37-12-3487-5.jpg" title="点击查看原图" width="230px" original="PIC/jsjyy-37-12-3487-5.jpg">
+								</td>
+								<td align="left" valign="middle">
+									<span class="caption">
+									<span class="FigText" id="Figure5">图 5</span> 不可满足6s168-opt.cnf的冲突数和重启数的对比</span>
+																		<span class="caption">
+									<span class="FigText" id="Figure5">Figure 5</span> Comparison of conflicts and restarts of UNSAT 6s168-opt.cnf</span>
+																		<span class="caption"></span>
+									<span class="caption"></span>
+								</td>
+								</tr>
+							</tbody></table>
+						</div><div class="table outline_anchor" id="outline_anchor_25">
+							<div class="caption_title" style="display: none;"><span class="TabText" id="TableTable4">表 4</span></div>
+							<table id="Table4">
+								<tbody><tr>
+								    <td class="table-icon-td"><img class="table-icon" src="./基于动态奖惩的分支策略的SAT完备算法_files/table-icon.gif" title="Click to view table content">
+										<div style="display: none;" class="table_content">
+											<span class="caption"><span class="TabText" id="Table4">表 4</span> 不同算例的重启次数、LBD_2子句数的对比</span>
+																						<span class="caption"><span class="TabText" id="Table4">Table 4</span> Comparison of number of restarts and LBD_2 clauses for different examples</span>
+																						<div style="text-align:left;">
+												<table>
+<thead>
+        <tr align="center">
+        <td rowspan="2" class="table_top_border">算例名</td>
+        <td class="table_top_border" colspan="3">glucose3.0</td>
+        <td class="table_top_border" rowspan="2">
+		</td><td class="table_top_border" colspan="3">AP7</td>
+    </tr>
+    <tr align="center">
+        <td class="table_top_border2">重启次数</td>
+        <td class="table_top_border2">LBD_2学习子句数</td>
+        <td class="table_top_border2">LBD_2学习子句数/重启次数</td>
+        <td class="table_top_border2">重启次数</td>
+        <td class="table_top_border2">LBD_2学习子句数</td>
+        <td class="table_top_border2">LBD_2学习子句数/重启次数</td>
+    </tr>
+        </thead>
+<tbody>
+        <tr align="center">
+<td class="table_top_border2">002-80-12</td>
+        <td class="table_top_border2">103921</td>
+        <td class="table_top_border2">10653</td>
+        <td class="table_top_border2">0.10</td>
+        <td class="table_top_border2 table_bottom_border" rowspan="12">
+        </td><td class="table_top_border2">67927</td>
+        <td class="table_top_border2">7947</td>
+        <td class="table_top_border2">0.11</td>
+    </tr>
+
+    <tr align="center">
+        <td>001-80-12</td>
+        <td>116275</td>
+        <td>11299</td>
+        <td>0.09</td>
+        <td>121041</td>
+        <td>11423</td>
+        <td>0.09</td>
+    </tr>
+
+    <tr align="center">
+        <td>9vliw_m_9stages_iq3_C1_bug9</td>
+        <td>315</td>
+        <td>1566</td>
+        <td>4.97</td>
+        <td>43</td>
+        <td>246</td>
+        <td>5.72</td>
+    </tr>
+
+    <tr align="center">
+        <td>atco_enc1_opt1_10_15</td>
+        <td>12293</td>
+        <td>3884</td>
+        <td>0.31</td>
+        <td>3730</td>
+        <td>4579</td>
+        <td>1.23</td>
+    </tr>
+
+    <tr align="center">
+        <td>transport-city-sequential-3degree…2008seed.030…</td>
+        <td>369</td>
+        <td>454</td>
+        <td>1.23</td>
+        <td>115</td>
+        <td>113</td>
+        <td>0.98</td>
+    </tr>
+
+    <tr align="center">
+        <td>velev-vliw-uns-4.0-9</td>
+        <td>3686</td>
+        <td>5842</td>
+        <td>1.58</td>
+        <td>3673</td>
+        <td>8979</td>
+        <td>2.44</td>
+    </tr>
+
+    <tr align="center">
+        <td>grid-strips-grid-y-3.055-NOTKNOWN</td>
+        <td>52</td>
+        <td>791</td>
+        <td>15.20</td>
+        <td>51</td>
+        <td>658</td>
+        <td>12.90</td>
+    </tr>
+
+    <tr align="center">
+        <td>openstacks-p30_3.085-SAT</td>
+        <td>94</td>
+        <td>244</td>
+        <td>2.59</td>
+        <td>60</td>
+        <td>131</td>
+        <td>2.18</td>
+    </tr>
+
+    <tr align="center">
+        <td>smtlib-qbfv-aigs-ext_con_032_008_025</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>60</td>
+        <td>1140</td>
+        <td>19.00</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s167-opt</td>
+        <td>6295</td>
+        <td>1737</td>
+        <td>0.27</td>
+        <td>2283</td>
+        <td>3271</td>
+        <td>1.43</td>
+    </tr>
+
+    <tr align="center">
+        <td>6s165-nonopt</td>
+        <td>4186</td>
+        <td>2093</td>
+        <td>0.50</td>
+        <td>2227</td>
+        <td>3748</td>
+        <td>1.68</td>
+    </tr>
+
+    <tr align="center">
+        <td class="table_bottom_border">9dlx_vliw_at_b_iq4</td>
+        <td class="table_bottom_border">6288</td>
+        <td class="table_bottom_border">8511</td>
+        <td class="table_bottom_border">1.35</td>
+        <td class="table_bottom_border">5867</td>
+        <td class="table_bottom_border">14385</td>
+        <td class="table_bottom_border">2.45</td>
+    </tr>
+        </tbody>
+</table>
+											</div>
+										</div>
+									</td>
+									<td align="left" valign="middle">
+										<span class="caption">
+										<span class="TabText" id="Table4">表 4</span> 不同算例的重启次数、LBD_2子句数的对比</span>
+										<span class="caption">
+											
+										</span>
+																				<span class="caption"><span class="TabText" id="Table4">Table 4</span> Comparison of number of restarts and LBD_2 clauses for different examples</span>
+																				<span class="caption">
+											
+										</span>
+									</td>
+								</tr>
+							</tbody></table>
+						</div></div>
+      </div> 
+     </div>
+    </div>
+   </div> 
+   <div id="pageftr"></div> 
+  <div class="back-to" id="toolBackTop" style="right: 435.5px; display: block;"><a title="返回顶部" href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#top" class="back-top"> 返回顶部</a></div></div>  </div> 
+  <script type="text/javascript" src="./基于动态奖惩的分支策略的SAT完备算法_files/ZeroClipboard.js.下载"></script> 
+  <script type="text/javascript" src="./基于动态奖惩的分支策略的SAT完备算法_files/global-min_new.js.下载"></script>
+  <script type="text/javascript" src="./基于动态奖惩的分支策略的SAT完备算法_files/html_new2.js.下载"></script> 
+ 
+<div id="title-banner" style="top: 0px;"><div class="content"><div class="btn-g"><span class="img"></span><a href="http://www.xml-data.org/JSJYY/2017-12-3487.htm#close" class="btn-close"></a></div><div class="title" align="center">			
+			基于动态奖惩的分支策略的SAT完备算法
+		</div><div class="author_name_list" align="center">
+			 	刘燕丽, 	徐振兴, 	熊丹&nbsp;&nbsp;&nbsp;&nbsp;
+		</div></div></div><div style="position: absolute; left: 1277px; top: 1061px; width: 0px; height: 0px; z-index: 9999;"><embed id="ZeroClipboardMovie_1" src="ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="0" height="0" name="ZeroClipboardMovie_1" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=0&amp;height=0" wmode="transparent"></div><div style="position: absolute; left: 1277px; top: 1237px; width: 0px; height: 0px; z-index: 9999;"><embed id="ZeroClipboardMovie_2" src="ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="0" height="0" name="ZeroClipboardMovie_2" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=0&amp;height=0" wmode="transparent"></div><div style="position: absolute; left: 1338px; top: 931px; width: 0px; height: 14px; z-index: 9999;"><embed id="ZeroClipboardMovie_3" src="ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="0" height="14" name="ZeroClipboardMovie_3" align="middle" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=0&amp;height=14" wmode="transparent"></div></body></html>

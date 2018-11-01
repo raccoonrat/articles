@@ -1,0 +1,43 @@
+jQuery(document).ready(function () {
+    function strpos( haystack, needle, offset){	// Find position of first occurrence of a string
+        var i = haystack.indexOf( needle, offset ); // returns -1
+        return i >= 0 ? i : false;
+    }
+    if (strpos(document.location.href, 'subscribe', 0)){
+        var textwysija = jQuery('.widget_wysija_cont').html();
+        var out = '<button type="button" id="myModalwysijabutton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalwysija" style="display:none;">Open Modal</button>' +
+            '<!-- Modal -->' +
+            '<div id="myModalwysija" class="modal fade" role="dialog">' +
+            '<div class="modal-dialog">' +
+            '<!-- Modal content-->' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<h4 class="modal-title">STAY UPDATED!</h4>' +
+            '</div>' +
+            '<div class="modal-body widget_wysija_cont">' +
+            textwysija +
+            '</div>' +
+            '<div class="modal-footer">' +
+            '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        jQuery('body').append(out).find('#myModalwysijabutton').click();
+    }
+
+    // jQuery('.post-content .cf_ttshare').on('mouseup',function(){
+    //     var txt = '';
+    //     if(window.getSelection)
+    //         txt = window.getSelection().toString();
+    //     else if(document.getSelection)
+    //         txt = document.getSelection();
+    //     else if(document.selection)
+    //         txt = document.selection.createRange().text;
+    //     if (txt.length > 10)
+    //         theChampPopup("http://twitter.com/intent/tweet?text="+txt+"&url="+window.location.href);
+    // });
+
+});
+
+

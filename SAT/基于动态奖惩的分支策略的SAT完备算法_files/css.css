@@ -1,0 +1,302 @@
+﻿body,td,th {
+	font-family: verdane;
+	font-size: 12px;
+}
+.Input {
+	BORDER-RIGHT: #A4A9C1 1px solid;
+	BORDER-TOP: #A4A9C1 1px solid;
+	BORDER-LEFT: #A4A9C1 1px solid;
+	BORDER-BOTTOM: #A4A9C1 1px solid;
+	BACKGROUND-COLOR: #EEEEEE;
+	font-size: 12px
+}
+.BUTTON {
+	BORDER-RIGHT: #666666 1px solid;
+	BORDER-TOP: #666666 1px solid;
+	BORDER-LEFT: #666666 1px solid;
+	BORDER-BOTTOM: #666666 1px solid;
+	BACKGROUND-COLOR: #DDDDDD;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 12px;
+	COLOR: #555555;
+	Height: 23px;
+	vertical-align: bottom;
+}
+.J_Input{
+	BORDER-RIGHT: A4A9C1 1px solid;
+	BORDER-TOP: A4A9C1 1px solid;
+	FONT-WEIGHT: normal;
+	font-size: 11px;
+	BACKGROUND: #FFFFFF;
+	BORDER-LEFT: A4A9C1 1px solid;
+	BORDER-BOTTOM: A4A9C1 1px solid
+}
+
+.J_Cell{
+	BORDER-RIGHT: #94b4f4 1px solid;
+	BORDER-TOP: #94b4f4 1px solid;
+	BORDER-LEFT: #94b4f4 1px solid;
+	BORDER-BOTTOM: #94b4f4 1px solid
+}
+.J_WenZhang{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_WenZhang:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FF6600;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_WenZhang_U{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_WenZhang_U:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FF6600;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_WenZhang_B{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_WenZhang_13{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_WenZhang_13:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM_NianJuanQi{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #666666;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM_FenLei{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM_FenLei:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ff9900;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM{
+	font-family: Verdana, Arial, Helvetica, sans-serif,宋体;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FF6600;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_VM_LanSe{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #1963aa;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_VM_LanSe:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FF6600;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_VM_TABLE{
+	BORDER-RIGHT: #94b4f4 1px solid;
+	BORDER-TOP: #94b4f4 1px solid;
+	BORDER-LEFT: #94b4f4 1px solid;
+	BORDER-BOTTOM: #94b4f4 1px solid
+}
+
+.J_ZhaiYao_QiKanXinXi{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao_LianJie{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_ZhaiYao_FenLei{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #996600;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao_ShuXingDaLei{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao_ShuXingLei{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FFFFFF;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao_ShuXingXiaoLei{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: underline
+}
+.J_ZhaiYao_BiaoTi{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao_ZuoZhe{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_ZhaiYao{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+a.txt_bs:hover {
+	color: #FF6600;
+	text-decoration: underline;
+}
+a.txt_bs:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a.txt_bs:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+a.txt_bs:active {
+	text-decoration: none;
+}
+.txt_bs {
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.cell_ljl {
+	border: 1px solid #FFFFFF;
+}
+A:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ff9900; TEXT-DECORATION: underline
+}
+A:active {
+	TEXT-DECORATION: none
+}
+.STYLE16 {
+	COLOR: #4596ad
+}
+.J_CaiDan{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #FFFFFF;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+.J_CaiDan2{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	color: #000000;
+	line-height: 16px;
+	TEXT-DECORATION: none
+}
+a.J_CaiDan:hover {
+	color: #FF6600;
+	text-decoration: underline;
+}
+a.J_CaiDan:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a.J_CaiDan:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+a.J_CaiDan:active {
+	text-decoration: none;
+}
+.tdz {
+	BORDER-BOTTOM: #b7d0ef 1px solid; BORDER-LEFT: #b7d0ef 1px solid; BORDER-TOP: #b7d0ef 1px solid; BORDER-RIGHT: #b7d0ef 1px solid
+}

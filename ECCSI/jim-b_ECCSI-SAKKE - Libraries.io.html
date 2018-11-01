@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://libraries.io/github/jim-b/ECCSI-SAKKE -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="msvalidate.01" content="3667D2FEB238C1BF174F3CB1AE0D3C16">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" media="all" href="./jim-b_ECCSI-SAKKE - Libraries.io_files/application-9f891693123e7e7d5ecb1c3f64084d49f6127705ae88df92019ed2cf717c3618.css" data-turbolinks-track="true">
+<title>jim-b/ECCSI-SAKKE - Libraries.io</title>
+<meta name="description" content="Mikey-Sakke Crypto library and demonstration code for ECCSI/ SAKKE (RFC 6507 and 6508) - a C repository on GitHub">
+<meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="I0jHJ3av2i4uvORGiy3CY5fGW3euearrYCFqznDgfEFYR+u45pJ0P4GAlBwfcN3NeVch6cbMTAuxNHct4DN6DQ==">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://libraries.io/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://libraries.io/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://libraries.io/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://libraries.io/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon-precomposed" sizes="60x60" href="https://libraries.io/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://libraries.io/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon-precomposed" sizes="76x76" href="https://libraries.io/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://libraries.io/apple-touch-icon-152x152.png">
+<meta name="application-name" content=" ">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="/mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="/mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="/mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="/mstile-310x310.png">
+<meta property="fb:admins" content="508462908">
+<meta name="yandex-verification" content="2a6b144b8bd37026">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Libraries.io">
+<meta property="og:url" content="https://libraries.io/github/jim-b/ECCSI-SAKKE">
+<meta property="og:title" content="jim-b/ECCSI-SAKKE on GitHub">
+<meta property="og:description" content="Mikey-Sakke Crypto library and demonstration code for ECCSI/ SAKKE (RFC 6507 and 6508) - a C repository on GitHub">
+<meta property="og:image" content="https://github.com/jim-b.png?size=200">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@librariesio">
+<meta name="twitter:title" content="jim-b/ECCSI-SAKKE on GitHub">
+<meta name="twitter:description" content="Mikey-Sakke Crypto library and demonstration code for ECCSI/ SAKKE (RFC 6507 and 6508) - a C repository on GitHub">
+<meta name="twitter:image" content="https://github.com/jim-b.png?size=200">
+<link href="https://libraries.io/opensearch.xml" title="Libraries.io" rel="search" type="application/opensearchdescription+xml">
+<script async="" src="./jim-b_ECCSI-SAKKE - Libraries.io_files/analytics.js.下载"></script><script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-105624087-2', 'auto');
+    </script>
+<script src="./jim-b_ECCSI-SAKKE - Libraries.io_files/polyfill.min.js.下载"></script>
+<script src="./jim-b_ECCSI-SAKKE - Libraries.io_files/application-34516754effa00a4a8853291fcb43df224e2f7564d3e24952278acc85acb5cf9.js.下载" data-turbolinks-track="true"></script>
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "Libraries.io",
+      "url": "https://libraries.io/",
+      "description": "Discover open source packages, modules and frameworks you can use in your code",
+      "license": "https://github.com/librariesio/libraries.io/blob/master/LICENSE.txt",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://libraries.io/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Libraries.io",
+      "description": "Discover open source packages, modules and frameworks you can use in your code",
+      "url": "https://libraries.io/",
+      "logo": "https://libraries.io/apple-touch-icon-152x152.png",
+      "email": "support@libraries.io",
+      "sameAs": [
+        "https://twitter.com/librariesio",
+        "https://www.facebook.com/libraries.io",
+        "https://github.com/librariesio",
+        "https://plus.google.com/101868076054784591044"
+      ]
+    }
+  </script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-static-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="https://libraries.io/"><img width="116" height="22" src="./jim-b_ECCSI-SAKKE - Libraries.io_files/logo-81a987a6228bd0482a3b741ec729bedbb3963acd2c02944479557abf63c54a75.svg" alt="Logo"></a>
+</div>
+<div class="navbar-collapse collapse" id="navbar-main">
+<ul class="nav navbar-nav navbar-left">
+<li class=" ">
+<form class="navbar-form search_form" action="https://libraries.io/repos/search?host_type=github" accept-charset="UTF-8" method="get">
+<div class="input-group input-group">
+<div class="input-group-btn">
+<a type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></a>
+<ul class="dropdown-menu">
+<li>
+<a href="https://libraries.io/search">
+<span class="fa-blank"></span>
+Packages
+</a> </li>
+<li>
+<a href="https://libraries.io/repos/search">
+<i class="fa fa-check"></i>
+Repositories
+</a> </li>
+</ul>
+</div>
+<input type="text" name="q" id="q" value="" placeholder="Search Repositories" class="form-control" size="40">
+<span class="input-group-btn">
+<button class="btn btn-primary" type="submit">
+<i class="fa fa-search"></i>
+</button>
+</span>
+</div>
+</form>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<div class="navbar-btn btn-group">
+<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Login <span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<li>
+<a href="https://libraries.io/login?host_type=github&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Fjim-b%2FECCSI-SAKKE">
+<i class="fa fa-github"></i> GitHub
+</a> </li>
+<li>
+<a href="https://libraries.io/login?host_type=gitlab&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Fjim-b%2FECCSI-SAKKE">
+<i class="fa fa-gitlab"></i> GitLab
+</a> </li>
+<li>
+<a href="https://libraries.io/login?host_type=bitbucket&amp;return_to=https%3A%2F%2Flibraries.io%2Fgithub%2Fjim-b%2FECCSI-SAKKE">
+<i class="fa fa-bitbucket"></i> Bitbucket
+</a> </li>
+<li class="divider"></li>
+<li class="dropdown-header terms">
+By logging in you accept <br>our <a href="https://libraries.io/terms">terms of service</a> <br>and <a href="https://libraries.io/privacy">privacy policy</a>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="alert alert-info hidden-xs" role="alert" style="background-color: #F6914D; border-color: #F6914D; color: white;">
+Tidelift has over $1 million dollars available to pay open source maintainers.
+If you're a maintainer:
+<strong>
+<a href="https://tidelift.com/about/lifter" target="_blank" style="text-decoration:underline;color: white;">
+Find your package.
+</a>
+</strong>
+</div>
+<div class="row">
+<div class="col-md-8">
+<h1>
+<a href="https://libraries.io/github/jim-b"><img width="50" height="50" src="./jim-b_ECCSI-SAKKE - Libraries.io_files/jim-b.png"></a>
+jim-b/ECCSI-SAKKE
+<a class="tip" title="" href="https://github.com/jim-b/ECCSI-SAKKE" data-original-title="View jim-b/ECCSI-SAKKE on GitHub"><i class="fa fa-github"></i></a>
+</h1>
+</div>
+<div class="col-md-4">
+</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-md-8">
+<p>
+Mikey-Sakke Crypto library and demonstration code for ECCSI/ SAKKE (RFC 6507 and 6508)
+</p>
+<p>
+Host: <a href="https://libraries.io/github">GitHub</a>
+</p>
+<p>
+License: <a href="https://libraries.io/licenses/Apache-2.0">Apache-2.0</a>
+</p>
+<p>
+Language: <a href="https://libraries.io/languages/C">C</a>
+</p>
+<hr>
+<div class="announce instapaper_body md" data-path="README.md" id="readme"><article class="markdown-body entry-content" itemprop="text"><h1>
+<a id="user-content-eccsi-sakke" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#eccsi-sakke" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ECCSI-SAKKE</h1>
+<p>Crypto library and demonstration code for ECCSI/ SAKKE (RFC 6507 and 6508)</p>
+<p>Note! If you are viewing this page on the github web page, there is a wiki
+link on the right hand side of the project screen that provides more details.</p>
+<h2>
+<a id="user-content-overview" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#overview" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<pre><code>This code performs the ECCSI/ Sakke dialogs as defined in RFCs 6507-6508.
+
+Output, with DEBUG output on and using RFC values, provides references out
+to the relevant RFCs for cross reference.
+
+Points to note:
+    o It was/ is a personal project. It could do with a serious amount of 
+      code review.
+    o There is no interaction with a KMS or peers.
+    o In ec-demo-1 Alice and Bob both have the same ID (that is as per the 
+      RFC).
+    o In the ec-demo-1 demo example a predefined message is signed, not 
+      the encapsulated data. In ec-demo-2 the encapsulated data is signed 
+      (as would more likely be the case).
+    o It is C and OpenSSL (no other maths libraries), this makes it a tad
+      slower, but hopefully more portable. 
+
+Other things to note with this implementation:
+    o If you want to turn DEBUG output off, comment out the following line:
+          #define ES_OUTPUT_DEBUG
+      from src/utils/log.h
+    o If you want to change where data (community and user key data) you 
+      will need to modify STORAGE_ROOT in inc/globals.h
+    o If you want to use NON RFC values comment out the following line:
+          #define ES_USE_RFC_VALUES
+      from the demo/ test file es-demo-1.c and remake.
+</code></pre>
+<h2>
+<a id="user-content-making" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#making" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Making</h2>
+<pre><code>Prep (linux):
+    The make script needs to be executable and as I am new to git hub,
+    it does not seem immediately obvious how to (or even if you can) do 
+    this. So, when you have cloned the repo, do:
+
+        chmod 775 make
+
+ To make (linux):
+
+    ./make
+
+Note! It is worth having a read of the make file as well. 
+</code></pre>
+<h2>
+<a id="user-content-running" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#running" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running</h2>
+<pre><code>To run:
+    ./es-demo-1   -- contains RFC values.
+    ./es-demo-2   -- different (non RFC) Alice and Bob values.
+
+Note! You will need to do the following first before running:
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:&lt;path-to-where-you-installed&gt;/lib
+      refer to make script file for more details.
+</code></pre>
+<h2>
+<a id="user-content-doxygen" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#doxygen" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Doxygen</h2>
+<pre><code>For doxygen documentation:
+
+    Install:
+        yum install graphviz
+        yum install boost-graph
+        yum install texlive
+        yum install texlive-utils
+        yum install doxygen
+
+Then:
+    doxygen Doxyfile
+
+Next, web browser and open file:
+
+    file://&lt;path-to-this-dir&gt;/doxygen_output/html/index.html
+</code></pre>
+<h2>
+<a id="user-content-contact-details" class="anchor" href="https://libraries.io/github/jim-b/ECCSI-SAKKE#contact-details" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contact Details</h2>
+<pre><code>jim&lt;AT&gt;mikey-sakke.org
+</code></pre>
+</article></div>
+<div id="repository_dependencies" style="display:none;" data-url="/github/jim-b/ECCSI-SAKKE/dependencies"></div>
+</div>
+<div class="col-md-4">
+<h4>Project Statistics</h4>
+<table class="table table-striped">
+<tbody><tr>
+<td>
+Sourcerank
+</td>
+<td>
+<strong><a href="https://libraries.io/github/jim-b/ECCSI-SAKKE/sourcerank">3</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Repository Size
+</td>
+<td>
+<strong>438 KB</strong>
+</td>
+</tr>
+<tr>
+<td>
+Stars
+</td>
+<td>
+<strong><a href="https://github.com/jim-b/ECCSI-SAKKE/stargazers">0</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Forks
+</td>
+<td>
+<strong><a href="https://github.com/jim-b/ECCSI-SAKKE/network">2</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Watchers
+</td>
+<td>
+<strong><a href="https://github.com/jim-b/ECCSI-SAKKE/watchers">1</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Open issues
+</td>
+<td>
+<strong><a href="https://github.com/jim-b/ECCSI-SAKKE/issues">1</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Dependencies
+</td>
+<td>
+<strong>0</strong>
+</td>
+</tr>
+<tr>
+<td>
+Contributors
+</td>
+<td>
+<strong><a href="https://libraries.io/github/jim-b/ECCSI-SAKKE/contributors">1</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Tags
+</td>
+<td>
+<strong><a href="https://libraries.io/github/jim-b/ECCSI-SAKKE/tags">0</a></strong>
+</td>
+</tr>
+<tr>
+<td>
+Created
+</td>
+<td>
+<strong><time datetime="2015-04-08T22:33:10Z" title="Apr  8, 2015">Apr 8, 2015</time></strong>
+</td>
+</tr>
+<tr>
+<td>
+Last updated
+</td>
+<td>
+<strong><time datetime="2015-05-03T11:08:53Z" title="May  3, 2015">May 3, 2015</time></strong>
+</td>
+</tr>
+<tr>
+<td>
+Last pushed
+</td>
+<td>
+<strong><time datetime="2015-04-30T21:18:43Z" title="Apr 30, 2015">Apr 30, 2015</time></strong>
+</td>
+</tr>
+</tbody></table>
+<h4>Top Contributors <small><a href="https://libraries.io/github/jim-b/ECCSI-SAKKE/contributors">See all</a></small></h4>
+<a title="jim-b" href="https://libraries.io/github/jim-b"><img width="60" height="60" alt="jim-b" class="pull-left" src="./jim-b_ECCSI-SAKKE - Libraries.io_files/11861585"></a>
+<div class="row"></div>
+<br>
+<p>
+<i class="fa fa-question-circle"></i>
+Something wrong with this page?
+<a href="https://github.com/librariesio/libraries.io/issues/new">Make a suggestion</a>
+</p>
+<p>
+<small class="text-muted">Last synced: 2016-10-18 02:37:53 UTC</small>
+</p>
+<p>
+<small class="text-muted">
+<a href="https://libraries.io/login">Login</a> to resync this repository
+</small>
+</p>
+</div>
+</div>
+</div>
+<footer data-ga-tracked-el="footer">
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-6 col-md-4">
+<p>
+<a href="https://libraries.io/">Libraries.io</a> helps you find new open source packages, modules and frameworks and keep track of ones you depend upon.
+</p>
+<p>
+<a href="https://twitter.com/librariesio" title="Twitter"><i class="fa fa-twitter"></i></a>&nbsp;
+<a href="https://github.com/librariesio" title="GitHub"><i class="fa fa-github"></i></a>&nbsp;
+<a href="https://www.facebook.com/libraries.io" title="Facebook"><i class="fa fa-facebook"></i></a>&nbsp;
+<a href="mailto:support@libraries.io" title="Email"><i class="fa fa-envelope"></i></a>&nbsp;
+<a href="https://slack.libraries.io/" title="Slack"><i class="fa fa-slack"></i></a>&nbsp;
+<a href="https://github.com/librariesio/libraries.io/issues/new" title="Support"><i class="fa fa-question-circle"></i></a>&nbsp;
+</p>
+<hr>
+<p>
+<a href="https://tidelift.com/"><img width="160" src="./jim-b_ECCSI-SAKKE - Libraries.io_files/Tidelift_project_logo_white-3059b10519a99d09164236e6fd1dfa65f098a4f87ef59aa38333b5d4c69d1330.svg" alt="Tidelift project logo white"></a>
+</p>
+<p class="text-muted">
+Copyright © 2018 Tidelift, Inc<br>
+Code is Open Source under <a href="https://github.com/librariesio/libraries.io/blob/master/LICENSE.txt">AGPLv3</a> license<br>
+Data is available under <a href="https://libraries.io/data">CC-BY-SA 4.0</a> license
+</p>
+</div>
+<div class="col-xs-12 col-md-2">
+<strong><a href="https://libraries.io/explore">Explore</a></strong>
+<ul>
+<li><a href="https://libraries.io/platforms">Platforms</a></li>
+<li><a href="https://libraries.io/languages">Languages</a></li>
+<li><a href="https://libraries.io/licenses">Licenses</a></li>
+<li><a href="https://libraries.io/explore/help-wanted">Help Wanted</a></li>
+<li><a href="https://libraries.io/explore/first-pull-request">First Pull Request</a></li>
+<li><a href="https://libraries.io/explore/unlicensed-libraries">Unlicensed Packages</a></li>
+<li><a href="https://libraries.io/github/trending">Trending Repositories</a></li>
+</ul>
+<strong><a href="https://libraries.io/experiments">Experiments</a></strong>
+<ul>
+<li><a href="https://libraries.io/experiments/bus-factor">Bus Factor</a></li>
+<li><a href="https://libraries.io/experiments/digital-infrastructure">Digital Infrastructure</a></li>
+<li><a href="https://libraries.io/experiments/unseen-infrastructure">Unseen Infrastructure</a></li>
+</ul>
+</div>
+<div class="col-xs-12 col-md-2">
+<ul class="list-unstyled">
+<li><strong><a href="https://libraries.io/about">About</a></strong></li>
+<li><strong><a href="https://libraries.io/team">Team</a></strong></li>
+<li><strong><a href="https://libraries.io/terms">Terms and Conditions</a></strong></li>
+<li><strong><a href="https://libraries.io/privacy">Privacy Policy</a></strong></li>
+<li><strong><a href="https://libraries.io/api">API</a></strong></li>
+</ul>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4">
+<form action="https://libraries.us10.list-manage.com/subscribe/post?u=15c11768c94674bc6f18d079f&amp;id=848ac04a44" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="navbar-form" novalidate="">
+<p>
+Subscribe to the Libraries.io newsletter:
+</p>
+<input type="email" value="" name="EMAIL" size="20" placeholder="Your email..." class="form-control" id="mce-EMAIL">
+<div style="position: absolute; left: -5000px;"><input type="text" name="b_15c11768c94674bc6f18d079f_848ac04a44" tabindex="-1" value=""></div>
+<input type="submit" value="Get Updates" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary"></form></div>
+
+</div>
+</div>
+
+</footer>
+<script>
+    if (typeof ga === 'function') { ga('send', 'pageview', location.pathname+location.search) }
+  </script>
+
+
+</body></html>

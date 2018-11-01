@@ -1,0 +1,97 @@
+jQuery(function () {
+
+
+    jQuery("small").each(function () {
+
+
+        if ((jQuery(this).prev().is("a")) && (jQuery(this).prev().find("img").is("img")) && (jQuery(this).html() != "") ) {
+                jQuery(this).css({'display' : 'inline-block', 'padding-bottom' : '20px'})
+        }
+
+        if ((jQuery(this).parent().is("p")) && (jQuery(this).parent().prev().is("center")) && (jQuery(this).parent().prev().find("iframe").is("iframe"))) {
+            jQuery(this).css({'display' : 'inline-block', 'padding-top' : '20px'})
+        }
+
+
+        if ((jQuery(this).parent().prev().is("hr")) && (!jQuery(this).parent().next().is("hr"))) {
+            jQuery(this).css({'display' : 'inline-block', 'padding-bottom' : '5px'})
+        }
+
+
+    });
+
+
+    jQuery("blockquote").each(function () {
+        if((jQuery(this).prev().is("p")) || (jQuery("blockquote").prev().find("i").is("i")) || (jQuery("blockquote").prev().find("strong").is("strong"))){
+
+            jQuery(this).css({'padding-bottom' : '20px'});
+
+        }
+    });
+
+    jQuery("table").each(function () {
+        if (jQuery(this).next().is("p")){
+
+            jQuery(this).css({'margin-bottom' : '20px'})
+
+        }
+    });
+
+    jQuery("p").each(function () {
+        if (jQuery(this).html() == "") {
+
+            jQuery(this).remove();
+
+        }
+    });
+
+
+
+
+
+    //replace logo source
+    jQuery('.ubermenu-item-29540 a .ubermenu-target-title').html('<img class="ubermenu-image ubermenu-image-size-full" style="margin-left: -3px;" src="https://www.altoroslabs.com/wp-content/uploads/2014/06/AltorosLogo_42х42.png" width="22" height="22" alt="AltorosLogo_mini1">');
+    jQuery('.ubermenu-item-14547 a .ubermenu-target-title').html('<img class="ubermenu-image ubermenu-image-size-full" src="https://www.altoros.com/blog/wp-content/uploads/2015/04/AltorosLogo_mini1.png" width="140" height="22" alt="AltorosLogo_mini1">');
+    jQuery('.ubermenu-item-14878 a .ubermenu-target-title').html('<img class="ubermenu-image ubermenu-image-size-full" src="https://www.altoros.com/blog/wp-content/uploads/2015/04/AltorosLogo_mini1.png" width="140" height="22" alt="AltorosLogo_mini1">');
+    if(is_mobile()==true){
+        jQuery('.ubermenu-item-29540 a .ubermenu-target-title').css('display','none');
+    }
+
+    jQuery('#header-bar .hassubmenu-arr').on('click', function(){
+        jQuery(this).closest('li').toggleClass('menuopen');
+        jQuery(this).closest('li').find('.sub-menu:first').toggle(300);
+    });
+
+
+
+
+    if (jQuery(window).width()<959) {
+        //jQuery('.static-active ul.ubermenu-submenu .ubermenu-item.ubermenu-item-14863').hide();
+        jQuery('#header-bar').find('ul.ubermenu-submenu').each(function(){
+            jQuery(this).closest('li').append('<div class="hassubmenu-arr"></div>');
+        });
+        //jQuery('#header-bar').find('.current-menu-item').removeClass('static-active');
+
+    }
+    jQuery('#header-bar .hassubmenu-arr').on('click', function(){
+
+        //if (jQuery(this).closest('li').hasClass('static-active')) {
+        //    jQuery(this).closest('li').removeClass('static-active')
+        //    jQuery(this).closest('li').toggleClass('ubermenu-active');
+        //}
+        jQuery(this).closest('li').toggleClass('ubermenu-active');
+        //jQuery(this).closest('li').find('.sub-menu:first').toggle(300);
+    });
+
+    if (jQuery('#wpadminbar').is(':visible')){
+        jQuery('#header-bar').css('top', jQuery('#wpadminbar').height());
+    }
+
+    if (jQuery(".shortcode_wysija input[name='form_id']").length){
+        console.log('1');
+        if (jQuery(".shortcode_wysija input[name='form_id']").val() == '1'){
+            console.log('2');
+            jQuery(".shortcode_wysija input[name='form_id']").closest('.widget_wysija_cont').addClass('blog_wysija');
+        }
+    }
+});

@@ -1,0 +1,1579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0038)http://www.freebuf.com/news/92976.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>
+  Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台</title>
+<meta name="description" content="通过看python-rsa的源代码，我们发现它存在一个漏洞，该漏洞是基于Bleichenbacher&#39;06 attack研究出来的针对RSA签名伪造的一个简单的变种，是由于公钥指数太低导致的。
+该漏洞可导致任意信息伪造签名，不过…">
+<meta name="keywords" content="python, Rsa签名, 签名伪造, 最新漏洞报告,漏洞众测平台,漏洞攻击分析,漏洞POC和EXP, 资讯">
+<meta name="baidu-site-verification" content="nKKKqQxp6R">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta property="qc:admins" content="6620477777662552566375">
+<link rel="stylesheet" id="wpfp-css" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wpfp.css" type="text/css">
+<link rel="stylesheet" id="wp-recentcomments-css" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wp-recentcomments.css" type="text/css" media="screen">
+<link rel="stylesheet" id="mycred-widget-css" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/widget.css" type="text/css" media="all">
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/jquery.min.js.下载"></script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wpfp.js.下载"></script>
+<link rel="prev" title="数据库安全小议" href="http://www.freebuf.com/articles/database/92921.html">
+<link rel="next" title="从零开始学Fuzzing系列：浏览器fuzz工具探究之框架篇" href="http://www.freebuf.com/sectool/93130.html">
+<link rel="canonical" href="http://www.freebuf.com/news/92976.html">
+<link rel="shortlink" href="http://www.freebuf.com/?p=92976">
+
+<link rel="stylesheet" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/highslide.css" type="text/css">
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/highslide-with-html.packed.js.下载"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    hs.graphicsDir = "http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/";
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+            opacity: 0.75,
+            position: "bottom center",
+            hideOnMouseOut: true
+
+        }
+
+    });
+});
+</script>
+          <script language="JavaScript" type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/script.js.下载"></script>
+        <script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/layer.js.下载"></script><link rel="stylesheet" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/layer.css" id="layui_layer_skinlayercss" style="">
+      <link rel="stylesheet" type="text/css" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/style.css">
+      <script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/highlight.pack.js.下载"></script><link type="text/css" rel="stylesheet" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/default.css">	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+<link rel="shortcut icon" href="http://static.freebuf.com/images/favicon.ico">
+<link rel="stylesheet" href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/header.css">
+<link href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!--轮播图-->
+    <link href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/swiper-3.4.2.min.css" rel="stylesheet" type="text/css">
+    <link href="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/style(1).css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+#contenttxt hr {
+  display: block;
+  height: 0px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 15px 0;
+  padding: 0;
+}
+#contenttxt table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 15px 0;
+}
+#contenttxt table thead {
+  background-color: #f9f9f9;
+}
+#contenttxt table td, #contenttxt table th {
+  min-width: 40px;
+  height: 30px;
+  border: 1px solid #ccc;
+  vertical-align: top;
+  padding: 2px 4px;
+  text-align: left;
+  box-sizing: border-box;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+#contenttxt table td.active, #contenttxt table th.active {
+  background-color: #ffffee;
+  white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;
+}
+@media (max-width: 480px) {
+    .main-header {
+        position: fixed !important;
+        top: 0;
+    }
+    .column-article {
+        margin-top: 65px;
+    }
+}
+
+</style>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/jquery-2.0.3.min.js.下载"></script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/bootstrap.min.js.下载"></script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/slider.js.下载" type="text/javascript"></script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/jquery.sticky.js.下载" type="text/javascript"></script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/bjqs-1.3.min.js.下载" type="text/javascript"></script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/mosaic.1.0.1.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/setint.js.下载"></script>
+    <!--轮播图-->
+    <script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/swiper-3.4.2.min.js.下载"></script>
+<!--[if lt IE 9]>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/html5shiv.min.js"></script>
+    <script src="http://www.freebuf.com/buf/themes/freebuf/js/respond.min.js"></script>
+<![endif]-->
+    <style>
+        @font-face {font-family: 'iconfont';
+            src: url('http://static.3001.net/iconfont/iconfont.eot'); /* IE9*/
+            src: url('http://static.3001.net/iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('http://static.3001.net/iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
+            url('http://static.3001.net/iconfont/iconfonticonfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('http://static.3001.net/iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+    </style>
+<style type="text/css">.highslide img {cursor: url(http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/zoomin.cur), pointer !important;}.highslide-viewport-size {position: fixed; width: 100%; height: 100%; left: 0; top: 0}</style><style></style><style></style></head>
+
+<body style="">
+<!----------header---------->
+<!--头部导航-->
+<div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky">
+    <div id="undefined-sticky-wrapper" class="sticky-wrapper" style="height: 65px;"><div id="undefined-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 65px;"><div class="main-header" style="position: fixed; top: 0px; display: none;">
+        <div class="header">
+            <div class="header-container clearfix">
+                                <div class="header-logo"><a href="http://www.freebuf.com/"></a></div>
+                                        <!-- column -->
+                        <div class="nav">
+                            <ul class="nav-child clearfix">
+                                <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站<b class="icon-news"></b></a>
+                                </li>
+                                <li data-value="read-menu">
+                                    <a href="http://www.freebuf.com/news/92976.html#">分类阅读<b class="triangle-down triangle-down-04"></b></a>
+                                </li>
+                                <li data-value="wenku-menu"><a href="javascript:;" target="_blank">文库<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li>
+                                    <a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a>
+                                </li>
+                                <li><a href="http://live.freebuf.com/">公开课<b class="icon-hot"></b></a></li>
+                                <li data-value="company-menu"><a href="javascript:;">企业服务<b class="triangle-down triangle-down-04"></b></a></li>
+                                <li data-value="user-menu"><a href="javascript:;">用户服务<b class="triangle-down triangle-down-04"></b></a></li>
+                            </ul>
+                        </div>
+                                        <div class="header-right">
+                                    <div class="header-icon">
+                        <ul class="clearfix">
+                                                            <li class="icon-search"><a href="http://search.freebuf.com/" target="_blank"><span>搜索</span></a></li>
+                                <li class="icon-contribute"><a href="http://www.freebuf.com/oauth" target="_blank"><span>投稿</span></a></li>
+                                                    </ul>
+                    </div>
+                    <div class="loginSign login-before">
+                        <div class="header-icon">
+                            <ul class="clearfix">
+                                <li class="icon-login"><a href="http://www.freebuf.com/oauth" target="_blank"><span>登录</span></a></li>
+                                <li class="icon-reg"><a href="https://account.tophant.com/register.html" target="_blank"><span>注册</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                                </div>
+                <div class="nav-small">
+                    <a href="http://www.freebuf.com/news/92976.html#"></a>
+                    <ul class="nav-child clearfix">
+                                                        <li class=" index">
+                                    <a href="http://www.freebuf.com/">首页</a></li>
+                                <li>
+                                    <a href="http://job.freebuf.com/" target="_blank">FB招聘站</a>
+                                </li>
+                                <li class="read-classify">
+                                    <a href="http://www.freebuf.com/news/92976.html#">分类阅读<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2 read-classify clearfix">
+                                        <li>
+                                            <strong>黑客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                                <a href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>极客</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                                <a href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>特色</strong>
+                                            <div class="nav-item">
+                                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                                <a href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                                                <a href="http://www.freebuf.com/articles/blockchain-articles" target="_blank">区块链安全</a>
+                                                <a href="http://www.freebuf.com/open" target="_blank">公开课</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="http://zhuanlan.freebuf.com/" target="_blank">专栏</a></li>
+                                <li>
+                                    <a href="http://live.freebuf.com/" target="_blank">公开课</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">企业服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank"><strong>企业SRC</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://company.freebuf.com/" target="_blank"><strong>企业空间</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.vulbox.com/" target="_blank"><strong>安全测试</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.riskivy.com/" target="_blank"><strong>风险感知</strong></a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">用户服务<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://shop.freebuf.com/" target="_blank"><strong>商城</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/newsend" target="_blank"><strong>有奖投稿</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a></li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                        </a><li><a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                            </a><a href="https://www.vulbox.com/bounties/detail-72" target="_blank"><strong>提交漏洞</strong></a>
+                                        </li>
+                                        <li class="last">
+                                            <a href="https://www.vulbox.com/bounties" target="_blank"><strong>参与众测</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" target="_blank">文库<b class="icon-arrow"></b></a>
+                                    <ul class="nav-child2">
+                                        <li>
+                                            <a href="http://search.freebuf.com/search" target="_blank"><strong>文库</strong></a>
+                                        </li>
+                                        <li>
+                                            <a href="http://www.freebuf.com/special-subject" target="_blank"><strong>专题</strong></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                                    <li><a href="http://my.freebuf.com/post/edit" target="_blank">投稿</a></li>
+                                                    <li><a href="https://account.tophant.com/register.html" class="login-btn">注册</a>
+                            </li>
+                            <li><a href="http://www.freebuf.com/oauth" class="sign-btn">登录</a></li>
+                                            </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu read-menu" id="read-menu" style="">
+                <div class="container">
+                    <ul class="menu clearfix">
+                        <li>
+                            <strong>黑客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/vuls" target="_blank">漏洞</a>
+                                <a href="http://www.freebuf.com/sectool" target="_blank">安全工具</a>
+                                <a href="http://www.freebuf.com/articles/web" target="_blank">WEB安全</a>
+                                <a href="http://www.freebuf.com/articles/system" target="_blank">系统安全</a>
+                                <a href="http://www.freebuf.com/articles/network" target="_blank">网络安全</a>
+                                <a href="http://www.freebuf.com/articles/wireless" target="_blank">无线安全</a>
+                                <a href="http://www.freebuf.com/articles/terminal" target="_blank">设备/客户端安全</a>
+                                <a href="http://www.freebuf.com/articles/database" target="_blank">数据库安全</a>
+                                <a href="http://www.freebuf.com/articles/security-management" target="_blank">安全管理</a>
+                                <a href="http://www.freebuf.com/articles/es" target="_blank">企业安全</a>
+                                <a class="last" href="http://www.freebuf.com/ics-articles" target="_blank">工控安全</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>极客</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/geek" target="_blank">极客有意思</a>
+                                <a class="last" href="http://www.freebuf.com/news/others" target="_blank">周边</a>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>特色</strong>
+                            <div class="nav-item">
+                                <a href="http://www.freebuf.com/news/special" target="_blank">头条</a>
+                                <a href="http://www.freebuf.com/articles/people" target="_blank">人物志</a>
+                                <a href="http://www.freebuf.com/fevents" target="_blank">活动</a>
+                                <a href="http://www.freebuf.com/video" target="_blank">视频</a>
+                                <a href="http://www.freebuf.com/articles/neopoints" target="_blank">观点</a>
+                                <a href="http://www.freebuf.com/jobs" target="_blank">招聘</a>
+                                <a href="http://www.freebuf.com/paper/" target="_blank">报告</a>
+                                <a href="http://www.freebuf.com/news" target="_blank">资讯</a>
+                                <a href="http://www.freebuf.com/articles/blockchain-articles" target="_blank">区块链安全</a>
+                                <a class="last" href="http://www.freebuf.com/open" target="_blank">公开课</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu company-menu" id="company-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/item-9-0-1" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-src.png"></span>
+                                <span class="name">企业SRC</span>
+                                <span class="intro">全/半托管式互联网漏洞收集管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://company.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-company.png"></span>
+                                <span class="name">企业空间</span>
+                                <span class="intro">为企业定制信息安全专属门户</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-safety.png"></span>
+                                <span class="name">安全测试</span>
+                                <span class="intro">国内领先的互联网安全众测服务</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.riskivy.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-risk.png"></span>
+                                <span class="name">风险感知</span>
+                                <span class="intro">基于IT资产的全息风险分析监控</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu user-menu" id="user-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://shop.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-shop.png"></span>
+                                <span class="name">商城</span>
+                                <span class="intro">用FB金币购物</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.freebuf.com/newsend" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-write.png"></span>
+                                <span class="name">有奖投稿</span>
+                                <span class="intro">与整个行业分享你的经验与见解</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://zhuanlan.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-column.png"></span>
+                                <span class="name">申请专栏</span>
+                                <span class="intro">自由创作，打造自主内容品牌</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.vulbox.com/bounties/detail-72" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-leak.png"></span>
+                                <span class="name">提交漏洞</span>
+                                <span class="intro">与数万白帽一起，让互联网更安全</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="https://www.vulbox.com/bounties" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-test.png"></span>
+                                <span class="name">参与众测</span>
+                                <span class="intro">挖洞开启自由职业之路</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu wenku-menu" id="wenku-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://search.freebuf.com/search" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-write.png"></span>
+                                <span class="name">文库</span>
+                                <span class="intro">FB百科大全</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="http://www.freebuf.com/special-subject" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-test.png"></span>
+                                <span class="name">专题</span>
+                                <span class="intro">浓缩的安全精华汇总</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown-menu wenku-menu" id="course-menu" style="">
+                <div class="container">
+                    <ul class="menu">
+                        <li>
+                            <a href="http://live.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-good-course.png"></span>
+                                <span class="name">精品公开课</span>
+                                <span class="intro">FreeBuf匠心打造精品高端课程</span>
+                            </a>
+                        </li>
+                        <li class="last">
+                            <a href="http://open.freebuf.com/" target="_blank">
+                                <span class="img"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-common-course.png"></span>
+                                <span class="name">普通公开课</span>
+                                <span class="intro">分享安全领域的知识与智慧</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div></div></div>
+</div>
+<!----------header end---------->
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/header.js.下载"></script><script>
+    jQuery(window).load(function(){
+      if(jQuery(window).width()>480){
+        jQuery(".main-header").sticky({ topSpacing: 0 });
+      }else{
+        jQuery(".main-header nav").removeClass("navbar-fixed-top");
+      }
+      jQuery("#mar-right").sticky({ topSpacing: 105,bottomSpacing: 410 });
+    });
+</script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/layer.js.下载"></script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/prettify.js.下载"></script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/lazyload.js.下载"></script>
+<script type="text/javascript" charset="utf-8">
+      jQuery(function() {
+          jQuery("img").lazyload({
+              effect : "fadeIn"
+          });
+      });
+ </script>
+<script type="text/javascript">
+    window.onload = function(){
+        prettyPrint();
+    }
+</script>
+<script language="JavaScript" type="text/javascript">
+//<![CDATA[
+var va = "您已经点亮过了";
+function acv_vote(id,option, m){
+  if( m==null) m =''; m = m + '';
+  jQuery('#acv_stat_'+m+id).html('Loading...');
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option="+option+"&ID="+id;
+  jQuery.get(url,function(d){
+    d =d.split('|');var s='#acv_stat_'+m+d[0];
+    var sele = '#cos_support-'+m+id,unsele = '#cos_unsupport-'+m+id,tpjs = 'javascript:alert(va)';
+    jQuery( s ).html( d[1] );jQuery(s).fadeOut(400,function(){jQuery(s).fadeIn();});
+    if( d[2] == 1 ){ jQuery(sele).html(jQuery(sele).html()*1+1); }
+    if( d[2] == -1 ){ jQuery(unsele).html(jQuery(unsele).html()*1+1); }
+    jQuery('#vote4-'+id).attr('href',tpjs);jQuery('#vote4-2'+id).attr('href',tpjs);
+    jQuery('#votea-'+id).attr('href',tpjs);jQuery('#votea-2'+id).attr('href',tpjs);
+  });
+}
+  
+$(document).on("mouseenter",".comment-tools",function(){
+  $(this).find(".btn-report").show();
+  $(this).find(".btn-report").addClass("hover");
+}).on("mouseleave",".comment-tools",function(){
+  var $_this = $(this);
+  $(this).find(".btn-report").removeClass("hover");
+  if(!$(this).find(".dropup").hasClass('open')){
+    $(this).find(".btn-report").hide(); 
+    $_this.find(".dropdown-menu").css("display","none");
+  }else{
+    setTimeout(function(){
+      if(!$_this.find(".btn-report").hasClass("hover")){
+        $_this.find(".dropup").removeClass("open");
+        $_this.find(".dropdown-menu").css("display","none");
+        $_this.find(".btn-report").hide(); 
+      }
+    },"500");
+  }
+})
+
+$(document).on("click",".click_report",function(){
+  $(this).parent().parent().css("display","none");
+  var id = $(this).attr("data-id");
+  var url="http://www.freebuf.com/index.php?acv_ajax=true&option=0&ID="+id;
+  $_this = $(this);
+  jQuery.get(url,function(d){
+    d =d.split('|');
+    if(d[1]=='您已经点过灯了'){
+      d[1] = '您已经举报过了';
+    }
+    if(d[1]=='Thank you'){
+      d[1] = '举报成功';
+    }
+    $_this.parent().parent().parent().find(".btn-report").text(d[1]);
+    $_this.parent().parent().parent().find(".btn-report").css("display","block");
+  })
+})
+
+$(document).on("click",".btn-report",function(){
+  if($(this).parent().hasClass('open')){
+    $(this).parent().find(".dropdown-menu").css("display","block");
+  }else{
+    $(this).parent().find(".dropdown-menu").css("display","none");
+  }
+})
+//]]>
+</script>
+<div class="column-article" data-column="">
+            <div class="container pad-top35">
+        <div class="row clearfix">
+            <div class="col-md-9" id="getWidth">
+                    <div class="reletive search-xs-wrap">
+                    <div class="form-group has-active search-col search-xs">
+                        <form id="hpsform-new" class="navbar-search navbar-form" onsubmit="return dispatch()">
+                            <div class="form-group">
+                                <input id="q" class="input form-control" type="text" placeholder="关键字查找" autocomplete="off" title="关键字查找" name="q">
+                                <button class="submit" type="submit"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                    <script type="text/javascript">
+                        var dispatch = function () {
+                            var q = document.getElementById("q");
+                            if (q.value == "") {
+                                q = document.getElementById("bigq");
+                            }
+                            if (q.value != "") {
+                                window.open('http://search.freebuf.com/search/?search=' + q.value, "_blank");
+                                return false;
+                            } else {
+                                return false;
+                            }
+                        }
+                    </script>
+                <div class="article-wrap panel panel-default">
+                                                            <div class="articlecontent">
+                                                    <div class="title clearfix">
+                                <h2>
+                                    Python-rsa中的签名伪造                                </h2>
+                                <div class="property">
+                                                                            <span class="name"><a href="http://www.freebuf.com/author/%e4%b8%9c%e4%ba%8c%e9%97%a8%e9%99%88%e5%86%a0%e5%b8%8c" title="由 东二门陈冠希 发布" rel="author">东二门陈冠希</a></span>
+                                                                        <span class="icon-f"></span>
+                                    <span class="time">2016-01-15</span>
+                                                                                                                    <img style="float: left;margin-top:2px;" title="金币奖励" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/gold.png">
+                                        <span class="coin"><strong>+6</strong></span>
+                                                                                                            <span class="look">共<strong>276535</strong>人围观
+                                        ，发现 <strong>4</strong> 个不明物体 </span>                                      
+                                                                <span class="tags">
+                                      <a href="http://www.freebuf.com/vuls">漏洞</a><a href="http://www.freebuf.com/news">资讯</a></span>
+                                    <span class="tags_01"></span>
+                                </div>
+                            </div>
+                                                                                                <div id="contenttxt">
+                            <p><span style="color: rgb(0, 176, 80);"></span></p>
+<p style="text-align: center"><a href="http://image.3001.net/images/20160114/14527523934794.png" class="highslide-image" onclick="return hs.expand(this);" target="_blank"><img style="width: 459px; height: 237px; display: block;" data-original="http://image.3001.net/images/20160114/14527523934794.png!small" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/14527523934794.png!small" title="RSA" hspace="0" border="0" vspace="0" width="459"></a></p>
+<noscript><img style="width: 459px; height: 237px;" src="http://image.3001.net/images/20160114/14527523934794.png!small" title="RSA" height="237" hspace="0" border="0" vspace="0" width="459"/></p></noscript>
+<p><span style="color: rgb(0, 176, 80);"></span><br></p>
+<p><span style="color: rgb(0, 176, 80);"><strong>通过看</strong></span><a href="https://bitbucket.org/sybren/python-rsa" target="_blank" style="color: rgb(0, 176, 80); text-decoration: underline;"><span style="color: rgb(0, 176, 80);"><strong>python-rsa</strong></span></a><span style="color: rgb(0, 176, 80);"><strong>的源代码，我们发现它存在一个漏洞，该漏洞是基于</strong></span><a href="https://www.ietf.org/mail-archive/web/openpgp/current/msg00999.html" target="_blank" textvalue="Bleichenbacher&#39;06 attack" style="color: rgb(0, 176, 80); text-decoration: underline;"><span style="color: rgb(0, 176, 80);"><strong>Bleichenbacher'06 attack</strong></span></a><span style="color: rgb(0, 176, 80);"><strong>研究出来的针对RSA签名伪造的一个简单的变种，是由于公钥指数太低导致的。</strong></span></p>
+<p style="margin-top: 5px;">该漏洞可导致任意信息伪造签名，不过有一个前提是公钥需要有一个低指数，例如3。而幸运的是，虽然在python-rsa中e=65537已经写死在代码里了，但是这个库提供了很多选项来配置现有的密钥，这里就有可能把e设置成3。</p>
+<p style="margin-top: 5px;">接下来我们就来讲讲这个漏洞的背景和详细攻击方法，这也是我最喜欢的一种攻击方式, 因为它非常简练。如果你对这个漏洞有兴趣，那么不妨看下。</p>
+<p style="margin-top: 15px;"><span style="color: rgb(38, 38, 38); font-size: 18px;"><strong>Bleichenbacher'06<br></strong></span>RSA算法需要用三个参数N,e和d产生一个密钥对。如果你想对一个数m进行加密或解密，就要先对m进行乘方运算，然后再分别与e和d进行模运算（mod）产生m的密文或者明文。如果你把d当成保密密钥并且公开e和N，攻击者是很难通过公开的e和N推算出d并完成d的功能（因为开根号和对数运算很难通过程序模块实现）。</p>
+<p style="margin-top: 5px;">当你把RSA用于公共密钥算法进行加密时，你只需要发出(N, e)。例如，Alice要发送给你信息时候，她会用算法m^e mod N进行加密后发送给你，然后你可以通过(m ^ e) ^ d = m mod N对密文进行解密。数字签名是RSA算法的另一个广泛运用的地方：你可以用m^d mod N来签名一个信息，然后收件人用 (N, e)来执行(m ^ d) ^ e = m mod N。只有你有参数d，也就是说，你可以计算出(m ^ d) ^ e 的值进而计算出m的值。</p>
+<p style="margin-top: 5px;">你可能已经注意到了，事实上m并不是你要传递的那个任意信息。事实上它只能是一个数字，而且这个数字要比N小。因此，实际要加密任意一个信息时，我们经常会用对称加密算法（例如AES）加密数据，然后对这段信息产生的hash值（例如SHA2）进行签名。这样的就足够转化成一个比N小的数字。</p>
+<p style="margin-top: 5px;">最广泛被使用于RSA签名的方案<a href="https://tools.ietf.org/html/rfc3447#section-8.2.2" target="_blank">PKCS#1 1.5</a>是在10年前被设计出来的（并且依然普遍的被运用在一些传统的协议上，比如TLS和DNSSEC）。PKCS#1 1.5的签名原理是这样的：先计算出你要签名的信息的hash值，然后把它编码成像下面的例子一样：<br></p>
+<pre class="prettyprint lang-cpp prettyprinted" style=""><span class="lit">00</span><span class="pln">&nbsp;</span><span class="lit">01</span><span class="pln">&nbsp;FF&nbsp;FF&nbsp;</span><span class="pun">...</span><span class="pln">&nbsp;FF&nbsp;FF&nbsp;</span><span class="lit">00</span><span class="pln">&nbsp;ASN</span><span class="pun">.</span><span class="lit">1</span><span class="pln">&nbsp;HASH</span></pre>
+<p>其中，ASN.1是有这段hash值的类型和长度混合后进行二进制编码得到。然后你用RSA算法对这段内容进行签名。可以看到FF字节其实是用来填充这段信息的，使他的长度和N一样。</p>
+<p><span style="color: rgb(38, 38, 38);"><strong>BB'06的攻击思路就是：虽然在没有d的情况下几乎是不可能找到一个数字的e次方会正好等于以上提到的数据，但是我们可以得到一个近似的值，例如，在对目标信息开e次方根的时候，如果e足够小，那么结果将接近明文，如下例：<br></strong></span></p>
+<pre class="prettyprint lang-cpp prettyprinted" style=""><span class="lit">00</span><span class="pln">&nbsp;</span><span class="lit">01</span><span class="pln">&nbsp;FF&nbsp;</span><span class="lit">00</span><span class="pln">&nbsp;ASN</span><span class="pun">.</span><span class="lit">1</span><span class="pln">&nbsp;HASH&nbsp;GARBAGE</span></pre>
+<p style="margin-top: 5px;">如果验证函数没有检查hash值的末尾有没有补齐（没有足够填充足够FF字节），我们就可以伪造签名，这通过任何一个使用了很小的e的公共密钥对就能实现。正如你所见，由于对密文取e次方根，e又足够小，就不会经过这个系数，于是N与e就变得完全不相关，这对第二步的计算很有用（可以任意挑选一个key，例如3）</p>
+<p style="margin-top: 5px;">Bleichenbacher在展示对CRYPTO'06的残存会话的攻击过程中，提出了“笔和纸”方法来产生一个数字s，当对一个信息进行e次方的运算（e的值足够小）时，给要加密的信息加上一个前缀，就像<a href="https://www.ietf.org/mail-archive/web/openpgp/current/msg00999.html" target="_blank">documented by Hal Finney</a>这篇文章记录的，这里就不多写了。但我更喜欢把它简化成立方根的方法。</p>
+<p style="margin-top: 5px;">在之前，OpenSSL和NSS 都很容易被这种方式攻击。当这种攻击手法的变种在其他库中被找到，就使得这种手法变成了密码学攻击中常用的手段。最近，<a href="https://github.com/FiloSottile/BERserk" target="_blank">BERserk</a>又攻击了NSS，所用的手法并没有与BB'06所用的差多少，都是通过ASN.1 bug在信息中间隐藏了e。 <a href="http://cryptopals.com/sets/6/challenges/42/" target="_blank">cryptopals</a>这个网站甚至对所有的BB'06进行收录成了“加密情报联盟”。</p>
+<p style="margin-top: 15px;"><span style="color: rgb(38, 38, 38); font-size: 18px;"><strong>python-rsa漏洞</strong></span></p>
+<p style="margin-top: 5px;">python-rsa漏洞是BB'06的一个简单的变种，因为这也是把一段hash值和ASN.1对象进行对比。</p>
+<p style="margin-top: 5px;">以下是verify()函数的源代码：<br></p>
+<pre class="prettyprint lang-python prettyprinted" style=""><span class="kwd">def</span><span class="pln">&nbsp;verify</span><span class="pun">(</span><span class="pln">message</span><span class="pun">,</span><span class="pln">&nbsp;signature</span><span class="pun">,</span><span class="pln">&nbsp;pub_key</span><span class="pun">):</span><span class="pln">&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;blocksize&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;common</span><span class="pun">.</span><span class="pln">byte_size</span><span class="pun">(</span><span class="pln">pub_key</span><span class="pun">.</span><span class="pln">n</span><span class="pun">)</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;encrypted&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;transform</span><span class="pun">.</span><span class="pln">bytes2int</span><span class="pun">(</span><span class="pln">signature</span><span class="pun">)</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;decrypted&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;core</span><span class="pun">.</span><span class="pln">decrypt_int</span><span class="pun">(</span><span class="pln">encrypted</span><span class="pun">,</span><span class="pln">&nbsp;pub_key</span><span class="pun">.</span><span class="pln">e</span><span class="pun">,</span><span class="pln">&nbsp;pub_key</span><span class="pun">.</span><span class="pln">n</span><span class="pun">)</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;clearsig&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;transform</span><span class="pun">.</span><span class="pln">int2bytes</span><span class="pun">(</span><span class="pln">decrypted</span><span class="pun">,</span><span class="pln">&nbsp;blocksize</span><span class="pun">)</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#&nbsp;If&nbsp;we&nbsp;can't&nbsp;find&nbsp;the&nbsp;signature&nbsp;&nbsp;marker,&nbsp;verification&nbsp;failed.</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">if</span><span class="pln">&nbsp;clearsig</span><span class="pun">[</span><span class="lit">0</span><span class="pun">:</span><span class="lit">2</span><span class="pun">]</span><span class="pln">&nbsp;</span><span class="pun">!=</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x00\x01'</span><span class="pun">):</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">raise</span><span class="pln">&nbsp;</span><span class="typ">VerificationError</span><span class="pun">(</span><span class="str">'Verification&nbsp;failed'</span><span class="pun">)</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#&nbsp;Find&nbsp;the&nbsp;00&nbsp;separator&nbsp;between&nbsp;the&nbsp;padding&nbsp;and&nbsp;the&nbsp;payload</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">try</span><span class="pun">:</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sep_idx&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;clearsig</span><span class="pun">.</span><span class="pln">index</span><span class="pun">(</span><span class="pln">b</span><span class="pun">(</span><span class="str">'\x00'</span><span class="pun">),</span><span class="pln">&nbsp;</span><span class="lit">2</span><span class="pun">)</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">except</span><span class="pln">&nbsp;</span><span class="typ">ValueError</span><span class="pun">:</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">raise</span><span class="pln">&nbsp;</span><span class="typ">VerificationError</span><span class="pun">(</span><span class="str">'Verification&nbsp;failed'</span><span class="pun">)</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#&nbsp;Get&nbsp;the&nbsp;hash&nbsp;and&nbsp;the&nbsp;hash&nbsp;method</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pun">(</span><span class="pln">method_name</span><span class="pun">,</span><span class="pln">&nbsp;signature_hash</span><span class="pun">)</span><span class="pln">&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;_find_method_hash</span><span class="pun">(</span><span class="pln">clearsig</span><span class="pun">[</span><span class="pln">sep_idx</span><span class="pun">+</span><span class="lit">1</span><span class="pun">:])</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;message_hash&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;_hash</span><span class="pun">(</span><span class="pln">message</span><span class="pun">,</span><span class="pln">&nbsp;method_name</span><span class="pun">)</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="com">#&nbsp;Compare&nbsp;the&nbsp;real&nbsp;hash&nbsp;to&nbsp;the&nbsp;hash&nbsp;in&nbsp;the&nbsp;signature</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">if</span><span class="pln">&nbsp;message_hash&nbsp;</span><span class="pun">!=</span><span class="pln">&nbsp;signature_hash</span><span class="pun">:</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">raise</span><span class="pln">&nbsp;</span><span class="typ">VerificationError</span><span class="pun">(</span><span class="str">'Verification&nbsp;failed'</span><span class="pun">)</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">return</span><span class="pln">&nbsp;</span><span class="kwd">True</span><span class="pln">
+</span><span class="kwd">def</span><span class="pln">&nbsp;_find_method_hash</span><span class="pun">(</span><span class="pln">method_hash</span><span class="pun">):</span><span class="pln">&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">for</span><span class="pln">&nbsp;</span><span class="pun">(</span><span class="pln">hashname</span><span class="pun">,</span><span class="pln">&nbsp;asn1code</span><span class="pun">)</span><span class="pln">&nbsp;</span><span class="kwd">in</span><span class="pln">&nbsp;HASH_ASN1</span><span class="pun">.</span><span class="pln">items</span><span class="pun">():</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">if</span><span class="pln">&nbsp;</span><span class="kwd">not</span><span class="pln">&nbsp;method_hash</span><span class="pun">.</span><span class="pln">startswith</span><span class="pun">(</span><span class="pln">asn1code</span><span class="pun">):</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">continue</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">return</span><span class="pln">&nbsp;</span><span class="pun">(</span><span class="pln">hashname</span><span class="pun">,</span><span class="pln">&nbsp;method_hash</span><span class="pun">[</span><span class="pln">len</span><span class="pun">(</span><span class="pln">asn1code</span><span class="pun">):])</span><span class="pln">
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="kwd">raise</span><span class="pln">&nbsp;</span><span class="typ">VerificationError</span><span class="pun">(</span><span class="str">'Verification&nbsp;failed'</span><span class="pun">)</span><span class="pln">
+&nbsp;
+HASH_ASN1&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;</span><span class="pun">{</span><span class="pln">&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'MD5'</span><span class="pun">:</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x30\x20\x30\x0c\x06\x08\x2a\x86'</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'\x48\x86\xf7\x0d\x02\x05\x05\x00\x04\x10'</span><span class="pun">),</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'SHA-1'</span><span class="pun">:</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x30\x21\x30\x09\x06\x05\x2b\x0e'</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'\x03\x02\x1a\x05\x00\x04\x14'</span><span class="pun">),</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'SHA-256'</span><span class="pun">:</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x30\x31\x30\x0d\x06\x09\x60\x86'</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'\x48\x01\x65\x03\x04\x02\x01\x05\x00\x04\x20'</span><span class="pun">),</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'SHA-384'</span><span class="pun">:</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x30\x41\x30\x0d\x06\x09\x60\x86'</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'\x48\x01\x65\x03\x04\x02\x02\x05\x00\x04\x30'</span><span class="pun">),</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'SHA-512'</span><span class="pun">:</span><span class="pln">&nbsp;b</span><span class="pun">(</span><span class="str">'\x30\x51\x30\x0d\x06\x09\x60\x86'</span><span class="pln">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="str">'\x48\x01\x65\x03\x04\x02\x03\x05\x00\x04\x40'</span><span class="pun">),</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>如果输入的是以下的数据，从代码中可以看到，这个函数会接收所有结构里的数据<br></p>
+<pre class="prettyprint lang-html prettyprinted" style=""><span class="pln">00&nbsp;01&nbsp;XX&nbsp;XX&nbsp;...&nbsp;XX&nbsp;XX&nbsp;00&nbsp;ASN.1&nbsp;HASH</span></pre>
+<p>如上面的内容中，XX不能是00字节。在处理这个地方的代码，程序是找到了00 01前缀后的下一个00，如下：<br></p>
+<pre class="prettyprint lang-html prettyprinted" style=""><span class="pln">sep_idx&nbsp;=&nbsp;clearsig.index(b('\x00'),&nbsp;2)</span></pre>
+<p>在这里并没有检查填充的内容是否是FF字节。这就意味着我们可以把不完整的立方根隐藏在00 01前缀和00分隔符之间。<br>这样的变种在文献中经常被提到的，实际上他是<a href="https://github.com/FiloSottile/BERserk" target="_blank">BERserk</a>攻击的一个子集。有很多种方法可以有效的利用它，这里使用的方法是最非常直观的一种方法。</p>
+<p>我们的目标信息三次方后有00 01这样的前缀，以及后缀（00 ASN.1 HASH）。前缀很容易得到（只要求立方根），所以我们直接从后缀入手。我们用事先构造好的信息s和他的立方c 。我们从第0位开始算起，第0位是在最右边，最重要的一位。</p>
+<p>我们的方法最重要的原理是跳过s中的第N位使得同样也能跳过c中的第N位，并且使得所有从0——N-1的数字都不受影响。如果你无法想象到这些，下图有一个“pen-and-paper”操作的每一步步骤。利用这一特性，我们可以简单的通过从右开始遍历这个后缀的二进制位从而建立S，然后翻转s中的这个位，无论这个位在c中是不是我们想要的。</p>
+<p>让我们看看一下例子：查找s中的位数，立方后得以1010101101结尾的c。</p>
+<pre class="prettyprint lang-cpp prettyprinted" style=""><span class="lit">9876543210</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Indexes</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000001</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Initial</span><span class="pln">&nbsp;s&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000001</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">0</span><span class="pln">&nbsp;an&nbsp;</span><span class="lit">1</span><span class="pln">&nbsp;match</span><span class="pun">,</span><span class="pln">&nbsp;skip&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Target</span><span class="pln">&nbsp;suffix&nbsp;of&nbsp;c
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000001</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000001</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">2</span><span class="pln">&nbsp;doesn</span><span class="str">'</span><span class="pln">t&nbsp;match</span><span class="pun">,</span><span class="pln">&nbsp;flip&nbsp;in&nbsp;s&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0001111101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">3</span><span class="pln">&nbsp;matches</span><span class="pun">,</span><span class="pln">&nbsp;skip&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000000101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0001111101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">4</span><span class="pln">&nbsp;doesn</span><span class="str">'</span><span class="pln">t</span><span class="pun">,</span><span class="pln">&nbsp;flip&nbsp;in&nbsp;s&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0000010101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;</span><span class="lit">10010000101101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">7</span><span class="pln">&nbsp;doesn</span><span class="str">'</span><span class="pln">t&nbsp;match</span><span class="pun">,</span><span class="pln">&nbsp;flip&nbsp;in&nbsp;s&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0010010101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;</span><span class="pun">...</span><span class="lit">00110101101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">8</span><span class="pln">&nbsp;doesn</span><span class="str">'</span><span class="pln">t&nbsp;match</span><span class="pun">,</span><span class="pln">&nbsp;flip&nbsp;in&nbsp;s&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">0110010101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;</span><span class="pun">...</span><span class="lit">10010101101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Bit</span><span class="pln">&nbsp;</span><span class="lit">9</span><span class="pln">&nbsp;doesn</span><span class="str">'</span><span class="pln">t&nbsp;match</span><span class="pun">,</span><span class="pln">&nbsp;flip&nbsp;in&nbsp;s&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+s</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="lit">1110010101</span><span class="pln">&nbsp;
+c</span><span class="pun">:</span><span class="pln">&nbsp;</span><span class="pun">...</span><span class="lit">01010101101</span><span class="pln">&nbsp;&nbsp;</span><span class="pun">&lt;-</span><span class="pln">&nbsp;</span><span class="typ">Done</span><span class="pun">!</span><span class="pln">&nbsp;
+tgt</span><span class="pun">:</span><span class="pln">&nbsp;&nbsp;&nbsp;</span><span class="lit">1010101101</span><span class="pln">
+&nbsp;
+</span><span class="lit">1110010101</span><span class="pln">&nbsp;</span><span class="pun">^</span><span class="pln">&nbsp;</span><span class="lit">3</span><span class="pln">&nbsp;</span><span class="pun">=</span><span class="pln">&nbsp;</span><span class="lit">101101111101011111101010101101</span><span class="pln">&nbsp;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="pun">^^^^^^^^^^</span></pre>
+<p style="margin-top: 5px;">通过上面的计算我们就能得到结果。如果我们的签名是以1110010101结尾，立方后的结尾将是1010101101。如果我们用同样的流程处理后缀是00 ASN.1 HASH 我们将得到我们伪造的签名的最后面的一个部分。</p>
+<p style="margin-top: 5px;">相比较而言前缀就比较容易构造：只需要计算00 01 XX XX …的立方根，其中XX 是随机的字节，需要注意的是，这个字节要和公钥的长度一样。这没法得到一个准确的立方根，但它在计算出来的前两个字节已经足够精确了。（这一步和BB'06的一毛一样）</p>
+<p style="margin-top: 5px;">接下来只需要通过截断len(sig_suffix)字节来连接前缀和后缀就可以。后缀很短，因此，改变他将会影响到两个高位字节的立方值，同时，如果我们在最左边加上一个字节，并不会影响到后缀。</p>
+<p style="margin-top: 5px;"><span style="color: rgb(0, 112, 192);"><strong>最后的问题：在立方值里面必须没有其他的00字节。比较懒的处理方法：用不同的随机字节来重复计算前缀，知道不存在00字节。</strong></span></p>
+<p style="margin-top: 15px;"><span style="color: rgb(38, 38, 38); font-size: 18px;"><strong>安全加密实践</strong></span></p>
+<p style="margin-top: 5px;">知道了这个漏洞在过去的10年里如何疯狂的被利用，你也许会想RSA签名验证是一个很大的问题，并且我们一直被这个错误限制住，至少在PKCS#1 1.5中是这样的。</p>
+<p style="margin-top: 5px;">尽管PKCS#1 1.5具有被攻击危险，但是只要这么做就可以完美的安全的验证：把节解析已编码过的签名换一个，换成可以验证完整填充、ASN.1 和hash值的算法，然后对比用户和攻击者的不同。这一点AGL 和 tqbf 表达的比我好。这样就完美的杀死攻击者攻击你的机会。极端情况下，有一些很快速的计算算法来算出RSA的，即使在e=65537的情况，所以没有理由把自己暴露在e=3这么小数值的算法中。</p>
+<p style="margin-top: 5px;">最后这里是提交的CVE漏洞<a href="https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1494" target="_blank">CVE-2016-1494</a>&nbsp;和提交的<a href="https://bitbucket.org/sybren/python-rsa/pull-requests/14/security-fix-bb06-attack-in-verify-by/diff" target="_blank">补丁</a>。</p>
+<p style="margin-top: 5px;"><span style="color: rgb(38, 38, 38);"><strong>* 参考来源</strong></span><a href="https://blog.filippo.io/bleichenbacher-06-signature-forgery-in-python-rsa/" target="_blank" style="color: rgb(38, 38, 38); text-decoration: underline;"><span style="color: rgb(38, 38, 38);"><strong>filippo.io</strong></span></a><span style="color: rgb(38, 38, 38);"><strong>，编译/东二门陈冠希，转载请注明来自FreeBuf黑客与极客（FreeBuf.COM）</strong></span></p>
+<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd"></div>
+<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd"></div>
+                        </div>
+                        <div class="article-oper article-oper-new">
+                            <style>
+                                @font-face {font-family: 'iconfont';
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot'); /* IE9*/
+                                    src: url('http://static.3001.net/iconfonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+                                    url('http://static.3001.net/iconfonts/iconfont.woff') format('woff'), /* chrome、firefox */
+                                    url('http://static.3001.net/iconfonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+                                    url('http://static.3001.net/iconfonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+                                }
+                            </style>
+                            <div class="share-new clearfix" style="width: 100%; left: 351.5px;">
+                                <div class="share-author">
+                                                                            <a href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C" title="由 东二门陈冠希 发布" rel="author">
+                                            <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/01663a08fe2441b83387a5049c20d814d2.jpg" width="50" height="50" alt="东二门陈冠希" class="avatar avatar-50 wp-user-avatar wp-user-avatar-50 photo">                                            <!--							<img src="http://image.3001.net/2015/06/17.jpg" alt="ArthurKiller">-->
+                                        </a>
+                                        <div class="share-author-info">
+                                                                                        <a class="author-name" href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C">东二门陈冠希</a>
+                                            <!--<span class="icon-f"></span>-->
+                                            <span>
+                                <i class="colour-red">
+                                    70                                </i>
+                                篇文章</span>
+                                            <span>等级：
+                                <i class="colour-green">7</i>级
+                            </span>
+                                        </div>
+                                                                                                        </div>
+                                <div class="user-center clearfix">
+                                                                            <a href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C" data-toggle="tooltip" data-placement="top" title="" class="home" target="_blank" data-original-title="个人主页"></a>
+                                                                        <a href="http://www.freebuf.com/user/pm?pmaction=newmessage&amp;to=%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C" data-toggle="tooltip" data-placement="top" title="" class="letter" target="_blank" data-original-title="私信"></a>
+                                </div>
+                                <div class="share-ctrl clearfix">
+                                                                        <div class="bdsharebuttonbox clearfix bdshare-button-style1-24 columnstatus" data-bd-bind="1489991449190" data-column="" data-title="Python-rsa中的签名伪造" data-name="">
+                                        <a href="http://service.weibo.com/share/share.php?url=http://www.freebuf.com/news/92976.html&amp;title=Python-rsa%E4%B8%AD%E7%9A%84%E7%AD%BE%E5%90%8D%E4%BC%AA%E9%80%A0&amp;appkey=1343713053&amp;pic=http://image.3001.net/2016/01/unnamed-220x150.png&amp;searchPic=true#_loginLayer_1520574669384" data-toggle="tooltip" data-placement="top" data-cmd="tsina" title="" id="tsina" target="_blank" data-original-title="分享到新浪微博"></a>
+                                        <a href="javascript:;" data-toggle="tooltip" data-placement="top" data-cmd="weixin" title="" id="weixin" class="weixin_down" data-original-title="分享到微信">
+
+                                            <!-- 添加微信二维码显示 -->
+                                            <div class="panel-weixin">
+                                                <section class="weixin-section">
+                                                    <p>
+                                                        <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/qrcode" alt="二维码">
+                                                    </p>
+                                                </section>
+                                                <h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
+                                            </div>
+
+                                        </a>
+                                        <a href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.freebuf.com/news/92976.html&amp;title=Python-rsa%E4%B8%AD%E7%9A%84%E7%AD%BE%E5%90%8D%E4%BC%AA%E9%80%A0&amp;desc=%E5%BF%AB%E5%8F%AB%E4%BD%A0%E7%9A%84%E5%B0%8F%E4%BC%99%E4%BC%B4%E6%9D%A5%E5%88%86%E4%BA%AB%E5%90%A7&amp;summary=&amp;pics=http://image.3001.net/2016/01/unnamed-220x150.png" data-toggle="tooltip" data-placement="top" data-cmd="qzone" title="" id="qzone" target="_blank" data-original-title="分享到QQ空间"></a>
+                                        <span class="share-line">|</span>
+                                    </div>
+                                </div>
+                                <div class="user-ctrl clearfix">
+                                                                            <a href="http://www.freebuf.com/oauth" id="collect" data-toggle="tooltip" data-placement="top" title="" data-original-title="收藏"></a>
+                                                                        <a href="http://www.freebuf.com/news/92976.html#respond" data-toggle="tooltip" data-placement="top" title="" id="comments" data-original-title="评论"></a>
+                                                                        <!--					<a href="#" title="文章纠正">&#xe6e3;</a>-->
+                                    <span class="share-line">|</span>
+                                    <span class="info-alert"></span>
+                                </div>
+                            </div>
+                            <style>
+                                .share-ctrl .bdsharebuttonbox #weixin {
+                                    position: relative;
+                                }
+                                .articlecontent .panel-weixin {
+                                    position: absolute;
+                                    bottom: 25px;
+                                    left: -90px;
+                                    margin-bottom: 10px;
+                                    width: 210px;
+                                    padding: 15px;
+                                    border-radius: 2px;
+                                    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+                                    border: solid 1px #e9eaec;
+                                    background: #ffffff;
+                                    display: none;
+                                }
+                                .articlecontent section.weixin-section {
+                                    float: left;
+                                    width: 80px;
+                                    height: 80px;
+                                    margin-right: 10px;
+                                    white-space: normal;
+                                    overflow: hidden;
+                                }
+                                .articlecontent section.weixin-section img {
+                                    width: 100%;
+                                }
+                                .articlecontent .panel-weixin h3 {
+                                    font-size: 12px;
+                                    font-weight: normal;
+                                    line-height: 18px;
+                                    white-space: normal;
+                                    margin: 0px;
+                                    padding: 0px;
+                                    color: #000;
+                                }
+                            </style>
+                                                        <script>
+
+                                var column = $('.columnstatus').attr('data-column');
+                                var text = '';
+                                if(column){
+                                    var title = $('.columnstatus').attr('data-title');
+                                    var name = $('.columnstatus').attr('data-name');
+                                    text = title+' - FreeBuf专栏·'+name;
+                                }
+
+                                var direction_flag, window_w = jQuery(window).width(), afterScrollTop;
+                                if(window_w <= 480) {
+                                    $('.share-ctrl #weixin').click(function() {
+                                        layer.open({
+                                            title: '提示',
+                                            btnAlign: 'c',
+                                            content: '请使用手机浏览器自带的分享功能分享该页面',
+                                            area: '260px'
+                                        });
+                                    });
+                                }else {
+                                    jQuery('.share-ctrl .weixin_down').hover(function() {
+                                        jQuery('.share-ctrl .panel-weixin').show();
+                                    }, function() {
+                                        jQuery('.share-ctrl .panel-weixin').hide();
+                                    });
+                                    jQuery('.share-ctrl .weixin_up').hover(function() {
+                                        jQuery('.share-ctrl .weixin_qcode').show();
+                                    }, function() {
+                                        jQuery('.share-ctrl .weixin_qcode').hide();
+                                    });
+                                }
+                                //控制垂直方向分享模块的定位
+                                function shareFixVertical(){
+                                    var offsetTop = jQuery(".article-oper").get(0).offsetTop;
+                                    var win_h = jQuery(window).height();
+                                    var win_w = jQuery(window).width();
+                                    var scrollTop = document.body.scrollTop||document.documentElement.scrollTop;
+                                    var _height = offsetTop-scrollTop;
+                                    var _flag = $('.column-article').attr('data-column');
+                                    if(_flag == 1) {
+                                        if(_height>=win_h-660&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }else {
+                                        if(_height>=win_h-255&&win_w>975){
+                                            var _width = jQuery("#getWidth").innerWidth()-30;
+                                            var _left = jQuery("#getWidth").offset().left+15;
+                                            jQuery(".share-new").addClass("fixed");
+                                            jQuery(".fixed").css({
+                                                width:_width,
+                                                left:_left
+                                            });
+
+                                        }else{
+                                            jQuery(".share-new").removeClass("fixed");
+                                            jQuery(".share-new").css({
+                                                width: "100%"
+                                            });
+                                        }
+                                    }
+                                }
+                                //控制水平方向分享模块的定位
+                                function shareFixHorizontal(){
+                                    var _width = jQuery("#getWidth").innerWidth()-30;
+                                    var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                    var win_w = document.documentElement.clientWidth || document.body.clientWidth;
+                                    jQuery(".fixed").css({
+                                        width:_width,
+                                        left:_left
+                                    });
+                                    if(win_w< 975){
+                                        jQuery(".share-new").css({
+                                            width: "100%",
+                                            left: "0"
+                                        });
+                                    }else{
+                                        var _width = jQuery("#getWidth").innerWidth()-30;
+                                        var _left = jQuery("#getWidth").get(0).offsetLeft+15;
+                                        jQuery(".fixed").css({
+                                            width:_width,
+                                            left:_left
+                                        });
+                                    }
+                                }
+
+                                jQuery(window).on("load",function(){
+                                    shareFixVertical();
+                                });
+
+                                jQuery(window).on("resize",function(){
+                                    shareFixHorizontal();
+                                });
+
+                                scroll( function(direction) {
+                                    if(direction == 'down') {
+                                        jQuery(".share-new").removeClass("fixed");
+                                        $(".share-new").css({
+                                            width: "100%"
+                                        });
+                                        if(window_w <= 480) {
+                                            if(afterScrollTop >= 65) {
+                                                jQuery('.main-header .header').addClass('op0');
+                                                jQuery('.main-header .header').removeClass('op1');
+                                            }
+                                        }else {
+                                            jQuery('.main-header').stop().hide();
+                                        }
+                                    }else {
+                                        shareFixVertical();
+                                        if(window_w <= 480) {
+                                            jQuery('.main-header .header').addClass('op1');
+                                            jQuery('.main-header .header').removeClass('op0');
+                                        }else {
+                                            jQuery('.main-header').stop().show();
+                                        }
+                                    }
+                                    return direction;
+                                });
+
+                                function scroll( fn ) {
+                                    var beforeScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                        fn = fn || function() {};
+                                    window.addEventListener("scroll", function() {
+                                        afterScrollTop = document.body.scrollTop || document.documentElement.scrollTop,
+                                            delta = afterScrollTop - beforeScrollTop;
+                                        if( delta === 0 ) return false;
+                                        direction_flag = fn( delta > 0 ? "down" : "up" );
+                                        beforeScrollTop = afterScrollTop;
+                                    }, false);
+                                }
+
+
+
+                                //tooltips提示
+                                $(function () { $("[data-toggle='tooltip']").tooltip(); });
+                            </script>
+                        </div>
+                                                                                                                            <div class="article-pager ">
+                                <ul>
+                                    <li class="previous"><span>上一篇：</span><a href="http://www.freebuf.com/news/93117.html" rel="prev">新型匿名通信系统诞生，或将替代Tor项目</a>                                    </li>
+                                    <li class="next"><span>下一篇：</span>
+                                        <a href="http://www.freebuf.com/news/93139.html" rel="next">德国情报机构再次与NSA合作，共享公民数据</a>                                    </li>
+                                </ul>
+                            </div>
+                                                </div>
+                </div>
+                <div class="comment-list">
+      <div class="main-tit02">
+		<a rel="nofollow" class="btnbtn-default btn-comment" href="http://www.freebuf.com/news/92976.html#respond">发表评论</a>
+        <h3>已有 <span class="color_red">4</span> 条评论
+      </h3></div>
+      <ul>
+         <li class="comment even thread-even depth-1" id="li-comment-172736">
+    <div id="comment-172736">
+        <div class="photo">     <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/pic8.png">     </div>
+    <div class="tit"> 
+	    <span class="name"> tk </span>
+        		<span class="explain">  </span>
+		<span class="time">&nbsp;2016-01-15</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-172736&#39;,&#39;172736&#39;, &#39;respond&#39;,&#39;92976&#39; ) " href="http://www.freebuf.com/news/92976.html?replytocom=172736#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">1楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>学习了</p>
+<div class="comment-tools">
+<div class="vote" id="vote-172736"><span id="acv_stat_172736"></span><a class="ilike_icon" id="vote4-172736" href="javascript:acv_vote(172736,1);">亮了</a>(<span id="cos_support-172736">2</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="172736" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="172736" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="172736" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="172736" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="172736" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-173101">
+    <div id="comment-173101">
+        <div class="photo">     <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/pic7.png">     </div>
+    <div class="tit"> 
+	    <span class="name"> fvck </span>
+        		<span class="explain">  </span>
+		<span class="time">&nbsp;2016-01-15</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-173101&#39;,&#39;173101&#39;, &#39;respond&#39;,&#39;92976&#39; ) " href="http://www.freebuf.com/news/92976.html?replytocom=173101#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">2楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>这个不错</p>
+<div class="comment-tools">
+<div class="vote" id="vote-173101"><span id="acv_stat_173101"></span><a class="ilike_icon" id="vote4-173101" href="javascript:acv_vote(173101,1);">亮了</a>(<span id="cos_support-173101">0</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="173101" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="173101" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="173101" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="173101" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="173101" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+<li class="comment byuser comment-author-59964 even thread-even depth-1" id="li-comment-176012">
+    <div id="comment-176012">
+        <div class="photo"> <a href="http://www.freebuf.com/author/%E6%A2%81%E5%B0%8F%E5%87%89%E7%AB%A5%E9%9E%8B">
+    <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wp-user-avatar-96x96.png"></a>
+     </div>
+    <div class="tit"> 
+	    <span class="name"> <a href="http://www.freebuf.com/author/%E6%A2%81%E5%B0%8F%E5%87%89%E7%AB%A5%E9%9E%8B" target="_blank">梁小凉童鞋&nbsp;</a>  </span>
+        		
+		<span class="icon-f"> </span>
+		<span class="rank">(1级)</span>
+				<span class="explain">  </span>
+		<span class="time">&nbsp;2016-01-23</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-176012&#39;,&#39;176012&#39;, &#39;respond&#39;,&#39;92976&#39; ) " href="http://www.freebuf.com/news/92976.html?replytocom=176012#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">3楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>mark</p>
+<div class="comment-tools">
+<div class="vote" id="vote-176012"><span id="acv_stat_176012"></span><a class="ilike_icon" id="vote4-176012" href="javascript:acv_vote(176012,1);">亮了</a>(<span id="cos_support-176012">0</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="176012" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="176012" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="176012" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="176012" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="176012" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+<li class="comment byuser comment-author-scz odd alt thread-odd thread-alt depth-1" id="li-comment-184231">
+    <div id="comment-184231">
+        <div class="photo"> <a href="http://www.freebuf.com/author/scz">
+    <img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wp-user-avatar-96x96.png"></a>
+     </div>
+    <div class="tit"> 
+	    <span class="name"> <a href="http://www.freebuf.com/author/scz" target="_blank">scz&nbsp;</a>  </span>
+        		
+		<span class="icon-f"> </span>
+		<span class="rank">(1级)</span>
+				<span class="explain">  </span>
+		<span class="time">&nbsp;2016-04-29</span>
+		<span class="time">
+                    </span>
+        <span class="useragent_output_custom"></span>
+        <span class="useragent_output_custom"></span> 
+		<span class="reply">
+		        <!-- 正常情况 -->
+           <a onclick="return addComment.moveForm( &#39;comment-184231&#39;,&#39;184231&#39;, &#39;respond&#39;,&#39;92976&#39; ) " href="http://www.freebuf.com/news/92976.html?replytocom=184231#respond" class="comment-reply-link" rel="nofollow">回复</a>
+        	    </span>
+		<span class="floor">4楼</span>
+	</div>
+	    <div class="txt">
+	  <p class="useragent_output_custom"></p>
+      <p>这篇该不是在Google Translate基础上修改得来的吧？很多处翻译错误。举其中一个例子，"然后翻转s中的这个位，无论这个位在c中是不是我们想要的"，这句应该是"只要该位在c中不是预期值，就翻转s中相应位"。</p>
+<div class="comment-tools">
+<div class="vote" id="vote-184231"><span id="acv_stat_184231"></span><a class="ilike_icon" id="vote4-184231" href="javascript:acv_vote(184231,1);">亮了</a>(<span id="cos_support-184231">1</span>)</div>
+<div class="dropup"><a class="dropdown-toggle btn-report" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none;"> 举报</a>
+<ul class="dropdown-menu" style="display:none;bottom:auto;">
+<li><a data-id="184231" class="click_report" href="javascript:;">广告等垃圾信息</a></li>
+<li><a data-id="184231" class="click_report" href="javascript:;">不友善内容</a></li>
+<li><a data-id="184231" class="click_report" href="javascript:;">违反法律法规的内容</a></li>
+<li><a data-id="184231" class="click_report" href="javascript:;">不宜公开讨论的政治内容</a></li>
+<li><a data-id="184231" class="click_report" href="javascript:;">其他</a></li>
+</ul></div>
+</div>
+	</div></div>
+</li><!-- #comment-## -->
+      </ul>
+      <div class="commentnav page01" style="padding-top:10px; text-align: center;">
+               </div>
+	  
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/ajaxfileupload.js.下载" type="text/javascript"></script>
+<div id="respond" class="comment-box">
+<input type="file" id="uploadUnit" name="upfile" class="hidden" value="">
+    <form action="http://www.freebuf.com/wp-comments-post.php" method="post" id="commentform">
+        <div id="comment-author-info">
+	    <div class="login-other">
+		  <div class="login_button login_icon_sina" title="使用新浪微博登陆" onclick="login_button_click(&#39;sina&#39;)"></div>
+          <div class="login_button login_icon_qq" title="使用腾讯QQ登陆" onclick="login_button_click(&#39;qq&#39;)"></div></div>
+        <div class="login-input">
+	    <p><label for="author">昵称</label>
+		          <input type="text" name="author" id="author" value="" size="14" tabindex="1" aria-required="true" placeholder="请输入昵称" required="">
+        </p><span>必须</span><span>您当前尚未登录。<a class="simplemodal-login" href="http://www.freebuf.com/oauth" title="登陆">登陆？</a><a href="https://account.tophant.com/register.html" target="_blank">注册</a></span></div>
+		<div class="login-input">
+		  <p><label for="email">邮箱</label><input type="text" name="email" id="email" value="" size="25" tabindex="2" aria-required="true" placeholder="请输入邮箱地址" required=""></p>
+		<span>必须（保密）</span>
+		</div>
+    </div>
+
+        <div id="test" class="post-area">
+      <div class="holiday"></div>
+	    <div class="comment-editor">
+			<a id="comment-smiley" href="javascript:;">表情</a><a href="javascript:;" id="imageThumb">插图</a>
+	    </div>
+        <div id="smileys">
+           <a title="mrgreen" href="javascript:grin(&#39;:mrgreen:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_mrgreen.gif"></a><a title="razz" href="javascript:grin(&#39;:razz:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_razz.gif"></a><a title="sad" href="javascript:grin(&#39;:sad:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_sad.gif"></a><a title="smile" href="javascript:grin(&#39;:smile:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_smile.gif"></a><a title="oops" href="javascript:grin(&#39;:oops:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_redface.gif"></a><a title="grin" href="javascript:grin(&#39;:grin:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_biggrin.gif"></a><a title="eek" href="javascript:grin(&#39;:eek:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_surprised.gif"></a><a title="???" href="javascript:grin(&#39;:???:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_confused.gif"></a><a title="cool" href="javascript:grin(&#39;:cool:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_cool.gif"></a><a title="lol" href="javascript:grin(&#39;:lol:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_lol.gif"></a><a title="mad" href="javascript:grin(&#39;:mad:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_mad.gif"></a><a title="twisted" href="javascript:grin(&#39;:twisted:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_twisted.gif"></a><a title="roll" href="javascript:grin(&#39;:roll:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_rolleyes.gif"></a><a title="wink" href="javascript:grin(&#39;:wink:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_wink.gif"></a><a title="idea" href="javascript:grin(&#39;:idea:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_idea.gif"></a><a title="arrow" href="javascript:grin(&#39;:arrow:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_arrow.gif"></a><a title="neutral" href="javascript:grin(&#39;:neutral:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_neutral.gif"></a><a title="cry" href="javascript:grin(&#39;:cry:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_cry.gif"></a><a title="?" href="javascript:grin(&#39;:?:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_question.gif"></a><a title="evil" href="javascript:grin(&#39;:evil:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_evil.gif"></a><a title="shock" href="javascript:grin(&#39;:shock:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_eek.gif"></a><a title="!" href="javascript:grin(&#39;:!:&#39;)"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon_exclaim.gif"></a>        </div>
+         <textarea name="comment" id="comment" cols="100%" rows="7" tabindex="4" style="overflow-x:hidden; overflow-y:hidden; border:0; width:100%;" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById(&#39;submit&#39;).click();return false};"></textarea><div id="loading" style="display: none;"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wpspin_light.gif" style="vertical-align:middle;" alt=""> 正在提交, 请稍候...</div><div id="error" style="display: none;">#</div>
+    </div>
+      <div class="subcon but">
+      <input class="btn btn-success" type="submit" name="submit" id="submit" tabindex="5" value="提交评论(Ctrl+Enter)">
+      <a rel="nofollow" class="btn btn-default" id="cancel-comment-reply-link" href="javascript:;">取消</a>
+      <div class="checkbox"><input type="hidden" name="comment_post_ID" value="92976" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+<label for="comment_mail_notify" class="comment_mail"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label></div>
+      </div>
+    <input name="Token" id="Token" type="hidden" value="ci0xbm">
+  </form>
+  </div>
+</div>	  
+<div class="commentshow">
+<div class="comments-loading">Loading...</div>
+</div>
+<script language="javascript">
+jQuery(document).ready(function($){ //Begin jQuery
+    $('.reply').click(function() {
+    var atid = '"#' + $(this).parent().attr("id") + '"';
+    var atname = $(this).parent().find('span:first').text();
+    $("#comment").val("@" + atname + " ").focus();
+});
+    $('.cancel-comment-reply a').click(function() { //点击取消回复评论清空评论框的内容
+    $("#comment").val('');
+});
+}) 
+
+jQuery(document).ready(function($) {
+    $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');//commentnav ajax
+    $(document).on('click', '.commentnav a', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: $(this).attr('href'),
+            beforeSend: function() {
+                $('.commentnav').remove();
+                $('.comment-list').remove();
+                $('.comments-loading').slideDown();
+            },
+            dataType: "html",
+            success: function(out) {
+                result = $(out).find('.comment-list');
+                nextlink = $(out).find('.commentnav');
+                $('.comments-loading').slideUp(550);
+                $('.comments-loading').after(result.fadeIn(800));
+                $(".comment-list img").each(function(){
+                  var url = $(this).attr("data-original");
+                  $(this).attr("src",url);
+                })
+            }
+        });
+    });    
+});
+</script>            </div>
+                    <div class="col-md-3 visible-md-block visible-lg-block">
+                <div class="panel panel-default">
+                    <div class="author-top">
+                         <div class="author-wrap">
+                            <div class="author-header"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/01663a08fe2441b83387a5049c20d814d2.jpg" width="96" height="96" alt="东二门陈冠希" class="avatar avatar-100 wp-user-avatar wp-user-avatar-100 photo">                            </div>
+                            <p class="name"><a href="http://www.freebuf.com/author/%e4%b8%9c%e4%ba%8c%e9%97%a8%e9%99%88%e5%86%a0%e5%b8%8c" title="由 东二门陈冠希 发布" rel="author">东二门陈冠希</a><span></span></p>
+                            <p class="signature">再看我就把你吃掉！</p>
+                            <p class="art-com clearfix">
+                                <span class="aut-article">
+                                    <a href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C" target="_blank">
+                                        <i>70</i>
+                                        <i>文章数</i>
+                                    </a>
+                                </span>
+                                <span class="aut-comment">
+                                    <a href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C?comment=1" target="_blank">
+                                        <i>17</i>
+                                        <i>评论数</i>
+                                    </a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="author-bottom">
+                        <div class="author-wrap">
+                            <h3 class="last-title">最近文章</h3>
+                            <div class="last-item-wrap">
+                                                                        <div class="last-item">
+                                            <a href="http://www.freebuf.com/vuls/107340.html" target="_blank"><span class="point"></span>如何防止Mimikatz「获取」Windows密码</a>
+                                            <p class="last-time">2016.06.27</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/news/107339.html" target="_blank"><span class="point"></span>摩根士丹利银行“失职”，罚款100万美元是多是少？ </a>
+                                            <p class="last-time">2016.06.22</p>
+                                        </div>
+                                                                            <div class="last-item">
+                                            <a href="http://www.freebuf.com/articles/network/107077.html" target="_blank"><span class="point"></span>测试Web应用程序中的竞争条件</a>
+                                            <p class="last-time">2016.06.20</p>
+                                        </div>
+                                                                </div>
+                        </div>
+
+                        <div class="more-wrap">
+                            <a href="http://www.freebuf.com/author/%E4%B8%9C%E4%BA%8C%E9%97%A8%E9%99%88%E5%86%A0%E5%B8%8C" target="_blank" class="btn-new">浏览更多</a>
+                        </div>
+                    </div>
+                </div>
+                                <div class="panel panel-default">
+                    <div class="read visible-md-block visible-lg-block">
+                        <div class="main-tit02">
+                            <h3>相关阅读</h3>
+                        </div>
+                        <ul>
+  <li><a href="http://www.freebuf.com/articles/web/103980.html" target="_blank">用Python和Smali模拟器搞定一个加混淆、防篡改的APK逆向</a></li>
+  
+  <li><a href="http://www.freebuf.com/news/171361.html" target="_blank">快讯 | Python官方库软件包SSH-Decorator被植入后门</a></li>
+  
+  <li><a href="http://www.freebuf.com/articles/web/138589.html" target="_blank">使用Python检测并绕过Web应用程序防火墙</a></li>
+  
+  <li><a href="http://www.freebuf.com/sectool/163919.html" target="_blank">代码分享|用Python编写的多协议弱密码审计工具集</a></li>
+  
+  <li><a href="http://www.freebuf.com/sectool/94777.html" target="_blank">Python渗透测试工具合集</a></li>
+  </ul>                    </div>
+                </div>
+                <!--<div class="ad-wrap"><a href="http://www.ijiami.cn/?freebuf.com" target="_blank"><img width="100%" src="http://image.3001.net/images/20141201/14174039186901.jpg"></a></div>-->
+                <div class="panel panel-default rec-spe">
+                    <div class="main-tit03 colour-blue">
+                        <h3>特别推荐</h3>
+                    </div>
+                                    </div>
+                <div id="mar-right-sticky-wrapper" class="sticky-wrapper is-sticky" style="height: 241px;"><div id="mar-right" style="position: fixed; top: 105px;">
+                    <!--<div class="read visible-lg-block">
+        <div class="main-tit04">
+          <h3>商城新品</h3>
+        </div>
+        <div id="slider" class="nivoSlider">  </div>
+      </div>-->
+                    <div class="panel panel-default code"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/code.jpg" width="192" height="192">
+                        <p>关注我们 分享每日精选文章</p>
+                    </div>
+                </div></div>
+            </div>
+                </div>
+                        <div class="row marvellous marvellous2 visible-lg-block marvellous-activity">
+                    <h3>活动预告</h3>
+                    <ul>
+                                                    <li>
+                                <p class="info">
+                                    <span class="time">9月</span>
+                                                                    </p>
+                                <a class="title" href="http://live.freebuf.com/detail/9c4d84a6810bf38df99bc7d182b22f49" target="_blank" title="【火热报名中】机器学习安全入门">【火热报名中】机器学习安全入门</a>
+                                <div class="intro"><b class="btn-status btn-nostart">未开始</b></div>
+                                                            </li>
+                                                    <li>
+                                <p class="info">
+                                    <span class="time">9月</span>
+                                                                    </p>
+                                <a class="title" href="http://live.freebuf.com/detail/fde6a81b82d905dfa5cc6c024d1324f4" target="_blank" title="【已结束】渗透测试常用提权心法总结">【已结束】渗透测试常用提权心法总结</a>
+                                <div class="intro"><b class="btn-status btn-over">已结束</b></div>
+                                                            </li>
+                                                    <li>
+                                <p class="info">
+                                    <span class="time">8月</span>
+                                                                    </p>
+                                <a class="title" href="http://live.freebuf.com/detail/559d0e8d0edb9fe0e448124392c4eda8" target="_blank" title="【已结束】零基础到百万年薪，漫漫白帽从业路">【已结束】零基础到百万年薪，漫漫白帽从业路</a>
+                                <div class="intro"><b class="btn-status btn-over">已结束</b></div>
+                                                            </li>
+                                                    <li>
+                                <p class="info">
+                                    <span class="time">8月</span>
+                                                                    </p>
+                                <a class="title" href="http://live.freebuf.com/detail/9cc89d824640322586c9f470247dde56" target="_blank" title="【已结束】那些年我蹲过的点之APT渗透测试经验分享">【已结束】那些年我蹲过的点之APT渗透测试经验分享</a>
+                                <div class="intro"><b class="btn-status btn-over">已结束</b></div>
+                                                                    <div class="more"><a class="last-url" href="http://live.freebuf.com/detail/9cc89d824640322586c9f470247dde56" target="_blank"></a><a href="http://www.freebuf.com/activity" target="_blank" class="btn-more"></a></div>
+                                                            </li>
+                                            </ul>
+                </div>
+                </div>
+</div>
+<script type="text/javascript">
+  $(window).load(function() {
+    $('#slider').nivoSlider();
+  });
+  $('#contenttxt img').removeAttr('height');
+  $('#contenttxt img').wrap(function(){
+    if(!$(this).parent().attr('href')){
+      var imgurl = $(this).attr('data-original');
+      if(imgurl.substr(-6)=='!small'){
+        imgurl = imgurl.substring(0,imgurl.length-6);
+      }
+      return '<a href="' + imgurl + '" class="highslide-image" onclick="return hs.expand(this);" target="_blank"></a>';
+    }
+  })
+</script>
+    <script type="text/javascript">
+        getWidth();
+
+        $(window).resize(function () {
+            getWidth();
+        });
+        function getWidth() {
+            var windowWidth = $(window).width();
+            $('#contenttxt iframe').each(function(index) {
+                var src = $(this).attr('src');
+                if (windowWidth < 768) {
+                    $(this).attr('src', src + '&width=270&height=200');
+                } else {
+                    $(this).attr('src', src + '&width=640&height=498');
+                }
+            })
+        }
+    </script>
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/comments-ajax.js.下载" type="text/javascript"></script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/jquery.nivo.slider.pack.js.下载"></script>
+<!----------footer---------->
+<div class="footer">
+  <div class="container">
+    <div class="footer-list ">
+      <h3>FREEBUF</h3>
+      <ul>
+        <li><a href="http://www.freebuf.com/dis">免责声明</a></li>
+        <li><a href="http://my.freebuf.com/AgreeProtocol/duty">协议条款</a></li>
+        <li><a href="http://www.freebuf.com/news/others/864.html">关于我们</a></li>
+        <li><a href="http://www.freebuf.com/jobs/40386.html">加入我们</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>广告及服务</h3>
+      <ul>
+        <li><a target="_blank" href="mailto:root@freebuf.com">寻求报道</a></li>
+        <li><a href="http://www.freebuf.com/advertise">广告合作</a></li>
+        <li><a target="_blank" href="mailto:help@freebuf.com">联系我们</a></li>
+        <li><a href="http://www.freebuf.com/friends">友情链接</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>关注我们</h3>
+      <ul>
+        <li><div class="weixin-pannel weixin"><a class="qr" href="javascript:void(0);"><span class="g-icon-qr1">官方微信</span><i></i></a></div></li>
+        <li><a rel="nofollow" target="_blank" href="http://weibo.com/freebuf">新浪微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://t.qq.com/freebuf">腾讯微博</a></li>
+        <li><a rel="nofollow" target="_blank" href="http://twitter.com/freebuf">Twitter</a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <h3>赞助商</h3>
+      <ul>
+        <li><a rel="nofollow" target="_blank" href="https://cloud.tencent.com/?freebuf"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/tcloud-logo.png" height="25"></a></li>
+        <li style="padding:6px 0 6px;"><a rel="nofollow" target="_blank" href="http://www.aliyun.com/?freebuf"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/ali.png"></a></li>
+        <li><a rel="nofollow" target="_blank" href="http://www.upyun.com/?freebuf"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/upyun.png"></a></li>
+        <li style="padding:6px 0 0;"><a rel="nofollow" target="_blank" href="https://www.trustasia.com/?freebuf"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/ad-yzcx.png"></a></li>
+      </ul>
+    </div>
+    <div class="footer-list ">
+      <ul>
+      </ul>
+    </div>
+    <div class="footer-logo  pull-right"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/freebufrobot_shendanjie.png"></div>
+  </div>
+  <div class="copyright"><div class="container"><p>Copyright © 2018 WWW.FREEBUF.COM All Rights Reserved <a rel="nofollow" target="_blank" href="http://www.miitbeian.gov.cn/">沪ICP备13033796号</a></p><span><a rel="nofollow" target="_blank" href="http://click.aliyun.com/m/1336/?freebuf"><img src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/icon-aly.png"></a></span></div></div>
+</div>
+
+<div class="bottom_tools" style="bottom: 40px;">
+    <ul>
+        <li class="scroll-up" id="scrollUp" style="display: block;"><a href="javascript:;" title="飞回顶部"></a></li>
+        <li class="fb-tips">
+            <a href="javascript:;" title="意见反馈"></a>
+            <div class="tips-wrap" style="">
+                <div class="item">
+                    <label>反馈内容</label>
+                    <textarea id="feedback-content" placeholder="请留下您对FreeBuf的意见和建议，我们将为您提供更好的产品和服务！"></textarea>
+                </div>
+                <div class="item">
+                    <label>联系方式</label>
+                    <input type="text" id="feedback-contact" placeholder="请输入您的邮箱联系方式">
+                </div>
+                <div class="item">
+                    <div class="star_score">
+                        <a href="javascript:void(0)" data-id="1"></a>
+                        <a href="javascript:void(0)" data-id="2"></a>
+                        <a href="javascript:void(0)" data-id="3"></a>
+                        <a href="javascript:void(0)" data-id="4"></a>
+                        <a href="javascript:void(0)" data-id="5"></a>
+                    </div>
+                    <p class="score-text">可以给我们打个分吗？</p>
+                </div>
+                                <div class="item item-code">
+                    <label>验证码</label>
+                    <input type="text" id="yzm" placeholder="请输入验证码">
+                    <img id="captcha" width="80px" height="30px" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/captcha" onclick="this.src = &#39;/captcha?sid=&#39; + Math.random(); this.blur(); return false">
+                </div>
+                                <div class="btn-wrap">
+                    <a href="javascript:;" class="feedback">提交</a>
+                    <p class="error feedback-error"></p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    $('.star_score > a').click(function() {
+        $(this).addClass('active');
+        $(this).siblings().removeClass('active');
+    });
+    $('.star_score > a').hover(function() {
+        $(this).siblings().removeClass('active');
+    });
+    $(document).on('click', function() {
+        $('.bottom_tools .tips-wrap').hide(500);
+    });
+    $('.bottom_tools ul li.fb-tips').click(function(event) {
+        var evt = event || evt;
+        evt.stopPropagation();
+        $(this).find('.tips-wrap').toggle(500);
+    });
+    $('.bottom_tools .tips-wrap').click(function(event) {
+        var evt = evt || event;
+        evt.stopPropagation();
+        $(this).show();
+    });
+    $('.feedback').on('click',function () {
+        var content = $('#feedback-content').val();
+        if(!content){
+            $('#feedback-content').focus();
+            $('.feedback-error').text('反馈内容不能为空！').show();
+            return;
+        }
+        var contact = $('#feedback-contact').val();
+        if(!contact){
+            $('#feedback-contact').focus();
+            $('.feedback-error').text('联系方式不能为空！').show();
+            return;
+        }
+        var score = $('.star_score').children('.active').attr('data-id')
+        if(!score){
+            $('.feedback-error').text('给FreeBuf打个分吧！').show();
+            return;
+        }
+        var yzm = $('#yzm').val();
+        var _url = 'http://www.freebuf.com/verify';
+        $.ajax({
+            type: "post",
+            url: _url,
+            data: {'content':content,'contact':contact,'score':score,'feedback_status':1,'yzm':yzm},
+            success: function (data) {
+                $("#captcha").trigger('click')
+                if(data.code ==200){
+                    layer.open({
+                        title: '系统提示',
+                        btnAlign: 'c',
+                        content: data.msg,
+                        area: '278px',
+                    });
+                }else {
+                    layer.open({
+                        title: '系统提示',
+                        btnAlign: 'c',
+                        content: data.msg,
+                        area: '278px',
+                    });
+                }
+            },
+        })
+    })
+
+    $(document).on('click', '.appeal-wrap-public .appeal-main', function(event) {
+        var evt = event || evt;
+        evt.stopPropagation();
+        $('.appeal-wrap-public').show();
+    });
+    $(document).on('click', '.appeal-main .close', function(event) {
+        var evt = event || evt;
+        evt.stopPropagation();
+        $('.appeal-wrap').hide();
+    });
+    $(document).on('click', '.appeal-main .appeal-footer .btn-sure', function(event) {
+        var evt = event || evt;
+        evt.stopPropagation();
+        $('.appeal-wrap-public').hide();
+    });
+
+    $('.complain').on('click',function () {
+        var _url = 'http://www.freebuf.com/verify';
+        var token = $('#complain_token').val();
+        $.ajax({
+            type: "post",
+            url: _url,
+            data: {'complain_token':token,'complain_status':1},
+            success: function (data) {
+            },
+        })
+    })
+</script>
+
+<!----------footer end----------> 
+<script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/backtop.js.下载"></script>
+<script type="text/javascript">
+jQuery(function(){	
+	jQuery('.tabPanes ul li').click(function(){
+		jQuery(this).addClass('hit').siblings().removeClass('hit');
+		jQuery('.panesl>div:eq('+jQuery(this).index()+')').show().siblings().hide();	
+	})
+	jQuery('.vulbox-nav').click(function(e) { 
+        e.stopPropagation(); 
+    });  
+})
+</script>
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fcc53db168808048541c6735ce30421f5' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/h.js.下载" type="text/javascript"></script>
+<img alt="css.php" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/css.php" width="1" height="1"><script type="text/javascript">
+jQuery(function() {
+    jQuery(".simditor pre").each(function(i, block){
+        hljs.highlightBlock(block);    
+    });
+    hljs.initHighlightingOnLoad();
+});
+</script>
+<script>
+/* <![CDATA[ */
+var rcGlobal = {
+	serverUrl		:'http://www.freebuf.com',
+	infoTemp		:'%REVIEWER% on %POST%',
+	loadingText		:'Loading',
+	noCommentsText	:'No comments',
+	newestText		:'&laquo; 最新',
+	newerText		:'&laquo; 新一点',
+	olderText		:'旧一点 &raquo;',
+	showContent		:'1',
+	external		:'1',
+	avatarSize		:'32',
+	avatarPosition	:'left',
+	anonymous		:'Anonymous'
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Python-rsa中的签名伪造 - FreeBuf互联网安全新媒体平台_files/wp-recentcomments-jquery.js.下载"></script>
+
+
+<div class="highslide-container" style="padding: 0px; border: none; margin: 0px; position: absolute; left: 0px; top: 0px; width: 100%; z-index: 1001; direction: ltr;"><a class="highslide-loading" title="点击关闭" href="javascript:;" style="position: absolute; top: -9999px; opacity: 0.75; z-index: 1;">正在加载中...</a><div style="display: none;"></div><div class="highslide-viewport highslide-viewport-size" style="padding: 0px; border: none; margin: 0px; visibility: hidden;"></div><table cellspacing="0" style="padding: 0px; border: none; margin: 0px; visibility: hidden; position: absolute; border-collapse: collapse; width: 0px;"><tbody style="padding: 0px; border: none; margin: 0px;"><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px 0px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -40px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px 0px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -80px; height: 20px; width: 20px;"></td><td class="rounded-white highslide-outline" style="padding: 0px; border: none; margin: 0px; position: relative;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -80px; height: 20px; width: 20px;"></td></tr><tr style="padding: 0px; border: none; margin: 0px; height: auto;"><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -20px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) 0px -60px; height: 20px; width: 20px;"></td><td style="padding: 0px; border: none; margin: 0px; line-height: 0; font-size: 0px; background: url(&quot;http://www.freebuf.com/buf/plugins/auto-highslide/images/graphics/outlines/rounded-white.png&quot;) -20px -20px; height: 20px; width: 20px;"></td></tr></tbody></table></div></body></html>

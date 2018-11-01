@@ -1,0 +1,41 @@
+
+jQuery(document).ready(function () {
+    jQuery(function() {
+        jQuery('select').select2({
+            minimumResultsForSearch: -1,
+            containerCssClass: "wpcf7-form-control"
+        });
+    });
+    if (jQuery(window).width() <= 1199 ) {
+        jQuery('.widget_wysija_cont .wysija-paragraph').css({
+            'display':'block',
+            'width':'100%'
+        });
+        jQuery(window).resize(function() {
+            var widthTwitter = jQuery('#widgetwidget_twitter_timeline').width();
+            jQuery('.scrollcontrol-side .widget iframe ').css('width',widthTwitter);
+        });
+    }
+    var isMobile = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };
+
+
+});
